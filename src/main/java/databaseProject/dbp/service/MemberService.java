@@ -1,5 +1,6 @@
 package databaseProject.dbp.service;
 
+import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.Member;
 import databaseProject.dbp.domain.Project;
 import databaseProject.dbp.repository.MemberRepository;
@@ -21,17 +22,27 @@ public class MemberService {
 
 
     @Transactional
-    public Long join(Member member){
-        validateDuplicateMember(member);
+    public ResponseDto<?> join(Member member){
+        try{
+           if(validateDuplicateMember(member)){
+               return ResponseDto.setFailed("Existed Email");
+           }
+        }catch (Exception e){
+            return ResponseDto.setFailed("database Error");
+        }
+
         memberRepository.save(member);
-        return member.getMemberId();
+        return ResponseDto.setSuccess("Sign Up Success",null);
     }
 
-    private void validateDuplicateMember(Member member) {
+
+
+    private boolean validateDuplicateMember(Member member) {
         Member findMembers = memberRepository.findByEmail(member.getEmail());
-        if(!(findMembers == null)){
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        if(!(findMembers==null)){
+            return true;
         }
+        return false;
     }
 
     public List<Member> findMembers() {

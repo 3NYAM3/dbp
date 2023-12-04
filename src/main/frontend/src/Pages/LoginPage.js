@@ -23,7 +23,7 @@ const LoginPage = () => {
     // 로그인 submit
     const handleLoginSubmit = async (e) => {
         e.preventDefault(); // onSubmit 기본동작(새로고침 등) 방지
-        const res = await axios.post('/api/login', {loginEmail, loginPassword}); // axios 수정 필요
+        const res = await axios.post('/api/members/login', {loginEmail, loginPassword}); // axios 수정 필요
         if (res) { // 로그인 성공 // res 수정 필요(?)
             dispatch(login());
             navigate('/');
@@ -36,15 +36,21 @@ const LoginPage = () => {
     const handleSignupSubmit = async (e) => {
         e.preventDefault(); // onSubmit 기본동작(새로고침 등) 방지
         if (password === passwordCheck) { // 비밀번호
-            const res = await axios.post('/api/signup', {name, email, password}); // axios 수정 필요
-            if (res) { // 회원가입 성공 // res 수정 필요(?)
-                dispatch(login());
-                navigate('/');
-            } else { // 회원가입 실패
-                setSignupPasswordCheck(true); // 이메일 중복 p태그 보여줌
+            try {
+                const res = await axios.post('/api/members/signUp', {name, email, password}); // axios 수정 필요
+                if (res.status===200&&res.data.result) { // 회원가입 성공 // res 수정 필요(?)
+                    dispatch(login());
+                    navigate('/login');
+                } else { // 회원가입 실패
+                    setSignupEmailCheck(true); // 이메일 중복 p태그 보여줌
+                }
+            }catch (error){
+                console.error("Error", error);
+                setSignupEmailCheck(true); // 이메일 중복 p태그 보여줌
             }
+
         } else {
-            setSignupEmailCheck(true); // 비번 불일치 p태그 보여줌
+            setSignupPasswordCheck(true); // 비번 불일치 p태그 보여줌
         }
     };
 

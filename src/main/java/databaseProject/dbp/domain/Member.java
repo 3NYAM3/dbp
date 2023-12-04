@@ -21,8 +21,6 @@ public class Member {
 
     private String password;
 
-    private String phoneNum;
-
     @ManyToMany(mappedBy = "members")
     private Set<Project> projects = new HashSet<>();
 
