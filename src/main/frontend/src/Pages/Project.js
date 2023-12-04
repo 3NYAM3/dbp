@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import List from "../elements/List";
 
-const HomePage = () => {
+const Project = () => {
     const navigate = useNavigate();
     return (
         <div>
@@ -15,4 +15,4 @@ const HomePage = () => {
         </div>
     );
 };
-export default HomePage
+export default Project

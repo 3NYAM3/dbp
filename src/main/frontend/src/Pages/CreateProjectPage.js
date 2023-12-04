@@ -4,7 +4,7 @@ const CreateProjectPage = () => {
     const navigate = useNavigate();
     const onSubmit = () => {
         // 구현
-        navigate('/');
+        navigate('/project');
     }
     return (
         <div>

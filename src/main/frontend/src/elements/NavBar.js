@@ -1,14 +1,20 @@
 import {Link, NavLink, useLocation} from "react-router-dom";
-import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../store/authSlice";
+import {hide, show} from "../store/boxSlice";
 
 const NavBar = () => {
     const location = useLocation();
-    const [showBox, setShowBow] = useState(false);
-
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+    const showBox = useSelector(state => state.box.showBox);
+    const dispatch = useDispatch();
+    // const [render, setRender] = useState(true);
     return (
         <nav>
-            <div className="nav-container">
-                <Link className="nav-logo" to="/">Pp</Link>
+            <div className="nav-container" onClick={() => {
+                dispatch(hide());
+            }}>
+                <Link className="nav-logo" to="/project">Pp</Link>
                 {(location.pathname.startsWith('/project/summary') ||location.pathname.startsWith('/project/task')||location.pathname.startsWith('/project/management')||location.pathname.startsWith('/project/timeline'))&& <ul>
                     <li>
                         <NavLink
@@ -47,22 +53,42 @@ const NavBar = () => {
                         </NavLink>
                     </li>
                 </ul>}
-                {/*{true && <Link className="navbar-brand" to="/">Me</Link>}*/}
-                <div
+                {isLoggedIn && <div
                     style={{
                         fontSize: 20,
-                        cursor:"pointer"
+                        cursor: "pointer"
                     }}
-                    onClick={()=>{setShowBow(!showBox)}}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (showBox) {
+                            dispatch(hide())
+                        } else {
+                            dispatch(show())
+                        }
+                    }}
                 >
                     ...
-                </div>
+                </div>}
             </div>
             {showBox && <div className="nav-box">
                 <div className="nav-box-container">
-                    <div>사용자</div>
+                    <div
+                        onClick={() => {
+                            //사용자 페이지로 이동
+                            dispatch(hide())
+                        }}
+                    >
+                        사용자
+                    </div>
                     <hr/>
-                    <div>로그아웃</div>
+                    <div
+                        onClick={() => {
+                            dispatch(logout());
+                            dispatch(hide());
+                        }}
+                    >
+                        로그아웃
+                    </div>
                 </div>
             </div>}
         </nav>

@@ -26,7 +26,7 @@ const LoginPage = () => {
         const res = await axios.post('/api/members/login', {loginEmail, loginPassword}); // axios 수정 필요
         if (res) { // 로그인 성공 // res 수정 필요(?)
             dispatch(login());
-            navigate('/');
+            navigate('/project');
         } else { // 로그인 실패
             setLoginCheck(true); // 아이디 비번 잘못된 입력 p태그 보여줌
         }
@@ -36,9 +36,11 @@ const LoginPage = () => {
     const handleSignupSubmit = async (e) => {
         e.preventDefault(); // onSubmit 기본동작(새로고침 등) 방지
         if (password === passwordCheck) { // 비밀번호
+            setSignupPasswordCheck(false); // 비번 불일치 p태그 제거
             try {
-                const res = await axios.post('/api/members/signUp', {name, email, password}); // axios 수정 필요
-                if (res.status===200&&res.data.result) { // 회원가입 성공 // res 수정 필요(?)
+                setSignupEmailCheck(false); // 이메일 중복 p태그 제거
+                const res = await axios.post('/api/members/signUp', {name, email, password});
+                if (res.status===200&&res.data.result) { // 회원가입 성공
                     dispatch(login());
                     navigate('/login');
                     window.location.reload();
