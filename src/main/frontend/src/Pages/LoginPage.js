@@ -41,6 +41,7 @@ const LoginPage = () => {
                 if (res.status===200&&res.data.result) { // 회원가입 성공 // res 수정 필요(?)
                     dispatch(login());
                     navigate('/login');
+                    window.location.reload();
                 } else { // 회원가입 실패
                     setSignupEmailCheck(true); // 이메일 중복 p태그 보여줌
                 }
