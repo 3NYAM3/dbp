@@ -11,7 +11,7 @@ import CreateTaskPage from "./Pages/CreateTaskPage";
 const routes = [
 
     {
-        path: '/',
+        path: '/project',
         element: <HomePage/>,
         auth: true
     },

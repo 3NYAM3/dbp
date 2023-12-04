@@ -3,6 +3,7 @@ package databaseProject.dbp.controller;
 
 import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.Member;
+import databaseProject.dbp.dto.LoginDto;
 import databaseProject.dbp.dto.SignUpDto;
 import databaseProject.dbp.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,11 @@ public class MemberController {
         ResponseDto<?> result = memberService.join(member);
         return result;
     }
+
+    @PostMapping("/login")
+    public ResponseDto<?> login (@RequestBody LoginDto requestBody){
+
+    }
+
 
 }

@@ -9,7 +9,7 @@ const NavBar = () => {
         <nav>
             <div className="nav-container">
                 <Link className="nav-logo" to="/">Pp</Link>
-                {location.pathname.startsWith('/project/') && <ul>
+                {(location.pathname.startsWith('/project/summary') ||location.pathname.startsWith('/project/task')||location.pathname.startsWith('/project/management')||location.pathname.startsWith('/project/timeline'))&& <ul>
                     <li>
                         <NavLink
                             className={({isActive}) => "link" + (isActive ? " activate" : "")}
