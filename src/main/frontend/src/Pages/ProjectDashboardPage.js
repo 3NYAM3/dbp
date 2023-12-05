@@ -1,11 +1,11 @@
 import {useNavigate} from "react-router-dom";
 import List from "../elements/List";
 
-const ProjectSummaryPage = () => {
+const ProjectDashboardPage = () => {
     const navigate = useNavigate();
     return (
         <div>
-            <List isSummary={true}/>
+            <List isDashboard={true}/>
             <div
                 className="project-add"
                 onClick={() => navigate('/create/notice')}
@@ -18,4 +18,4 @@ const ProjectSummaryPage = () => {
     )
 }
 
-export default ProjectSummaryPage;
+export default ProjectDashboardPage;

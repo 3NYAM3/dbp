@@ -3,7 +3,7 @@ import { useNavigate} from "react-router-dom";
 import ListIndex from "./ListIndex";
 import propTypes from "prop-types";
 
-const List = ({isProject, isSummary, isTask}) => {
+const List = ({isProject, isDashboard, isTask}) => {
     const navigate = useNavigate();
     const [searchText, setSearchText] = useState('');
     const onSearch = () => {
@@ -23,7 +23,7 @@ const List = ({isProject, isSummary, isTask}) => {
                     />
                 </div>
             }
-            {isSummary &&
+            {isDashboard &&
                 <div className="project-search">
                     <h2>프로젝트명</h2>
                     <p>23.11.30 ~ 23.12.31</p>
@@ -44,7 +44,7 @@ const List = ({isProject, isSummary, isTask}) => {
                         <div>유형</div>
                         <div>리더</div>
                     </>
-                    : isSummary ?
+                    : isDashboard ?
                         <>
                             <div>작성자</div>
                             <div>내용</div>
@@ -68,17 +68,18 @@ const List = ({isProject, isSummary, isTask}) => {
                         kind: "유형",
                         leader: "리더"
                     }}
-                    onClick={() => navigate('/project/summary')}
+                    onClick={() => navigate('/project/dashboard')}
                 />
-                : isSummary ?
+                : isDashboard ?
                     <ListIndex
-                        isSummary={true}
-                        summary={{
+                        isDashboard={true}
+                        dashboard={{
                             name: "yp",
                             content: "내용",
                             date: "2019"
                         }}
-                        // onClick={() => navigate('/project/summary')}
+                        // onClick={() => navigate('/project/dashboard')}
+                        // onClick={() => navigate(`/blogs/${post.id}`)} routes에 추가
                     />
                     : isTask ?
                         <ListIndex
@@ -89,7 +90,7 @@ const List = ({isProject, isSummary, isTask}) => {
                                 start:"231101",
                                 end:"231231"
                             }}
-                            // onClick={() => navigate('/project/summary')}
+                            // onClick={() => navigate('/project/dashboard')}
                         />
                         : ""
             }
@@ -99,12 +100,12 @@ const List = ({isProject, isSummary, isTask}) => {
 }
 List.propTypes = {
     isProject: propTypes.bool,
-    isSummary: propTypes.bool,
+    isDashboard: propTypes.bool,
     isTask: propTypes.bool,
 }
 List.defaultProps = {
     isProject: false,
-    isSummary: false,
+    isDashboard: false,
     isTask: false,
 }
 

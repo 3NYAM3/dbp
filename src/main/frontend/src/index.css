@@ -124,7 +124,7 @@ nav {
     background-color: var(--NavBarGray);
 }
 
-.nav-logo{
+.nav-logo {
     color: #000000;
     text-decoration: none;
     cursor: pointer;
@@ -200,17 +200,17 @@ nav {
     width: 50%;
 }
 
-.create-container h1{
+.create-container h1 {
     text-align: center;
 }
 
-.create-container label{
+.create-container label {
     display: block;
     margin-left: 10px;
     margin-bottom: 5px;
 }
 
-.create-container input{
+.create-container input {
     box-sizing: border-box;
     border-radius: 5px;
     border: 2px solid #44546F;
@@ -221,7 +221,7 @@ nav {
     padding-right: 20px;
 }
 
-.create-container button{
+.create-container button {
     box-sizing: border-box;
     border-radius: 5px;
     border: none;
@@ -234,40 +234,40 @@ nav {
     cursor: pointer;
 }
 
-.create-container button:hover{
+.create-container button:hover {
     background-color: #113e88;
 }
 
-.summary-container {
+.dashboard-container {
     display: flex;
     justify-content: center;
 }
 
-.summary-container div{
+.dashboard-container div {
     width: 50%;
 }
 
-.summary-container h1{
+.dashboard-container h1 {
     text-align: center;
 }
 
-.summary-container p{
+.dashboard-container p {
     text-align: center;
     font-size: 14px;
     color: rgba(33, 37, 41, 0.75);
 }
 
-.btn-cancel{
+.btn-cancel {
     cursor: pointer;
 }
 
-.btn-cancel:hover{
+.btn-cancel:hover {
     background-color: #8b98b0;
 }
 
 /*[로그인*/
 
-.login-container{
+.login-container {
     background-color: #fff;
     border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
@@ -278,21 +278,21 @@ nav {
     min-height: 580px;
 }
 
-.container p{
+.container p {
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.3px;
     margin: 20px 0;
 }
 
-.login-container a{
+.login-container a {
     color: #333;
     font-size: 13px;
     text-decoration: none;
     margin: 15px 0 10px;
 }
 
-.login-container button{
+.login-container button {
     background-color: #071952;
     color: #fff;
     font-size: 12px;
@@ -306,12 +306,12 @@ nav {
     cursor: pointer;
 }
 
-.login-container button.hidden{
+.login-container button.hidden {
     background-color: transparent;
     border-color: #fff;
 }
 
-.login-container form{
+.login-container form {
     background-color: #fff;
     display: flex;
     align-items: center;
@@ -321,7 +321,7 @@ nav {
     height: 100%;
 }
 
-.login-container input{
+.login-container input {
     background-color: #eee;
     border: none;
     margin: 8px 0;
@@ -332,53 +332,53 @@ nav {
     outline: none;
 }
 
-.form-container{
+.form-container {
     position: absolute;
     top: 0;
     height: 100%;
     transition: all 0.6s ease-in-out;
 }
 
-.sign-in{
+.sign-in {
     left: 0;
     width: 50%;
     z-index: 2;
 }
 
-.login-container.active .sign-in{
+.login-container.active .sign-in {
     transform: translateX(100%);
 }
 
-.sign-up{
+.sign-up {
     left: 0;
     width: 50%;
     opacity: 0;
     z-index: 1;
 }
 
-.login-container.active .sign-up{
+.login-container.active .sign-up {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
     animation: move 0.6s;
 }
 
-@keyframes move{
-    0%, 49.99%{
+@keyframes move {
+    0%, 49.99% {
         opacity: 0;
         z-index: 1;
     }
-    50%, 100%{
+    50%, 100% {
         opacity: 1;
         z-index: 5;
     }
 }
 
-.social-icons{
+.social-icons {
     margin: 20px 0;
 }
 
-.social-icons a{
+.social-icons a {
     border: 1px solid #ccc;
     border-radius: 20%;
     display: inline-flex;
@@ -389,7 +389,7 @@ nav {
     height: 40px;
 }
 
-.toggle-container{
+.toggle-container {
     position: absolute;
     top: 0;
     left: 50%;
@@ -401,12 +401,12 @@ nav {
     z-index: 1000;
 }
 
-.login-container.active .toggle-container{
+.login-container.active .toggle-container {
     transform: translateX(-100%);
     border-radius: 0 150px 100px 0;
 }
 
-.toggle{
+.toggle {
     background: linear-gradient(to right, #3876BF, #192655);
     color: #fff;
     position: relative;
@@ -417,11 +417,11 @@ nav {
     transition: all 0.6s ease-in-out;
 }
 
-.login-container.active .toggle{
+.login-container.active .toggle {
     transform: translateX(50%);
 }
 
-.toggle-panel{
+.toggle-panel {
     position: absolute;
     width: 50%;
     height: 100%;
@@ -436,26 +436,111 @@ nav {
     transition: all 0.6s ease-in-out;
 }
 
-.toggle-left{
+.toggle-left {
     transform: translateX(-200%);
 }
 
-.login-container.active .toggle-left{
+.login-container.active .toggle-left {
     transform: translateX(0);
 }
 
-.toggle-right{
+.toggle-right {
     right: 0;
     transform: translateX(0);
 }
 
-.login-container.active .toggle-right{
+.login-container.active .toggle-right {
     transform: translateX(200%);
 }
 
-.login-box{
+.login-box {
     display: flex;
     justify-content: center;
 }
 
 /*로그인]*/
+
+/*[공지사항*/
+.container-common {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    /*background-color: red;*/
+}
+
+.container-common div {
+    width: 50%;
+    /*background-color: violet;*/
+}
+
+.container-common div h1 {
+    text-align: center;
+}
+.container-common div h3 {
+    text-align: center;
+}
+
+.container-common div textarea {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 10px;
+    text-align: left;
+    padding: 2%;
+    border: solid 1px var(--NavBarGray);
+    font-size: 20px;
+}
+
+.container-common div button {
+    width: 100%;
+    text-align: center;
+    font-size: 17px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 0.5px solid black;
+}
+
+.container-common div input {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #44546F;
+    height: 40px;
+    font-size: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.ok-common {
+    background-color: #0C66E4;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.ok-common:hover {
+    background-color: #0a50b2;
+}
+
+.cancel-common {
+    background-color: #E0E0E0;
+    color: #000000;
+}
+
+.cancel-common:hover {
+    background-color: #C0C0C0;
+}
+
+.container-common-input {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #44546F;
+    height: 40px;
+    font-size: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+/*공지사항]*/
+

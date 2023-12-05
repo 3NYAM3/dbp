@@ -1,4 +1,4 @@
-import {Link, NavLink, useLocation} from "react-router-dom";
+import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../store/authSlice";
 import {hide, show} from "../store/boxSlice";
@@ -8,6 +8,7 @@ const NavBar = () => {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const showBox = useSelector(state => state.box.showBox);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     // const [render, setRender] = useState(true);
     return (
         <nav>
@@ -15,14 +16,14 @@ const NavBar = () => {
                 dispatch(hide());
             }}>
                 <Link className="nav-logo" to="/project">Pp</Link>
-                {(location.pathname.startsWith('/project/summary') ||location.pathname.startsWith('/project/task')||location.pathname.startsWith('/project/management')||location.pathname.startsWith('/project/timeline'))&& <ul>
+                {(location.pathname.startsWith('/project/dashboard') ||location.pathname.startsWith('/project/task')||location.pathname.startsWith('/project/management')||location.pathname.startsWith('/project/timeline'))&& <ul>
                     <li>
                         <NavLink
                             className={({isActive}) => "link" + (isActive ? " activate" : "")}
                             aria-current="page"
-                            to="/project/summary"
+                            to="/project/dashboard"
                         >
-                            개요
+                            대시보드
                         </NavLink>
                     </li>
                     <li>
@@ -74,7 +75,7 @@ const NavBar = () => {
                 <div className="nav-box-container">
                     <div
                         onClick={() => {
-                            //사용자 페이지로 이동
+                            navigate('/user');
                             dispatch(hide())
                         }}
                     >
@@ -85,6 +86,7 @@ const NavBar = () => {
                         onClick={() => {
                             dispatch(logout());
                             dispatch(hide());
+                            navigate('/')
                         }}
                     >
                         로그아웃

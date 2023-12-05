@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    isLoggedIn: false // 테스트를 위해 true로 지정
+    isLoggedIn: true // 테스트를 위해 true로 지정
 }
 
 const authSlice = createSlice({ //createSlice를 통해 state를 정의

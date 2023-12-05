@@ -1,5 +1,9 @@
+import TaskForm from "../elements/TaskForm";
+
 const CreateTaskPage = () =>{
-    return<div>CreateTaskPage</div>
+    return(
+        <TaskForm/>
+    )
 }
 
 export default CreateTaskPage;

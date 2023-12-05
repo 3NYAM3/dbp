@@ -1,5 +1,9 @@
-const CreateNoticePage = () =>{
-    return<div>CreateNoticePage</div>
+import NoticeForm from "../elements/NoticeForm";
+
+const CreateNoticePage = () => {
+    return (
+        <NoticeForm/>
+    )
 }
 
 export default CreateNoticePage;

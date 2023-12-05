@@ -1,6 +1,6 @@
 import propTypes from "prop-types";
 
-const ListIndex = ({isProject, isSummary, isTask, project, summary, task, onClick}) => {
+const ListIndex = ({isProject, isDashboard, isTask, project, dashboard, task, onClick}) => {
 
     return (
         <div
@@ -14,11 +14,11 @@ const ListIndex = ({isProject, isSummary, isTask, project, summary, task, onClic
                     <div>{project.leader}</div>
                 </>
             }
-            {isSummary &&
+            {isDashboard &&
                 <>
-                    <div>{summary.name}</div>
-                    <div>{summary.content}</div>
-                    <div>{summary.date}</div>
+                    <div>{dashboard.name}</div>
+                    <div>{dashboard.content}</div>
+                    <div>{dashboard.date}</div>
                 </>
             }
             {isTask &&
@@ -36,15 +36,15 @@ const ListIndex = ({isProject, isSummary, isTask, project, summary, task, onClic
 
 ListIndex.propTypes = {
     isProject: propTypes.bool,
-    isSummary: propTypes.bool,
+    isDashboard: propTypes.bool,
     isTask: propTypes.bool,
     project: propTypes.object,
-    summary: propTypes.object,
+    dashboard: propTypes.object,
     task: propTypes.object,
 }
 ListIndex.defaultProps = {
     isProject: false,
-    isSummary: false,
+    isDashboard: false,
     isTask: false,
 }
 

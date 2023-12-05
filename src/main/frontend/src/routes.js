@@ -1,7 +1,7 @@
 import Project from "./Pages/Project";
 import LoginPage from "./Pages/LoginPage";
 import CreateProjectPage from "./Pages/CreateProjectPage";
-import ProjectSummaryPage from "./Pages/ProjectSummaryPage";
+import ProjectDashboardPage from "./Pages/ProjectDashboardPage";
 import ProjectTaskPage from "./Pages/ProjectTaskPage";
 import ProjectTimelinePage from "./Pages/ProjectTimelinePage";
 import ProjectManagementPage from "./Pages/ProjectManagementPage";
@@ -9,6 +9,7 @@ import CreateNoticePage from "./Pages/CreateNoticePage";
 import CreateTaskPage from "./Pages/CreateTaskPage";
 import ErrorPage from "./Pages/ErrorPage";
 import ProtectedRoute from "./ProtectedRoute";
+import UserPage from "./Pages/UserPage";
 
 const routes = [
     {
@@ -24,6 +25,10 @@ const routes = [
     {
         path: '/login',
         element: <LoginPage/>
+    },
+    {
+        path: '/user',
+        element: <UserPage/>
     },
     {
         auth: true,
@@ -42,8 +47,8 @@ const routes = [
     },
     {
         auth: true,
-        path: '/project/summary',
-        element: <ProjectSummaryPage/>
+        path: '/project/dashboard',
+        element: <ProjectDashboardPage/>
     },
     {
         auth: true,
