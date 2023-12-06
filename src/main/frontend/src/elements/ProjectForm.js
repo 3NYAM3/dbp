@@ -32,53 +32,103 @@ const ProjectForm = ({editing}) => {
             // })
         }
     }
+    // return (
+    //     <div>
+    //         <form onSubmit={handleSubmit}>
+    //             <div className="create-container">
+    //                 <div className="create-container-div">
+    //                     <h1>프로젝트 {editing ? '수정' : '생성'}</h1><br/>
+    //                     <label>프로젝트명</label>
+    //                     <input type="text" placeholder="프로젝트명" value={title} required
+    //                            onChange={(e) => setTitle(e.target.value)}/>
+    //                     <br/><br/><br/>
+    //                     <label>타입</label>
+    //                     <input type="text" placeholder="타입" value={type} required
+    //                            onChange={(e) => setType(e.target.value)}/>
+    //                     <br/><br/><br/>
+    //                     <label>시작일</label>
+    //                     <input type="date" placeholder="시작일" value={start} required
+    //                            onChange={(e) => setStart(e.target.value)}/>
+    //                     <br/><br/><br/>
+    //                     <label>마감일</label>
+    //                     <input type="date" placeholder="마감일" value={end} required
+    //                            onChange={(e) => setEnd(e.target.value)}/>
+    //                     <br/><br/><br/>
+    //
+    //                     <div style={{width:'100%',
+    //                     backgroundColor:"#091E4224",
+    //                     borderRadius:"10px"}}>
+    //                         <h3 style={{textAlign:"center"}}>회원명단</h3>
+    //                         <h4 style={{textAlign:"center"}}>+</h4>
+    //                     </div>
+    //
+    //                     <br/><br/>
+    //                     <button
+    //                         type="submit"
+    //                     >
+    //                         {editing ? '수정' : '생성'}
+    //                     </button>
+    //                     <br/><br/>
+    //                     <input
+    //                         className="btn-cancel"
+    //                         type="button"
+    //                         value="취소"
+    //                         onClick={() => editing ? navigate('/project/dashboard') : navigate('/project')}
+    //                     />
+    //                 </div>
+    //             </div>
+    //         </form>
+    //     </div>
+    // )
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div className="create-container">
-                    <div className="create-container-div">
-                        <h1>프로젝트 {editing ? '수정' : '생성'}</h1><br/>
-                        <label>프로젝트명</label>
-                        <input type="text" placeholder="프로젝트명" value={title} required
-                               onChange={(e) => setTitle(e.target.value)}/>
-                        <br/><br/><br/>
-                        <label>타입</label>
-                        <input type="text" placeholder="타입" value={type} required
-                               onChange={(e) => setType(e.target.value)}/>
-                        <br/><br/><br/>
-                        <label>시작일</label>
-                        <input type="date" placeholder="시작일" value={start} required
-                               onChange={(e) => setStart(e.target.value)}/>
-                        <br/><br/><br/>
-                        <label>마감일</label>
-                        <input type="date" placeholder="마감일" value={end} required
-                               onChange={(e) => setEnd(e.target.value)}/>
-                        <br/><br/><br/>
+        <form onSubmit={handleSubmit}>
+            <div className="container-common">
+                <div>
+                    <h1>프로젝트 {editing ? '수정' : '생성'}</h1><br/>
+                    <label>프로젝트명</label>
+                    <input type="text" placeholder="프로젝트명" value={title} required
+                           onChange={(e) => setTitle(e.target.value)}/>
+                    <br/><br/><br/>
+                    <label>타입</label>
+                    <input type="text" placeholder="타입" value={type} required
+                           onChange={(e) => setType(e.target.value)}/>
+                    <br/><br/><br/>
+                    <label>시작일</label>
+                    <input type="date" placeholder="시작일" value={start} required
+                           onChange={(e) => setStart(e.target.value)}/>
+                    <br/><br/><br/>
+                    <label>마감일</label>
+                    <input type="date" placeholder="마감일" value={end} required
+                           onChange={(e) => setEnd(e.target.value)}/>
+                    <br/><br/><br/>
 
-                        <div style={{width:'100%',
-                        backgroundColor:"#091E4224",
-                        borderRadius:"10px"}}>
-                            <h3 style={{textAlign:"center"}}>회원명단</h3>
-                            <h4 style={{textAlign:"center"}}>+</h4>
-                        </div>
-
-                        <br/><br/>
-                        <button
-                            type="submit"
-                        >
-                            {editing ? '수정' : '생성'}
-                        </button>
-                        <br/><br/>
-                        <input
-                            className="btn-cancel"
-                            type="button"
-                            value="취소"
-                            onClick={() => editing ? navigate('/project/dashboard') : navigate('/project')}
-                        />
+                    <div style={{
+                        width: '100%',
+                        backgroundColor: "#091E4224",
+                        borderRadius: "10px"
+                    }}>
+                        <h3 style={{textAlign: "center"}}>회원명단</h3>
+                        <h4 style={{textAlign: "center"}}>+</h4>
                     </div>
+
+                    <br/><br/>
+                    <button
+                        type="submit"
+                        className="ok-common"
+                    >
+                        {editing ? '수정' : '생성'}
+                    </button>
+                    <br/><br/>
+                    <input
+                        className="cancel-common"
+                        type="button"
+                        value="취소"
+                        onClick={() => editing ? navigate('/project/dashboard') : navigate('/project')}
+                    />
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     )
 }
 

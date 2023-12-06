@@ -191,80 +191,6 @@ nav {
     white-space: nowrap;
 }
 
-.create-container {
-    display: flex;
-    justify-content: center;
-}
-
-.create-container div {
-    width: 50%;
-}
-
-.create-container h1 {
-    text-align: center;
-}
-
-.create-container label {
-    display: block;
-    margin-left: 10px;
-    margin-bottom: 5px;
-}
-
-.create-container input {
-    box-sizing: border-box;
-    border-radius: 5px;
-    border: 2px solid #44546F;
-    width: 100%;
-    height: 40px;
-    font-size: 15px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.create-container button {
-    box-sizing: border-box;
-    border-radius: 5px;
-    border: none;
-    width: 100%;
-    height: 40px;
-    font-size: 17px;
-    font-weight: bold;
-    background-color: #0C66E4;
-    color: #FFFFFF;
-    cursor: pointer;
-}
-
-.create-container button:hover {
-    background-color: #113e88;
-}
-
-.dashboard-container {
-    display: flex;
-    justify-content: center;
-}
-
-.dashboard-container div {
-    width: 50%;
-}
-
-.dashboard-container h1 {
-    text-align: center;
-}
-
-.dashboard-container p {
-    text-align: center;
-    font-size: 14px;
-    color: rgba(33, 37, 41, 0.75);
-}
-
-.btn-cancel {
-    cursor: pointer;
-}
-
-.btn-cancel:hover {
-    background-color: #8b98b0;
-}
-
 /*[로그인*/
 
 .login-container {
@@ -460,7 +386,7 @@ nav {
 
 /*로그인]*/
 
-/*[공지사항*/
+/*[프로젝트, 공지사항, 작업 등 공통*/
 .container-common {
     display: flex;
     justify-content: center;
@@ -476,6 +402,7 @@ nav {
 .container-common div h1 {
     text-align: center;
 }
+
 .container-common div h3 {
     text-align: center;
 }
@@ -541,6 +468,21 @@ nav {
     padding-right: 20px;
 }
 
+/*프로젝트, 공지사항, 작업 등 공통]*/
 
-/*공지사항]*/
+.container-timeline {
+    justify-content: center;
+    width: 100%;
+    border-left: #0C66E4 solid 2px;
+    border-right: #0C66E4 solid 2px;
+    overflow: scroll;
+}
 
+.container-timeline div{
+    text-align: center;
+    background-color: #9F8FEF;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-radius: 5px;
+    border: solid #000000;
+}
