@@ -473,16 +473,29 @@ nav {
 .container-timeline {
     justify-content: center;
     width: 100%;
-    border-left: #0C66E4 solid 2px;
-    border-right: #0C66E4 solid 2px;
-    overflow: scroll;
+    border-left: solid 2px var(--NavBarGray);
+    border-right: solid 2px var(--NavBarGray);
+    overflow-x: scroll;
 }
 
-.container-timeline div{
+.container-timeline div {
+    display: flex;
+    border: 1px solid var(--NavBarGray);
+}
+
+.container-timeline div div {
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    font-size: 10px;
     text-align: center;
     background-color: #9F8FEF;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    border-radius: 5px;
-    border: solid #000000;
+    color: #FFFFFF;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    height: 30px;
+    overflow: hidden;
+    cursor: pointer;
+    /*border: #9F8FEF;*/
 }

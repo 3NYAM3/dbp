@@ -1,63 +1,66 @@
 import React from 'react';
 
-const data = [
-    {content: '작업 1', start: '2023-01-01', end: '2023-02-01'},
-    {content: '작업 2', start: '2023-02-01', end: '2023-03-01'},
-    {content: '작업 3', start: '2023-03-01', end: '2023-04-01'},
-    {content: '작업 4', start: '2023-04-01', end: '2023-09-01'},
-    {content: '작업 5', start: '2023-12-01', end: '2029-12-31'}
+// test dataSet
+const taskData = [
+    {content: '작업 1', start: '2023-01-01', end: '2023-01-01'},
+    {content: '작업 2', start: '2023-01-02', end: '2023-01-03'},
+    {content: '작업 3', start: '2023-01-03', end: '2023-01-04'},
+    {content: '작업 4', start: '2023-01-05', end: '2023-01-06'},
+    {content: '작업 5', start: '2023-01-01', end: '2023-01-31'},
+    {content: '작업 6', start: '2023-02-01', end: '2023-03-31'},
+    {content: '작업 7', start: '2023-02-01', end: '2023-04-30'},
+    {content: '작업 8', start: '2023-05-01', end: '2023-12-31'},
+    {content: '작업 9', start: '2023-12-01', end: '2023-12-31'},
 ];
+const projectData = {
+    start: '2023-01-01',
+    end: '2023-12-31'
+}
 
-// 프로젝트 시작일
-const ps = '2023-01-01';
-// 프로젝트 마감일
-const pe = '2023-12-31';
-// 작업 시작일
-// 작업 마감일
+const oneDayTo10px = (input) => { // 1일당 10px
+    return (
+        (new Date(input) / (1000 * 60 * 60 * 24)) * 10
+    )
+}
+
+const ps = oneDayTo10px(projectData.start); // 프로젝트 시작
+const pe = oneDayTo10px(projectData.end); // 프로젝트 끝
+const pl = pe - ps; // 프로젝트 길이
+
 
 function ProjectTimelinePage() {
     return (
-        <div className="container-timeline">
-            {data.map((task, index) => {
-                const ts = new Date(task.start);
-                const te = new Date(task.end);
-                const test = new Date(ps);
+        <>
+            <div className="project-search">
+                <h2>프로젝트명</h2>
+                <p>23.01.01 ~ 23.12.31</p>
+            </div>
+            <div className="container-timeline">
+                {taskData.map((task, index) => {
 
-                const n = (ts - test) / (1000 * 60 * 60 * 24)
-                const n1 = (te - ts) / (1000 * 60 * 60 * 24)
+                    const ts = oneDayTo10px(task.start) - ps; // 작업 시작
+                    const tl = oneDayTo10px(task.end) - oneDayTo10px(task.start); // 작업 길이
 
-                // const startDate = new Date(task.start);
-                // const endDate = new Date(task.end);
-                // const daysFromStart = (startDate - new Date(data[0].start)) / (1000 * 60 * 60 * 24); // 날짜 간격을 일로 계산
-
-                // const daysFromEnd = (endDate - new Date(data[0].end)) / (1000 * 60 * 60 * 24); // 날짜 간격을 일로 계산
-                // const marginLeft = `${daysFromStart * 2}px`; // 간격을 CSS px로 변환
-                // const size = `${daysFromStart * 2 - daysFromEnd * 2}px`;
-
-                return (
-                    <>
+                    return (
                         <div
                             key={index}
                             style={{
-                                alignItems:"center",
-                                fontSize:"10px",
-                                minWidth:"100px",
-                                width: n1,
-                                marginLeft: n,
-                                height: '30px',
-                                overflow: "hidden",
-                                cursor:"pointer",
+                                width: `${pl}px`,
 
-                                // paddingRight: "0px"
-                            }}
-                        >
-                            {task.content}
+                            }}>
+                            <div
+                                style={{
+                                    width: `${tl}px`, // 단위 px 추가
+                                    left: `${ts}px`, // 단위 px 추가
+                                }}
+                            >
+                                {task.content}
+                            </div>
                         </div>
-                        <hr/>
-                    </>
-                );
-            })}
-        </div>
+                    );
+                })}
+            </div>
+        </>
     );
 }
 
