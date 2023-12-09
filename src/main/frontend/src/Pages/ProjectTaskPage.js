@@ -10,6 +10,9 @@ const ProjectTaskPage = () =>{
             <div
                 className="project-add"
                 onClick={() => navigate('/create/task')}
+                style={{
+                    fontFamily:"Arial"
+                }}
             >
                 +
             </div>

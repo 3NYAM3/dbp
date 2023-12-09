@@ -9,6 +9,9 @@ const Project = () => {
             <div
                 className="project-add"
                 onClick={() => navigate('/create/project')}
+                style={{
+                    fontFamily:"Arial"
+                }}
             >
                 +
             </div>

@@ -2,6 +2,8 @@ import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../store/authSlice";
 import {hide, show} from "../store/boxSlice";
+import logo from '../images/logo.png';
+import user from '../images/user.png';
 
 const NavBar = () => {
     const location = useLocation();
@@ -15,49 +17,62 @@ const NavBar = () => {
             <div className="nav-container" onClick={() => {
                 dispatch(hide());
             }}>
-                <Link className="nav-logo" to="/project">Pp</Link>
-                {(location.pathname.startsWith('/project/dashboard') ||location.pathname.startsWith('/project/task')||location.pathname.startsWith('/project/management')||location.pathname.startsWith('/project/timeline'))&& <ul>
-                    <li>
-                        <NavLink
-                            className={({isActive}) => "link" + (isActive ? " activate" : "")}
-                            aria-current="page"
-                            to="/project/dashboard"
-                        >
-                            대시보드
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            className={({isActive}) => "link" + (isActive ? " activate" : "")}
-                            aria-current="page"
-                            to="/project/task"
-                        >
-                            작업
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            className={({isActive}) => "link" + (isActive ? " activate" : "")}
-                            aria-current="page"
-                            to="/project/timeline"
-                        >
-                            타임라인
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            className={({isActive}) => "link" + (isActive ? " activate" : "")}
-                            aria-current="page"
-                            to="/project/management"
-                        >
-                            관리
-                        </NavLink>
-                    </li>
-                </ul>}
+                <Link style={{
+                    width: "50px",
+                    height: "50px"
+                }}
+                      className="nav-logo" to="/project"><img
+                    style={{
+                        width: "50px",
+                        height: "50px"
+                    }}
+                    src={logo}
+                    alt="로고"
+                /></Link>
+                {(location.pathname.startsWith('/project/dashboard') || location.pathname.startsWith('/project/task') || location.pathname.startsWith('/project/management') || location.pathname.startsWith('/project/timeline')) &&
+                    <ul>
+                        <li>
+                            <NavLink
+                                className={({isActive}) => "link" + (isActive ? " activate" : "")}
+                                aria-current="page"
+                                to="/project/dashboard"
+                            >
+                                대시보드
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                className={({isActive}) => "link" + (isActive ? " activate" : "")}
+                                aria-current="page"
+                                to="/project/task"
+                            >
+                                작업
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                className={({isActive}) => "link" + (isActive ? " activate" : "")}
+                                aria-current="page"
+                                to="/project/timeline"
+                            >
+                                타임라인
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                className={({isActive}) => "link" + (isActive ? " activate" : "")}
+                                aria-current="page"
+                                to="/project/management"
+                            >
+                                관리
+                            </NavLink>
+                        </li>
+                    </ul>}
                 {isLoggedIn && <div
                     style={{
-                        fontSize: 20,
-                        cursor: "pointer"
+                        cursor: "pointer",
+                        width: "27px",
+                        height: "27px"
                     }}
                     onClick={(e) => {
                         e.stopPropagation();
@@ -68,7 +83,13 @@ const NavBar = () => {
                         }
                     }}
                 >
-                    ...
+                    <img
+                        style={{
+                            width: "27px",
+                            height: "27px"
+                        }}
+                        src={user}
+                        alt="사용자"/>
                 </div>}
             </div>
             {showBox && <div className="nav-box">

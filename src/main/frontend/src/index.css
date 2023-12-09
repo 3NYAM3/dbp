@@ -478,12 +478,14 @@ nav {
     overflow-x: scroll;
 }
 
-.container-timeline div {
+.container-timeline-div {
+    box-sizing: border-box;
     display: flex;
     border: 1px solid var(--NavBarGray);
 }
 
-.container-timeline div div {
+.container-timeline-div-div {
+    border: solid #9F8FEF;
     box-sizing: border-box;
     display: flex;
     position: relative;
@@ -497,5 +499,11 @@ nav {
     height: 30px;
     overflow: hidden;
     cursor: pointer;
-    /*border: #9F8FEF;*/
 }
+
+/*.test {*/
+/*    box-sizing: border-box;*/
+/*    display: flex;*/
+/*    border: 1px solid black;*/
+/*    position: relative;*/
+/*}*/

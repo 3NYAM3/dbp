@@ -9,6 +9,9 @@ const ProjectDashboardPage = () => {
             <div
                 className="project-add"
                 onClick={() => navigate('/create/notice')}
+                style={{
+                    fontFamily:"Arial"
+                }}
             >
                 +
             </div>

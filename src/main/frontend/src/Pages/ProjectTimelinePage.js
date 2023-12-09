@@ -27,6 +27,36 @@ const ps = oneDayTo10px(projectData.start); // 프로젝트 시작
 const pe = oneDayTo10px(projectData.end); // 프로젝트 끝
 const pl = pe - ps; // 프로젝트 길이
 
+let line = [];
+for (let i = new Date(projectData.start); i <= new Date(projectData.end); i.setMonth(i.getMonth() + 1)) {
+    line.push(new Date(i));
+}
+
+// const createline = () => {
+//     // 프로젝트 시작일부터 종료일 까지 1달 간격 선
+//     for (let i = new Date(projectData.start); i <= new Date(projectData.end); i.setMonth(i.getMonth() + 1)) {
+//         line.push(new Date(i));
+//     }
+//     for (let i = 0; i < line.length; i++) { // test code
+//         console.log(new Date(line[i]));
+//     }
+//     return (
+//         line.map((line, index) => {
+//             return (
+//                 <div
+//                     key={index}
+//                     style={{
+//                         left: oneDayTo10px(line) - ps
+//                     }}
+//                     className="test"
+//                 >
+//
+//                 </div>
+//             )
+//         })
+//     )
+// }
+
 
 function ProjectTimelinePage() {
     return (
@@ -43,15 +73,31 @@ function ProjectTimelinePage() {
 
                     return (
                         <div
+                            className="container-timeline-div"
                             key={index}
                             style={{
                                 width: `${pl}px`,
+                            }}
+                        >
+                            {/*{line.map((line, index) => {*/}
+                            {/*    return (*/}
+                            {/*        <div*/}
+                            {/*            key={index}*/}
+                            {/*            style={{*/}
+                            {/*                left: oneDayTo10px(line) - ps*/}
+                            {/*            }}*/}
+                            {/*            className="test"*/}
+                            {/*        >*/}
 
-                            }}>
+                            {/*        </div>*/}
+                            {/*    )*/}
+                            {/*})}*/}
+
                             <div
+                                className="container-timeline-div-div"
                                 style={{
-                                    width: `${tl}px`, // 단위 px 추가
-                                    left: `${ts}px`, // 단위 px 추가
+                                    width: `${tl}px`,
+                                    left: `${ts}px`,
                                 }}
                             >
                                 {task.content}
