@@ -23,18 +23,14 @@ const LoginPage = () => {
     // 로그인 submit
     const handleLoginSubmit = async (e) => {
         e.preventDefault(); // onSubmit 기본동작(새로고침 등) 방지
-
-        // const res = await axios.post('/api/members/login', {loginEmail, loginPassword}); // axios 수정 필요
-        // if (res) { // 로그인 성공 // res 수정 필요(?)
-        //     dispatch(login());
-        //     navigate('/project');
-        // } else { // 로그인 실패
-        //     setLoginCheck(true); // 아이디 비번 잘못된 입력 p태그 보여줌
-        // }
-
-        // 일단 아무거나 입력해도 로그인 버튼 누르면 페이지 이동 가능하게 함
-        dispatch(login());
-        navigate('/project');
+        const res = await axios.post('/api/members/login', {email: loginEmail, password: loginPassword});
+        if (res.data.result) {
+            setLoginCheck(false); // p태그 제거
+            dispatch(login()); // 로그인
+            navigate('/project'); // 프로젝트 페이지로 이동
+        } else { // 로그인 실패
+            setLoginCheck(true); // 아이디 비번 잘못된 입력 p태그 보여줌
+        }
     };
 
     // 회원가입 submit
@@ -120,7 +116,6 @@ const LoginPage = () => {
                             <p>계정을 생성해 무료로 사용</p>
                             <button
                                 onClick={() => {
-                                    console.log("test")
                                     document.getElementById('login-container').classList.add("active");
                                     setLoginEmail('');
                                     setLoginPassword('');
