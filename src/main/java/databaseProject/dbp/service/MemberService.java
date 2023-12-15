@@ -3,12 +3,12 @@ package databaseProject.dbp.service;
 import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.Member;
 import databaseProject.dbp.domain.Project;
+import databaseProject.dbp.dto.LoggedInMemberDto;
 import databaseProject.dbp.dto.LoginDto;
 import databaseProject.dbp.dto.LoginResponseDto;
 import databaseProject.dbp.dto.SignUpDto;
 import databaseProject.dbp.repository.MemberRepository;
 import databaseProject.dbp.security.TokenProvider;
-import lombok.RequiredArgsConstructor;
 //import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +60,7 @@ public class MemberService {
         return false;
     }
 
+    @Transactional
     public ResponseDto<LoginResponseDto> login(LoginDto dto){
         String dtoEmail = dto.getEmail();
         String dtoPassword = dto.getPassword();
@@ -73,7 +74,7 @@ public class MemberService {
         }catch (Exception e){
             return ResponseDto.setFailed("Database error");
         }
-        member.setPassword("");
+        //member.setPassword("");
 
         String token = tokenProvider.create(dtoEmail);
         int exprTime = 3600000;
@@ -81,6 +82,23 @@ public class MemberService {
         LoginResponseDto loginResponseDto = new LoginResponseDto(token,exprTime,member);
         return ResponseDto.setSuccess("Success",loginResponseDto);
 
+    }
+
+    public ResponseDto<LoggedInMemberDto> getLoginMember(String email){
+        Member member = null;
+
+        try{
+            member = memberRepository.findByEmail(email);
+            if(member==null) return ResponseDto.setFailed("info get failed");
+
+        }catch (Exception e){
+            return ResponseDto.setFailed("Database Error");
+        }
+
+        String name = member.getName();
+
+        LoggedInMemberDto getLoginMemberResponseDto = new LoggedInMemberDto(email, name);
+        return ResponseDto.setSuccess("Success", getLoginMemberResponseDto);
     }
 
     public List<Member> findMembers() {

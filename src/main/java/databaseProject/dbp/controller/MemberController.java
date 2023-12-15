@@ -2,17 +2,15 @@ package databaseProject.dbp.controller;
 
 
 import databaseProject.dbp.controller.dto.ResponseDto;
-import databaseProject.dbp.domain.Member;
+import databaseProject.dbp.dto.LoggedInMemberDto;
 import databaseProject.dbp.dto.LoginDto;
 import databaseProject.dbp.dto.LoginResponseDto;
 import databaseProject.dbp.dto.SignUpDto;
 import databaseProject.dbp.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/members")
@@ -35,5 +33,11 @@ public class MemberController {
         return result;
     }
 
+    @GetMapping("/info")
+    public ResponseDto<?> info (@AuthenticationPrincipal String email){
+        System.out.println(email);
+        ResponseDto<LoggedInMemberDto> result = memberService.getLoginMember(email);
+        return result;
+    }
 
 }
