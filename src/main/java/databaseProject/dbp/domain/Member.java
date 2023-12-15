@@ -1,6 +1,6 @@
 package databaseProject.dbp.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;

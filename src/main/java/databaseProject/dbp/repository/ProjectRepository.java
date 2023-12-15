@@ -2,7 +2,7 @@ package databaseProject.dbp.repository;
 
 import databaseProject.dbp.domain.Member;
 import databaseProject.dbp.domain.Project;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

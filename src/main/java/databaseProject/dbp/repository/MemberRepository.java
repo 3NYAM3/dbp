@@ -1,7 +1,7 @@
 package databaseProject.dbp.repository;
 
 import databaseProject.dbp.domain.Member;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +38,16 @@ public class MemberRepository {
         return em.createQuery("select m from Member m where m.name= :name", Member.class)
                 .setParameter("name", name)
                 .getResultList();
+    }
+
+    public boolean existsByEmailAndPassword(String email, String password) {
+        Long count = (Long) em.createQuery("select count(m) from Member m where m.email = :email and m.password = :password")
+                .setParameter("email", email)
+                .setParameter("password", password)
+                .getSingleResult();
+
+
+        return count > 0;
     }
 
 
