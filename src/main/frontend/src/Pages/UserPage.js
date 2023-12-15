@@ -1,4 +1,5 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 const UserPage = () => {
     const [showChange, setShowChange] = useState(false);
@@ -7,14 +8,27 @@ const UserPage = () => {
     const [newPassword, setNewPassword] = useState('');
     const [newPasswordCheck, setNewPasswordCheck] = useState('');
 
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (newPassword !== newPasswordCheck) {
             alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-        }else {
+        } else {
             //axios 현재 비밀번호 일치 확인
         }
     }
+
+    useEffect(() => {
+        axios.get('api/members/info').then((res) => { // get으로 가져옴
+            setName(res.data.name);
+            setEmail(res.data.email);
+        }).catch(e=>{ // 못가져 왔을 경우 예외처리
+
+        })
+    }, []);
 
     const show = () => {
         if (!showChange) {
@@ -68,8 +82,8 @@ const UserPage = () => {
     return (
         <div className="container-common">
             <div>
-                <h1>김치수</h1>
-                <h3>chisuzzang@naver.com</h3>
+                <h1>{name}</h1>
+                <h3>{email}</h3>
                 {show()}
             </div>
         </div>
