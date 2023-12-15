@@ -8,8 +8,12 @@ const authSlice = createSlice({ //createSlice를 통해 state를 정의
     name: 'auth',
     initialState,
     reducers: { // state를 변경하는 함수가 들어감
+        loginF:(state, action) =>{
+            const token = action.payload;
+            localStorage.setItem('isLoggedIn', token); // 로컬스토리지에 로그인 되었다고 저장
+            state.isLoggedIn = true;
+        },
         login:(state) =>{
-            localStorage.setItem('isLoggedIn', 'yes'); // 로컬스토리지에 로그인 되었다고 저장
             state.isLoggedIn = true;
         },
         logout:(state)=>{
@@ -19,6 +23,6 @@ const authSlice = createSlice({ //createSlice를 통해 state를 정의
     }
 })
 
-export const {login, logout } = authSlice.actions;
+export const {loginF, login, logout } = authSlice.actions;
 
 export default authSlice.reducer;

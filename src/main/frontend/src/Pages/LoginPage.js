@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {login} from "../store/authSlice";
+import {loginF} from "../store/authSlice";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
@@ -24,9 +24,10 @@ const LoginPage = () => {
     const handleLoginSubmit = async (e) => {
         e.preventDefault(); // onSubmit 기본동작(새로고침 등) 방지
         const res = await axios.post('/api/members/login', {email: loginEmail, password: loginPassword});
+        console.log(res.data.data.token.toString());
         if (res.data.result) {
             setLoginCheck(false); // p태그 제거
-            dispatch(login()); // 로그인
+            dispatch(loginF(res.data.data.token.toString())); // 로그인
             navigate('/project'); // 프로젝트 페이지로 이동
         } else { // 로그인 실패
             setLoginCheck(true); // 아이디 비번 잘못된 입력 p태그 보여줌
@@ -42,7 +43,6 @@ const LoginPage = () => {
                 setSignupEmailCheck(false); // 이메일 중복 p태그 제거
                 const res = await axios.post('/api/members/signUp', {name, email, password});
                 if (res.status === 200 && res.data.result) { // 회원가입 성공
-                    dispatch(login());
                     navigate('/login');
                     window.location.reload();
                 } else { // 회원가입 실패
