@@ -96,7 +96,7 @@ const NavBar = () => {
                 <div className="nav-box-container">
                     <div
                         onClick={() => {
-                            navigate('/member/info');
+                            navigate('/members/info');
                             dispatch(hide())
                         }}
                     >
