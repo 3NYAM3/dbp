@@ -8,7 +8,7 @@ const Project = () => {
             <List isProject={true}/>
             <div
                 className="project-add"
-                onClick={() => navigate('/create/project')}
+                onClick={() => navigate('/project/create')}
                 style={{
                     fontFamily:"Arial"
                 }}

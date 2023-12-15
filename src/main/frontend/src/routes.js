@@ -32,7 +32,7 @@ const routes = [
     },
     {
         auth: true,
-        path: '/create/project',
+        path: '/project/create',
         element: <CreateProjectPage/>
     },
     {
