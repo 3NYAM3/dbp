@@ -27,7 +27,7 @@ const routes = [
         element: <LoginPage/>
     },
     {
-        path: '/user',
+        path: '/member/info',
         element: <UserPage/>
     },
     {
