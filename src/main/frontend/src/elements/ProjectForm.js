@@ -9,7 +9,7 @@ const ProjectForm = ({editing}) => {
     const [type, setType] = useState('');
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
-    const [memberList, setMamberList] = useState([]);
+    const [memberList, setMemberList] = useState([]);
 
     useEffect(() => {
         //수정 페이지 일 때 받아와야함

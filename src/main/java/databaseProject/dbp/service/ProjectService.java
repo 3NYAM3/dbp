@@ -84,10 +84,11 @@ public class ProjectService {
                     Member invitedMember = memberRepository.findByEmail(memberEmail);
                     if (invitedMember != null) {
                         project.getMembers().add(invitedMember);
-                        project.getMembers().add(leader);
+
                     }
                 }
             }
+            project.getMembers().add(leader);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseDto.setFailed("failed");

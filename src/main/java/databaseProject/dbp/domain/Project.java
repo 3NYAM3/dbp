@@ -1,6 +1,8 @@
 package databaseProject.dbp.domain;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,7 @@ import java.util.Set;
 @Entity
 @Getter @Setter
 public class Project {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Long projectId;
 
@@ -29,6 +31,7 @@ public class Project {
     @JoinTable(name = "member_project",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "member_id"))
+    @JsonManagedReference
     private Set<Member> members = new HashSet<>();
 
     @OneToMany(mappedBy = "project")

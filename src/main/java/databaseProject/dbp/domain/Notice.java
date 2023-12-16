@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Notice {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notice_id")
     private Long noticeId;
 

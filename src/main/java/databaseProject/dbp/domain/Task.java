@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Task {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
     private Long TaskId;
 
