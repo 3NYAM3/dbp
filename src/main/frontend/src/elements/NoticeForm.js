@@ -5,13 +5,21 @@ import {useNavigate} from "react-router-dom";
 const NoticeForm = ({editing}) => {
     const [content, setContent] = useState('');
     const navigate = useNavigate();
+    const [title, setTitle] = useState('')
 
     return (
         <div className="container-common">
             <div>
-                <h1>공지사항 {editing?'수정':'등록'}</h1>
+                <h1>글 {editing ? '수정' : '쓰기'}</h1>
+                <input
+                    placeholder="제목"
+                    value={title}
+                    onChange={(e) => {
+                        setTitle(e.target.value)
+                    }}
+                /><br/><br/>
                 <textarea
-                    placeholder="공지사항 입력"
+                    placeholder="내용"
                     value={content}
                     onChange={(e) => {
                         setContent(e.target.value);
@@ -19,9 +27,9 @@ const NoticeForm = ({editing}) => {
                     rows="20"
                 />
                 <br/><br/>
-                <button className="ok-common">{editing?'수정':'등록'}</button>
+                <button className="ok-common">{editing ? '수정' : '등록'}</button>
                 <br/><br/>
-                <button className="cancel-common" onClick={()=>navigate('/project/dashboard')}>취소</button>
+                <button className="cancel-common" onClick={() => navigate('/project/dashboard')}>취소</button>
             </div>
         </div>
     )

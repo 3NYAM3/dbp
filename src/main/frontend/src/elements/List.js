@@ -95,8 +95,8 @@ const List = ({isProject, isDashboard, isTask}) => {
                     </>
                     : isDashboard ?
                         <>
+                            <div>제목</div>
                             <div>작성자</div>
-                            <div>내용</div>
                             <div>작성일</div>
                         </>
                         : isTask ?

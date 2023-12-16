@@ -38,12 +38,12 @@ const routes = [
     },
     {
         auth: true,
-        path: '/create/notice',
+        path: '/project/dashboard/create',
         element: <CreateNoticePage/>
     },
     {
         auth: true,
-        path: '/create/task',
+        path: '/project/task/create',
         element: <CreateTaskPage/>
     },
     {

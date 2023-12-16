@@ -8,7 +8,7 @@ const ProjectDashboardPage = () => {
             <List isDashboard={true}/>
             <div
                 className="project-add"
-                onClick={() => navigate('/create/notice')}
+                onClick={() => navigate('/project/dashboard/create')}
                 style={{
                     fontFamily:"Arial"
                 }}

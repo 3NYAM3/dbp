@@ -9,7 +9,7 @@ const ProjectTaskPage = () =>{
             <List isTask={true}/>
             <div
                 className="project-add"
-                onClick={() => navigate('/create/task')}
+                onClick={() => navigate('/project/task/create')}
                 style={{
                     fontFamily:"Arial"
                 }}
