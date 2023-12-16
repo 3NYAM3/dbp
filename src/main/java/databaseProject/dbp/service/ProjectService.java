@@ -114,5 +114,26 @@ public class ProjectService {
     }
 
 
+    public ResponseDto<?> checkLeaderId(String loggedInEmail, Long projectId) {
+        Project project = null;
+        String email;
+        try{
+            project = projectRepository.findOne(projectId);
+            if (project==null) return ResponseDto.setFailed("failed");
 
+            email = memberRepository.findOne(project.getLeaderId()).getEmail();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+
+        if(!email.equals(loggedInEmail)){
+            return ResponseDto.setFailed("not leader");
+        }
+
+
+
+        return ResponseDto.setSuccessNotIncludeData("Success");
+    }
 }

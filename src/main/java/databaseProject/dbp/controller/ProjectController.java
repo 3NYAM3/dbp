@@ -35,12 +35,12 @@ public class ProjectController {
 
 
 
-//    @GetMapping("/mg")
-//    public ResponseDto findLeaderId(@AuthenticationPrincipal String email){
-//        System.out.println(email);
-//        ResponseDto<?> result = projectService.checkLeaderId(email);
-//        return result;
-//    }
+    @GetMapping("/pm/{projectId}")
+    public ResponseDto findLeaderId(@AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
+        System.out.println(email);
+        ResponseDto<?> result = projectService.checkLeaderId(email, projectId);
+        return result;
+    }
 
 
     @PostMapping("/create")
