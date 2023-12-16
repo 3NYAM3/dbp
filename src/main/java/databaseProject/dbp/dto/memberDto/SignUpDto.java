@@ -1,4 +1,4 @@
-package databaseProject.dbp.dto;
+package databaseProject.dbp.dto.memberDto;
 
 
 import lombok.*;

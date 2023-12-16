@@ -27,6 +27,16 @@ public class ProjectRepository {
                 .getResultList();
     }
 
+    public List<Project> findByMemberEmail(String email){
+        return em.createQuery(
+                "select p from Project p " +
+                        "join p.members m " +
+                        "where m.email = :email",
+                Project.class)
+                .setParameter("email",email)
+                .getResultList();
+    }
+
 
 
 

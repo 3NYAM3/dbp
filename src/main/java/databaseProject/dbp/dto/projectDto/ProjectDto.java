@@ -1,4 +1,4 @@
-package databaseProject.dbp.dto;
+package databaseProject.dbp.dto.projectDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoggedInMemberDto {
-    private String email;
-    private String name;
-
+public class ProjectDto {
+    private String title;
+    private String type;
+    private String leaderEmail;
 }

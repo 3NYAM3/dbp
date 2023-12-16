@@ -2,22 +2,24 @@ package databaseProject.dbp.controller;
 
 
 import databaseProject.dbp.controller.dto.ResponseDto;
-import databaseProject.dbp.dto.LoggedInMemberDto;
-import databaseProject.dbp.dto.LoginDto;
-import databaseProject.dbp.dto.LoginResponseDto;
-import databaseProject.dbp.dto.SignUpDto;
+import databaseProject.dbp.dto.memberDto.LoggedInMemberDto;
+import databaseProject.dbp.dto.memberDto.LoginDto;
+import databaseProject.dbp.dto.memberDto.LoginResponseDto;
+import databaseProject.dbp.dto.memberDto.SignUpDto;
 import databaseProject.dbp.service.MemberService;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/members")
+@RequiredArgsConstructor
 public class MemberController {
 
-    @Autowired
-    MemberService memberService;
+
+    private final MemberService memberService;
 
     @PostMapping("/signUp")
     public ResponseDto<?> signUp (@RequestBody SignUpDto requestBody){

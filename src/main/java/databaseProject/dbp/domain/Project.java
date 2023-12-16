@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,9 +21,9 @@ public class Project {
 
     private Long leaderId;
 
-    private String startDate;
+    private LocalDate startDate;
 
-    private String lastDate;
+    private LocalDate lastDate;
 
     @ManyToMany
     @JoinTable(name = "member_project",
@@ -37,7 +38,7 @@ public class Project {
     private Set<Notice> notices = new HashSet<>();
 
     //==생성 메서드==//
-    public static Project createProject(String projectName, String type, String startDate, String lastDate, Long memberId){
+    public static Project createProject(String projectName, String type, LocalDate startDate, LocalDate lastDate, Long memberId){
         Project project = new Project();
         project.setProjectName(projectName);
         project.setType(type);
