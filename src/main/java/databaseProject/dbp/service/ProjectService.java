@@ -24,35 +24,6 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
 
-
-    public ResponseDto<List<ProjectDto>> getProjectList(String email) {
-        List<Project> projects = null;
-
-        try {
-            projects = projectRepository.findByMemberEmail(email);
-            if (projects == null) return ResponseDto.setFailed("project get failed");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseDto.setFailed("database error");
-        }
-
-        List<ProjectDto> projectDtoList = projects.stream()
-                .map(project -> {
-                    ProjectDto projectDto = new ProjectDto();
-                    projectDto.setTitle(project.getProjectName());
-                    projectDto.setType(project.getType());
-                    Member member = memberRepository.findOne(project.getLeaderId());
-                    projectDto.setLeaderEmail(member.getEmail());
-                    return projectDto;
-                })
-                .collect(Collectors.toList());
-
-
-        return ResponseDto.setSuccess("Success", projectDtoList);
-    }
-
-
     @Transactional
     public ResponseDto<?> createProject(CreateProjectDto createProjectDto, String leaderEmail) {
         String projectName = createProjectDto.getProjectName();
@@ -97,4 +68,51 @@ public class ProjectService {
 
         return ResponseDto.setSuccess("Success", null);
     }
+
+    public ResponseDto<List<ProjectDto>> getProjectList(String email) {
+        List<Project> projects = null;
+
+        try {
+            projects = projectRepository.findByMemberEmail(email);
+            if (projects == null) return ResponseDto.setFailed("project get failed");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+
+        List<ProjectDto> projectDtoList = projects.stream()
+                .map(project -> {
+                    ProjectDto projectDto = new ProjectDto();
+                    projectDto.setProjectId(project.getProjectId());
+                    projectDto.setTitle(project.getProjectName());
+                    projectDto.setType(project.getType());
+                    Member member = memberRepository.findOne(project.getLeaderId());
+                    projectDto.setLeaderEmail(member.getEmail());
+                    return projectDto;
+                })
+                .collect(Collectors.toList());
+
+
+        return ResponseDto.setSuccess("Success", projectDtoList);
+    }
+
+    public ResponseDto<?> getProject(Long id){
+        Project project = null;
+
+        try{
+            project = projectRepository.findOne(id);
+            if(project==null){
+                return ResponseDto.setFailed("failed");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+
+        return ResponseDto.setSuccess("Success", project);
+    }
+
+
+
 }

@@ -20,12 +20,33 @@ public class ProjectController {
     private final MemberService memberService;
 
 
+    /**
+     * 프로젝트 리스트 불러오기
+     * @param email
+     * @return List{이름, 유형, 팀원이메일}
+     */
     @GetMapping("/")
     public ResponseDto<?> getProjectList(@AuthenticationPrincipal String email){
         System.out.println(email);
         ResponseDto<List<ProjectDto>> result = projectService.getProjectList(email);
         return result;
     }
+
+    @GetMapping("/{projectId}")
+    public ResponseDto<?> getProjectDetail(@PathVariable("projectId") Long projectId){
+        System.out.println(projectId);
+        ResponseDto<?> result = projectService.getProject(projectId);
+        return result;
+    }
+
+
+//    @GetMapping("/mg")
+//    public ResponseDto findLeaderId(@AuthenticationPrincipal String email){
+//        System.out.println(email);
+//        ResponseDto<?> result = projectService.checkLeaderId(email);
+//        return result;
+//    }
+
 
     @PostMapping("/create")
     public ResponseDto<?> createProject(@RequestBody CreateProjectDto requestBody, @AuthenticationPrincipal String leaderEmail){
@@ -41,5 +62,6 @@ public class ProjectController {
         ResponseDto<?> result = memberService.findMember(email);
         return result;
     }
+
 
 }
