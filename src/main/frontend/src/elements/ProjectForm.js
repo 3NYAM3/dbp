@@ -10,14 +10,18 @@ const ProjectForm = ({editing}) => {
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [memberList, setMemberList] = useState([]);
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         //수정 페이지 일 때 받아와야함
-        // axios.get().then((res)=>{
-        // setTitle(res.title);
-        // setType(res.type);
-        // setStart(res.start);
-        // setEnd(res.end);
+        // axios.get().then((res) => {
+        //     setTitle(res.title);
+        //     setType(res.type);
+        //     setStart(res.start);
+        //     setEnd(res.end);
+        //     setMemberList(res.data);
+        // }).catch(e => {
+        //     console.log('수정페이지 받아오지 못함');
         // })
     }, []);
 
@@ -122,33 +126,92 @@ const ProjectForm = ({editing}) => {
                         borderRadius: "10px"
                     }}>
                         <h3 style={{textAlign: "center"}}>회원명단</h3>
-                        {editing && <div style={{ // 수정 페이지 일 때 회원명단 표시
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: "space-between"
-                        }}
-                        >
-                            <p>test</p>
-                            <button style={{width: "50px"}}>제거</button>
-                        </div>}
+
+                        {memberList.map((member) => (
+                            <div key={member} style={{ // 수정 페이지 일 때 회원명단 표시
+                                width: '100%',
+                                height: '30px',
+                                display: 'flex',
+                                justifyContent: "space-between"
+                            }}
+                            >
+                                <p style={{
+                                    margin: "0px",
+                                    textAlign: "center",
+                                    width: "100%",
+                                    height: "30px"
+                                }}>{member}</p>
+                                <button
+                                    style={{
+                                        boxSizing: "border-box",
+                                        width: "27px",
+                                        height: "27px",
+                                        margin: "1.5px",
+                                        backgroundColor: "#EF4040CC",
+                                        color: "#FFFFFF",
+                                        border: "none"
+                                    }}
+                                    onClick={() => {
+                                        setMemberList(memberList.filter(memberList => memberList !== member));
+                                    }}
+                                >
+                                    X
+                                </button>
+                            </div>
+                        ))}
+
                         <div style={{
                             width: '100%',
                             display: 'flex',
                             justifyContent: "space-between"
                         }}>
-                            <input id='test' placeholder="추가할 회원 이메일 입력"/>
+                            <input
+                                id='inputEmail'
+                                placeholder="추가할 회원 이메일 입력"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                             <button
-                                style={{width: "50px"}}
+                                style={{
+                                    width: "50px",
+                                    color: "#FFFFFF",
+                                    backgroundColor: "#7C93C3"
+                                }}
                                 type="button"
                                 onClick={() => {
-                                    // 추가할 회원의 이메일 확인
-                                    //axios.get
-                                    // document.getElementById('test').style.border = '1px solid red';
+
+                                    const inputEmail = document.getElementById('inputEmail');
+
+                                    // 이미 회원명단에 추가된 경우
+                                    if (email !== '') {
+                                        if (memberList.includes(email)) {
+                                            setEmail('');
+                                            inputEmail.style.border = '2px solid green';
+                                            inputEmail.placeholder = '이미 추가된 회원 입니다.';
+                                        } else { // 회원명단에 없는 경우
+                                            // 추가할 회원의 이메일 확인
+                                            //axios.get
+
+                                            // db에 이메일이 있을 경우
+                                            setMemberList([...memberList, email]);
+                                            setEmail('');
+                                            inputEmail.style.border = '1px solid black';
+                                            inputEmail.placeholder = '추가할 회원 이메일 입력';
+
+                                            // db에 이메일이 없을 경우
+                                            // setEmail('');
+                                            // inputEmail.style.border = '1px solid red';
+                                            // inputEmail.placeholder = '정확한 이메일을 입력해 주세요';
+                                        }
+                                    } else {
+                                            inputEmail.style.border = '2px solid blue';
+                                    }
+
+
                                 }}
                             >추가
                             </button>
                         </div>
-                        <p>test</p>
                     </div>
 
                     <br/><br/>
