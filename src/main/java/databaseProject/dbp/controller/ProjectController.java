@@ -28,6 +28,7 @@ public class ProjectController {
     @PostMapping("/create")
     public ResponseDto<?> createProject(@RequestBody CreateProjectDto requestBody, @AuthenticationPrincipal String leaderEmail){
         System.out.println(requestBody.toString());
+        System.out.println(leaderEmail);
         ResponseDto<?> result = projectService.createProject(requestBody, leaderEmail);
         return result;
     }

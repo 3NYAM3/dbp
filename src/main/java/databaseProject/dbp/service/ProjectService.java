@@ -84,6 +84,7 @@ public class ProjectService {
                     Member invitedMember = memberRepository.findByEmail(memberEmail);
                     if (invitedMember != null) {
                         project.getMembers().add(invitedMember);
+                        project.getMembers().add(leader);
                     }
                 }
             }
