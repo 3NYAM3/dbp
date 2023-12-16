@@ -1,11 +1,44 @@
-import {useState} from "react";
-import { useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import ListIndex from "./ListIndex";
 import propTypes from "prop-types";
+import axios from "axios";
 
 const List = ({isProject, isDashboard, isTask}) => {
     const navigate = useNavigate();
     const [searchText, setSearchText] = useState('');
+    const [dataList, setDataList] = useState([]);
+
+
+    useEffect(() => {
+        if (isProject) {
+            axios.get('/api/project/', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
+                .then((res) => {
+                    setDataList(res.data.data)
+                })
+                .catch(e => {
+                    console.log('유저 정보 가져오지 못함');
+                });
+        }
+    }, []);
+
+    const renderProject = () => {
+        return dataList.map((data, index) => {
+            return (
+                <ListIndex
+                    key={index}
+                    isProject={true}
+                    project={{
+                        title: data.title,
+                        kind: data.type,
+                        leader: data.leaderEmail
+                    }}
+                    onClick={() => navigate('/project/dashboard')}
+                />
+            )
+        })
+    }
+
     const onSearch = () => {
         // 검색 로직 구현
     }
@@ -60,16 +93,7 @@ const List = ({isProject, isDashboard, isTask}) => {
                             : ""
                 }
             </div>
-            {isProject ?
-                <ListIndex
-                    isProject={true}
-                    project={{
-                        title: "제목",
-                        kind: "유형",
-                        leader: "리더"
-                    }}
-                    onClick={() => navigate('/project/dashboard')}
-                />
+            {isProject ? renderProject()
                 : isDashboard ?
                     <ListIndex
                         isDashboard={true}
@@ -85,10 +109,10 @@ const List = ({isProject, isDashboard, isTask}) => {
                         <ListIndex
                             isTask={true}
                             task={{
-                                title:"응애",
-                                name:"정운",
-                                start:"231101",
-                                end:"231231"
+                                title: "응애",
+                                name: "정운",
+                                start: "231101",
+                                end: "231231"
                             }}
                             // onClick={() => navigate('/project/dashboard')}
                         />
