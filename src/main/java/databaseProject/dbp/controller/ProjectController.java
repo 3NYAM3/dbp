@@ -32,12 +32,7 @@ public class ProjectController {
         return result;
     }
 
-    @GetMapping("/{projectId}")
-    public ResponseDto<?> getProjectDetail(@PathVariable("projectId") Long projectId){
-        System.out.println(projectId);
-        ResponseDto<?> result = projectService.getProject(projectId);
-        return result;
-    }
+
 
 
 //    @GetMapping("/mg")

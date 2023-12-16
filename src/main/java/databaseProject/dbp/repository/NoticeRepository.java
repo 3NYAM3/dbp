@@ -17,8 +17,10 @@ public class NoticeRepository {
         em.persist(notice);
     }
 
-    public List<Notice> findAll(){
-        return em.createQuery("select n from Notice n", Notice.class)
+    public List<Notice> findNoticesByProjectId(Long projectId) {
+        String jpql = "SELECT n FROM Notice n WHERE n.project.projectId = :projectId";
+        return em.createQuery(jpql, Notice.class)
+                .setParameter("projectId", projectId)
                 .getResultList();
     }
 }
