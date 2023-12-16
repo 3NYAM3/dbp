@@ -4,14 +4,29 @@ import {logout} from "../store/authSlice";
 import {hide, show} from "../store/boxSlice";
 import logo from '../images/logo.png';
 import user from '../images/user.png';
+import axios from "axios";
+import {useEffect, useState} from "react";
 
 const NavBar = () => {
     const location = useLocation();
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const showBox = useSelector(state => state.box.showBox);
+    const num = useSelector(state => state.num.projectNum);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [flag, setFlag] = useState(false);
     // const [render, setRender] = useState(true);
+
+    useEffect(() => {
+        axios.get(`/api/project/pm/${localStorage.getItem('projectNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
+            .then((res) => {
+                setFlag(res.data.result);
+            })
+            .catch(e => {
+                console.log('유저 정보 가져오지 못함');
+            });
+    }, [flag]);
+
     return (
         <nav>
             <div className="nav-container" onClick={() => {
@@ -58,7 +73,7 @@ const NavBar = () => {
                                 타임라인
                             </NavLink>
                         </li>
-                        <li>
+                        {flag&&<li>
                             <NavLink
                                 className={({isActive}) => "link" + (isActive ? " activate" : "")}
                                 aria-current="page"
@@ -66,7 +81,7 @@ const NavBar = () => {
                             >
                                 관리
                             </NavLink>
-                        </li>
+                        </li>}
                     </ul>}
                 {isLoggedIn && <div
                     style={{

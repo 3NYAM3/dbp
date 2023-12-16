@@ -10,6 +10,7 @@ const numSlice = createSlice({ //createSlice를 통해 state를 정의
     reducers: { // state를 변경하는 함수가 들어감
         setProjectNum:(state, action) =>{
             state.projectNum = action.payload;
+            localStorage.setItem('projectNum', action.payload);
         },
     }
 })
