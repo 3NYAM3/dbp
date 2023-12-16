@@ -1,7 +1,17 @@
 import {createSlice} from "@reduxjs/toolkit";
 
+const localStorageLoggedIn = () =>{
+    try {
+        if (localStorage.getItem('isLoggedIn')){
+            return true
+        }else return false
+    }catch{
+        return false
+    }
+}
+
 const initialState = {
-    isLoggedIn: false // 테스트를 위해 true로 지정
+    isLoggedIn: localStorageLoggedIn()
 }
 
 const authSlice = createSlice({ //createSlice를 통해 state를 정의

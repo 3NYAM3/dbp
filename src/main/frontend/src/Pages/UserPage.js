@@ -22,11 +22,11 @@ const UserPage = () => {
     }
 
     useEffect(() => {
-        axios.get('/api/members/info', {headers:{Authorization: `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => { // get으로 가져옴
+        axios.get('/api/members/info', {headers:{'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => { // get으로 가져옴
             setName(res.data.data.name);
             setEmail(res.data.data.email);
         }).catch(e=>{ // 못가져 왔을 경우 예외처리
-
+            console.log('유저 정보 가져오지 못함')
         })
     }, []);
 

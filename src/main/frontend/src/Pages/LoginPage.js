@@ -24,7 +24,6 @@ const LoginPage = () => {
     const handleLoginSubmit = async (e) => {
         e.preventDefault(); // onSubmit 기본동작(새로고침 등) 방지
         const res = await axios.post('/api/members/login', {email: loginEmail, password: loginPassword});
-        console.log(res.data.data.token.toString());
         if (res.data.result) {
             setLoginCheck(false); // p태그 제거
             dispatch(loginF(res.data.data.token.toString())); // 로그인

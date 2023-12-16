@@ -27,6 +27,7 @@ const routes = [
         element: <LoginPage/>
     },
     {
+        auth: true,
         path: '/members/info',
         element: <UserPage/>
     },
