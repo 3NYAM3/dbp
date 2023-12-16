@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import propTypes from "prop-types";
 import axios from "axios";
+import {useSelector} from "react-redux";
 
 const ProjectForm = ({editing}) => {
     const navigate = useNavigate();
@@ -11,9 +12,11 @@ const ProjectForm = ({editing}) => {
     const [end, setEnd] = useState('');
     const [memberList, setMemberList] = useState([]);
     const [email, setEmail] = useState('');
+    const num = useSelector(state => state.num.projectNum);
 
     useEffect(() => {
-        //수정 페이지 일 때 받아와야함
+        // 수정 페이지 일 때 받아와야함
+        // console.log(num);
         // axios.get().then((res) => {
         //     setTitle(res.title);
         //     setType(res.type);

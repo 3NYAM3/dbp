@@ -3,22 +3,33 @@ import {useNavigate} from "react-router-dom";
 import ListIndex from "./ListIndex";
 import propTypes from "prop-types";
 import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {setProjectNum} from "../store/numSlice";
 
 const List = ({isProject, isDashboard, isTask}) => {
     const navigate = useNavigate();
     const [searchText, setSearchText] = useState('');
     const [dataList, setDataList] = useState([]);
+    const dispatch = useDispatch();
+    const num = useSelector(state => state.num.projectNum);
+    const [projectName, setProjectName] = useState('');
 
 
     useEffect(() => {
         if (isProject) {
             axios.get('/api/project/', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
                 .then((res) => {
-                    setDataList(res.data.data)
+                    setDataList(res.data.data);
                 })
                 .catch(e => {
                     console.log('유저 정보 가져오지 못함');
                 });
+        } else if (isDashboard) {
+            axios.get(`/api/project/dashboard/${num}`).then((res) => {
+                setProjectName(res.data.data.title); // 데이터 위치에 따라 변경해야할지도
+            }).catch(e => {
+                console.log('대시보드 정보 가져오지 못함');
+            });
         }
     }, []);
 
@@ -26,14 +37,17 @@ const List = ({isProject, isDashboard, isTask}) => {
         return dataList.map((data, index) => {
             return (
                 <ListIndex
-                    key={index}
+                    key={data.projectId} // 프로젝트 넘버로 변경해줘야함
                     isProject={true}
                     project={{
                         title: data.title,
                         kind: data.type,
                         leader: data.leaderEmail
                     }}
-                    onClick={() => navigate('/project/dashboard')}
+                    onClick={() => {
+                        navigate(`/project/dashboard`)
+                        dispatch(setProjectNum(data.projectId)); // 프로젝트 받아온 번호로 지정
+                    }}
                 />
             )
         })
@@ -58,8 +72,8 @@ const List = ({isProject, isDashboard, isTask}) => {
             }
             {isDashboard &&
                 <div className="project-search">
-                    <h2>프로젝트명</h2>
-                    <p>23.11.30 ~ 23.12.31</p>
+                    <h2>{projectName}</h2>
+                    <p>나알짜아~</p>
                 </div>
             }
             <br/>
