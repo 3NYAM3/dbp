@@ -190,21 +190,25 @@ const ProjectForm = ({editing}) => {
                                             inputEmail.placeholder = '이미 추가된 회원 입니다.';
                                         } else { // 회원명단에 없는 경우
                                             // 추가할 회원의 이메일 확인
-                                            //axios.get
+                                            axios.get(`/create/${email}`).then((res) => {
+                                                if (res.data.result) { // db에 이메일이 있을 경우
+                                                    setMemberList([...memberList, email]);
+                                                    setEmail('');
+                                                    inputEmail.style.border = '1px solid black';
+                                                    inputEmail.placeholder = '추가할 회원 이메일 입력';
+                                                } else { // db에 이메일이 없을 경우
+                                                    setEmail('');
+                                                    inputEmail.style.border = '1px solid red';
+                                                    inputEmail.placeholder = '정확한 이메일을 입력해 주세요';
+                                                }
+                                            }).catch(e => { // 못가져 왔을 경우 예외처리
+                                                console.log('유저 정보 요청 실패')
+                                            })
 
-                                            // db에 이메일이 있을 경우
-                                            setMemberList([...memberList, email]);
-                                            setEmail('');
-                                            inputEmail.style.border = '1px solid black';
-                                            inputEmail.placeholder = '추가할 회원 이메일 입력';
 
-                                            // db에 이메일이 없을 경우
-                                            // setEmail('');
-                                            // inputEmail.style.border = '1px solid red';
-                                            // inputEmail.placeholder = '정확한 이메일을 입력해 주세요';
                                         }
                                     } else {
-                                            inputEmail.style.border = '2px solid blue';
+                                        inputEmail.style.border = '2px solid blue';
                                     }
 
 
