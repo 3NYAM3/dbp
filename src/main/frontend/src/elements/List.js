@@ -13,6 +13,7 @@ const List = ({isProject, isDashboard, isTask}) => {
     const dispatch = useDispatch();
     const num = useSelector(state => state.num.projectNum);
     const [projectName, setProjectName] = useState('');
+    const [projectDate, setProjectDate] = useState('');
 
 
     useEffect(() => {
@@ -26,18 +27,19 @@ const List = ({isProject, isDashboard, isTask}) => {
                 });
         } else if (isDashboard) {
             axios.get(`/api/project/dashboard/${num}`).then((res) => {
-                setProjectName(res.data.data.title); // 데이터 위치에 따라 변경해야할지도
-            }).catch(e => {
+                setProjectName(res.data.data.projectName);
+                setProjectDate(res.data.data.startDate+" ~ "+res.data.data.lastDate);
+            // }).catch(e => {
                 console.log('대시보드 정보 가져오지 못함');
             });
         }
     }, []);
 
     const renderProject = () => {
-        return dataList.map((data, index) => {
+        return dataList.map((data) => {
             return (
                 <ListIndex
-                    key={data.projectId} // 프로젝트 넘버로 변경해줘야함
+                    key={data.projectId}
                     isProject={true}
                     project={{
                         title: data.title,
@@ -73,7 +75,7 @@ const List = ({isProject, isDashboard, isTask}) => {
             {isDashboard &&
                 <div className="project-search">
                     <h2>{projectName}</h2>
-                    <p>나알짜아~</p>
+                    <p>{projectDate}</p>
                 </div>
             }
             <br/>
