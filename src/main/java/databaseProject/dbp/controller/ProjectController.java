@@ -3,6 +3,7 @@ package databaseProject.dbp.controller;
 import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.dto.projectDto.CreateProjectDto;
 import databaseProject.dbp.dto.projectDto.ProjectDto;
+import databaseProject.dbp.service.MemberService;
 import databaseProject.dbp.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final MemberService memberService;
 
 
     @GetMapping("/")
@@ -30,6 +32,13 @@ public class ProjectController {
         System.out.println(requestBody.toString());
         System.out.println(leaderEmail);
         ResponseDto<?> result = projectService.createProject(requestBody, leaderEmail);
+        return result;
+    }
+
+    @GetMapping("/create/{email}")
+    public ResponseDto<?> findAddMember(@PathVariable("email") String email){
+        System.out.println(email);
+        ResponseDto<?> result = memberService.findMember(email);
         return result;
     }
 

@@ -190,7 +190,7 @@ const ProjectForm = ({editing}) => {
                                             inputEmail.placeholder = '이미 추가된 회원 입니다.';
                                         } else { // 회원명단에 없는 경우
                                             // 추가할 회원의 이메일 확인
-                                            axios.get(`/create/${email}`).then((res) => {
+                                            axios.get(`/api/project/create/${email}`).then((res) => {
                                                 if (res.data.result) { // db에 이메일이 있을 경우
                                                     setMemberList([...memberList, email]);
                                                     setEmail('');

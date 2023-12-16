@@ -92,6 +92,7 @@ public class MemberService {
             if(member==null) return ResponseDto.setFailed("info get failed");
 
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseDto.setFailed("Database Error");
         }
 
@@ -99,6 +100,18 @@ public class MemberService {
 
         LoggedInMemberDto getLoginMemberResponseDto = new LoggedInMemberDto(email, name);
         return ResponseDto.setSuccess("Success", getLoginMemberResponseDto);
+    }
+
+    public ResponseDto<?> findMember(String email){
+        Member member = null;
+        try {
+            member = memberRepository.findByEmail(email);
+            if(member==null) return ResponseDto.setFailed("info get failed");
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+        return  ResponseDto.setSuccessNotIncludeData("Success");
     }
 
     public List<Member> findMembers() {
