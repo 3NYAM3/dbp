@@ -37,6 +37,16 @@ public class ProjectRepository {
                 .getResultList();
     }
 
+    public void updateLeader(Long leaderId){
+        Project project = em.createQuery("select p from Project p where p.leaderId=:leaderId", Project.class)
+                .setParameter("leaderId", leaderId)
+                .getSingleResult();
+        if (project != null) {
+            project.setLeaderId(leaderId);
+            em.merge(project);
+        }
+    }
+
 
 
 

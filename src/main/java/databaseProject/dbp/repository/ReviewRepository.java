@@ -29,6 +29,12 @@ public class ReviewRepository {
 
     }
 
+    public List<Review> findByMemberId(Long memberId){
+        return em.createQuery("select r from Review r where r.member.memberId=:memberId", Review.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
+    }
+
 
 
     public void deleteReview(Review review){

@@ -78,7 +78,7 @@ public class ProjectController {
      */
     @DeleteMapping("/withdrawal/{projectId}")
     public ResponseDto<?> projectWithdrawal(@AuthenticationPrincipal String email, @PathVariable Long projectId){
-        ResponseDto<?> result = projectService.withdrawal(email, projectId);
+        ResponseDto<?> result = projectService.withdrawProject(email, projectId);
         return result;
     }
 

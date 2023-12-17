@@ -3,11 +3,14 @@ package databaseProject.dbp.service;
 import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.Member;
 import databaseProject.dbp.domain.Project;
+import databaseProject.dbp.domain.Review;
 import databaseProject.dbp.dto.memberDto.LoggedInMemberDto;
 import databaseProject.dbp.dto.memberDto.LoginDto;
 import databaseProject.dbp.dto.memberDto.LoginResponseDto;
 import databaseProject.dbp.dto.memberDto.SignUpDto;
 import databaseProject.dbp.repository.MemberRepository;
+import databaseProject.dbp.repository.ProjectRepository;
+import databaseProject.dbp.repository.ReviewRepository;
 import databaseProject.dbp.security.TokenProvider;
 //import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 @Service
@@ -28,6 +32,8 @@ import java.util.Set;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final ProjectRepository projectRepository;
+    private final ReviewRepository reviewRepository;
 
     private final TokenProvider tokenProvider;
 
@@ -130,22 +136,40 @@ public class MemberService {
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
-    }
-
-    public Member findById(Long memberId){
-        return memberRepository.findOne(memberId);
-    }
-
-    public Set<Project> findProjectByMemberId(Long memberId){
-        Member member = memberRepository.findOne(memberId);
-        return member.getProjects();
-    }
-
-
     public ResponseDto<?> withdrawMember(String email) {
+        Member member = memberRepository.findByEmail(email);
+        Set<Project> projects = member.getProjects();
+        List<Review> reviews = reviewRepository.findByMemberId(member.getMemberId());
+        try{
+            if(member== null||projects==null||reviews==null){
+                return ResponseDto.setFailed("member, project,reviews not found");
+            }
 
-        return null;
+            for(Project project : projects){
+                if(project.getLeaderId().equals(member.getMemberId())){
+                    assignNewLeader(project);
+                }
+                project.getMembers().remove(member);
+            }
+
+            for(Review review:reviews){
+                review.setMember(null);
+            }
+
+            memberRepository.delete(member);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+
+        return ResponseDto.setSuccessNotIncludeData("withdrawal successful");
+
+    }
+
+    private void assignNewLeader(Project project) {
+        Set<Member> members = project.getMembers();
+        if (!members.isEmpty()) {
+        }
     }
 }

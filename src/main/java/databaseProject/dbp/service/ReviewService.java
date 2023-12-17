@@ -47,7 +47,7 @@ public class ReviewService {
         reviewDto.setMemberId(member.getMemberId());
         reviewDto.setWriterName(member.getName());
         reviewDto.setContent(review.getContent());
-        reviewDto.setWritingTime(reviewDto.getWritingTime());
+        reviewDto.setWritingTime(review.getDateTime());
 
         return ResponseDto.setSuccess("Success", reviewDto);
 

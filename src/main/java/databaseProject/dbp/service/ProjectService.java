@@ -136,7 +136,7 @@ public class ProjectService {
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
-    public ResponseDto<?> withdrawal(String email, Long projectId) {
+    public ResponseDto<?> withdrawProject(String email, Long projectId) {
         Member member = memberRepository.findByEmail(email);
         Project project = projectRepository.findOne(projectId);
 
