@@ -16,6 +16,7 @@ import databaseProject.dbp.security.TokenProvider;
 //import org.springframework.security.core.userdetails.UserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,24 +41,23 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Transactional
-    public ResponseDto<?> join(SignUpDto dto){
+    public ResponseDto<?> join(SignUpDto dto) {
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
         Member member = Member.createMember(dto.getName(), dto.getEmail(), encodedPassword);
 
-        try{
-           if(validateDuplicateMember(member)){
-               return ResponseDto.setFailed("Existed Email");
-           }
-        }catch (Exception e){
+        try {
+            if (validateDuplicateMember(member)) {
+                return ResponseDto.setFailed("Existed Email");
+            }
+        } catch (Exception e) {
             return ResponseDto.setFailed("database Error");
         }
 
         memberRepository.save(member);
-        return ResponseDto.setSuccess("Sign Up Success",null);
+        return ResponseDto.setSuccess("Sign Up Success", null);
     }
-
 
 
     private boolean validateDuplicateMember(Member member) {
@@ -66,17 +66,17 @@ public class MemberService {
     }
 
     @Transactional
-    public ResponseDto<LoginResponseDto> login(LoginDto dto){
+    public ResponseDto<LoginResponseDto> login(LoginDto dto) {
         String dtoEmail = dto.getEmail();
         String dtoPassword = dto.getPassword();
 
         Member member = null;
-        try{
+        try {
             member = memberRepository.findByEmail(dtoEmail);
             if (member == null) return ResponseDto.setFailed("login failed");
             if (!passwordEncoder.matches(dtoPassword, member.getPassword()))
                 return ResponseDto.setFailed("login failed");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseDto.setFailed("Database error");
         }
         //member.setPassword("");
@@ -84,19 +84,19 @@ public class MemberService {
         String token = tokenProvider.create(dtoEmail);
         int exprTime = 3600000;
 
-        LoginResponseDto loginResponseDto = new LoginResponseDto(token,exprTime,member);
-        return ResponseDto.setSuccess("Success",loginResponseDto);
+        LoginResponseDto loginResponseDto = new LoginResponseDto(token, exprTime, member);
+        return ResponseDto.setSuccess("Success", loginResponseDto);
 
     }
 
-    public ResponseDto<LoggedInMemberDto> getLoginMember(String email){
+    public ResponseDto<LoggedInMemberDto> getLoginMember(String email) {
         Member member = null;
 
-        try{
+        try {
             member = memberRepository.findByEmail(email);
-            if(member==null) return ResponseDto.setFailed("info get failed");
+            if (member == null) return ResponseDto.setFailed("info get failed");
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("Database Error");
         }
@@ -107,27 +107,27 @@ public class MemberService {
         return ResponseDto.setSuccess("Success", getLoginMemberResponseDto);
     }
 
-    public ResponseDto<?> findMember(String email){
+    public ResponseDto<?> findMember(String email) {
         Member member = null;
         try {
             member = memberRepository.findByEmail(email);
-            if(member==null) return ResponseDto.setFailed("info get failed");
-        }catch(Exception e){
+            if (member == null) return ResponseDto.setFailed("info get failed");
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
-        return  ResponseDto.setSuccessNotIncludeData("Success");
+        return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
     @Transactional
-    public ResponseDto<?> updatePassword(String email, Map<String,String> password) {
+    public ResponseDto<?> updatePassword(String email, Map<String, String> password) {
         Member member = null;
-        try{
+        try {
             member = memberRepository.findByEmail(email);
-            if (member==null) return ResponseDto.setFailed("member null");
+            if (member == null) return ResponseDto.setFailed("member null");
             if (!passwordEncoder.matches(password.get("nowPassword"), member.getPassword()))
                 return ResponseDto.setFailed("password wrong");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseDto.setFailed("database error");
         }
 
@@ -136,29 +136,35 @@ public class MemberService {
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
+    @Transactional
     public ResponseDto<?> withdrawMember(String email) {
         Member member = memberRepository.findByEmail(email);
         Set<Project> projects = member.getProjects();
         List<Review> reviews = reviewRepository.findByMemberId(member.getMemberId());
-        try{
-            if(member== null||projects==null||reviews==null){
+        try {
+            if (member == null || projects == null || reviews == null) {
                 return ResponseDto.setFailed("member, project,reviews not found");
             }
-
-            for(Project project : projects){
-                if(project.getLeaderId().equals(member.getMemberId())){
-                    assignNewLeader(project);
+            Member leader=null;
+            for (Project project : projects) {
+                if (project.getLeaderId().equals(member.getMemberId())) {
+                     leader= assignNewLeader(project);
                 }
-                project.getMembers().remove(member);
+                if(leader==null){
+                    projectRepository.removeProject(project);
+                }else {
+                    project.getMembers().remove(member);
+                }
+
             }
 
-            for(Review review:reviews){
+            for (Review review : reviews) {
                 review.setMember(null);
             }
 
             memberRepository.delete(member);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -167,9 +173,14 @@ public class MemberService {
 
     }
 
-    private void assignNewLeader(Project project) {
+    private Member assignNewLeader(Project project) {
         Set<Member> members = project.getMembers();
-        if (!members.isEmpty()) {
+        if (members.size() == 1) {
+            return null;
         }
+        if (members.isEmpty()) {
+            return null;
+        }
+        return members.stream().skip(1).findFirst().orElse(null);
     }
 }

@@ -31,6 +31,17 @@ public class ProjectController {
         ResponseDto<List<ProjectDto>> result = projectService.getProjectList(email);
         return result;
     }
+    /**
+     * 대시보드와 타임라인, 관리에 쓸 프로젝트 정보 가져오기
+     * @param projectId
+     * @return
+     */
+    @GetMapping("/{projectId}")
+    public ResponseDto<?> getProjectDetail(@PathVariable("projectId") Long projectId){
+        System.out.println(projectId);
+        ResponseDto<?> result = projectService.getProject(projectId);
+        return result;
+    }
 
     /**
      * 관리탭을 위한 리더 아이디 가져오기

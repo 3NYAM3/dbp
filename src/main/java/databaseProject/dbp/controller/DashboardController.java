@@ -46,17 +46,7 @@ public class DashboardController {
         return result;
     }
 
-    /**
-     * 대시보드와 타임라인, 관리에 쓸 프로젝트 정보 가져오기
-     * @param projectId
-     * @return
-     */
-    @GetMapping("/{projectId}")
-    public ResponseDto<?> getProjectDetail(@PathVariable("projectId") Long projectId){
-        System.out.println(projectId);
-        ResponseDto<?> result = projectService.getProject(projectId);
-        return result;
-    }
+
 
     /**
      * 게시물 상세 페이지 정보 가져오기

@@ -53,6 +53,7 @@ public class ReviewService {
 
     }
 
+    @Transactional
     public ResponseDto<?> deleteReview(String email, Long reviewId) {
         Member member = memberRepository.findByEmail(email);
         Review review = reviewRepository.findOne(reviewId);
