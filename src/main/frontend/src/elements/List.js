@@ -37,7 +37,6 @@ const List = ({isProject, isDashboard, isTask}) => {
                 });
         } else if (isDashboard) {
             axios.get(`/api/project/${localStorage.getItem('projectNum')}`).then((res) => {
-                console.log(res);
                 setProjectName(res.data.data.projectName);
                 setProjectDate(res.data.data.startDate + " ~ " + res.data.data.lastDate);
             }).catch(e => {
