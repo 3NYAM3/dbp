@@ -65,11 +65,15 @@ const ProjectForm = ({editing}) => {
             })
         }
     }
-    if (loading){
+
+
+
+
+    if (editing && loading){
         return <></>
     }
 
-    if (isAdmin) {
+    if (isAdmin||!editing) {
         return (
             <form onSubmit={handleSubmit}>
                 <div className="container-common">
