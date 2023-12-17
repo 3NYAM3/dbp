@@ -114,6 +114,23 @@ public class MemberService {
         return  ResponseDto.setSuccessNotIncludeData("Success");
     }
 
+    @Transactional
+    public ResponseDto<?> updatePassword(String email, String nowPassword, String changePassword) {
+        Member member = null;
+        try{
+            member = memberRepository.findByEmail(email);
+            if (member==null) return ResponseDto.setFailed("member null");
+            if (!passwordEncoder.matches(nowPassword, member.getPassword()))
+                return ResponseDto.setFailed("password wrong");
+        }catch (Exception e){
+            return ResponseDto.setFailed("database error");
+        }
+
+        memberRepository.updatePassword(passwordEncoder.encode(changePassword), email);
+
+        return ResponseDto.setSuccessNotIncludeData("Success");
+    }
+
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
@@ -126,6 +143,7 @@ public class MemberService {
         Member member = memberRepository.findOne(memberId);
         return member.getProjects();
     }
+
 
 
 }

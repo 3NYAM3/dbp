@@ -25,7 +25,17 @@ public class TaskController {
 
     @GetMapping("/")
     public ResponseDto<?> getTaskList(@PathVariable("projectId") Long projectId){
+        System.out.println("Sdfsdfasdfasdfasdfasdfasdfasdfasdfa@@@@@@");
         ResponseDto<List<TaskDto>> result = taskService.getTaskList(projectId);
         return result;
     }
+
+    @PutMapping("/edit/{noticeId}")
+    public ResponseDto<?> editTask(@RequestBody CreateTaskDto createTaskDto, @PathVariable("projectId") Long projectId, @PathVariable("taskId") Long taskId){
+        System.out.println("editTask"+createTaskDto);
+        System.out.println(projectId);
+        ResponseDto<?> result = taskService.editTask(createTaskDto,taskId);
+        return result;
+    }
+
 }

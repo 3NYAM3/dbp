@@ -34,6 +34,16 @@ public class MemberRepository {
          return result.isEmpty() ? null:result.get(0);
     }
 
+    public void updatePassword(String password, String email){
+        Member member = em.createQuery("select m from Member m where m.email=:email", Member.class)
+                .setParameter("email", email)
+                .getSingleResult();
+        if(member!=null){
+            member.setPassword(password);
+            em.merge(member);
+        }
+    }
+
     public List<Member> findByName(String name){
         return em.createQuery("select m from Member m where m.name= :name", Member.class)
                 .setParameter("name", name)
@@ -49,6 +59,8 @@ public class MemberRepository {
 
         return count > 0;
     }
+
+
 
 
 }

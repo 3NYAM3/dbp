@@ -18,11 +18,17 @@ public class TaskRepository {
         em.persist(task);
     }
 
+    public Task findOne(Long taskId){
+        return em.find(Task.class, taskId);
+    }
 
     public List<Task> findTaskByProjectId(Long projectId) {
-        String jpql = "SELECT t FROM Task t WHERE t.project.projectId = :projectId";
-        return em.createQuery(jpql, Task.class)
+        return em.createQuery("select t from Task t where t.project.projectId = :projectId", Task.class)
                 .setParameter("projectId", projectId)
                 .getResultList();
+    }
+
+    public void updateTask(Task task){
+        em.merge(task);
     }
 }
