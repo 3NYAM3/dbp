@@ -24,7 +24,7 @@ const ListIndex = ({isProject, isDashboard, isTask, project, dashboard, task, on
             {isTask &&
                 <>
                     <div>{task.title}</div>
-                    <div>{task.note}</div>
+                    <div>{task.memo}</div>
                     <div>{task.start}</div>
                     <div>{task.end}</div>
                 </>

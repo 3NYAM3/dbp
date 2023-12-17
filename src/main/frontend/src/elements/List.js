@@ -49,8 +49,9 @@ const List = ({isProject, isDashboard, isTask}) => {
             })
         } else if (isTask) {
             axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/`).then((res) => {
+                console.log(res)
                 setTaskList(res.data.data);
-                setOriTaskList(res.data.data)
+                setOriTaskList(res.data.data);
             }).catch(e => {
                 console.log('작업 리스트 가져오지 못함')
             })
@@ -102,10 +103,10 @@ const List = ({isProject, isDashboard, isTask}) => {
                     key={index}
                     isTask={true}
                     task={{
-                        title: data,
-                        note: data,
-                        start: data,
-                        end: data
+                        title: data.content,
+                        memo: data.memo,
+                        start: data.startDate,
+                        end: data.lastDate
                     }}
                     // onClick={() => navigate('/project/dashboard')} // 작업 수정으로ㄱㄱ
                 />

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
 
 // test dataSet
 const taskData = [
@@ -58,7 +59,19 @@ for (let i = new Date(projectData.start); i <= new Date(projectData.end); i.setM
 // }
 
 
-function ProjectTimelinePage() {
+const ProjectTimelinePage = () => {
+    const [projectName, setProjectName] = useState('');
+    const [projectDate, setProjectDate] = useState('');
+
+
+    useEffect(() => {
+        axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}/`).then((res) => {
+            setProjectName(res.data.data.projectName);
+            setProjectDate(res.data.data.startDate + " ~ " + res.data.data.lastDate);
+        }).catch(e => {
+            console.log('대시보드 정보 가져오지 못함');
+        });
+    }, []);
     return (
         <>
             <div className="project-search">
