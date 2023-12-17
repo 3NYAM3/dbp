@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDto {
-    String writerName;
-    String writer;
-    Long memberId;
+    String writerName;//이름
+    String writer;//이메일
+    Long memberId;//아이디
     LocalDateTime writingTime;
     String content;
 }

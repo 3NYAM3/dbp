@@ -2,6 +2,8 @@ package databaseProject.dbp.repository;
 
 import databaseProject.dbp.domain.Member;
 import javax.persistence.EntityManager;
+
+import databaseProject.dbp.domain.Project;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -44,23 +46,9 @@ public class MemberRepository {
         }
     }
 
-    public List<Member> findByName(String name){
-        return em.createQuery("select m from Member m where m.name= :name", Member.class)
-                .setParameter("name", name)
-                .getResultList();
+    public void withdrawFromProject(Member member, Project project){
+        member.getProjects().remove(project);
+        project.getMembers().remove(member);
     }
-
-    public boolean existsByEmailAndPassword(String email, String password) {
-        Long count = (Long) em.createQuery("select count(m) from Member m where m.email = :email and m.password = :password")
-                .setParameter("email", email)
-                .setParameter("password", password)
-                .getSingleResult();
-
-
-        return count > 0;
-    }
-
-
-
 
 }

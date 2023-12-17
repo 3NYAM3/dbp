@@ -48,7 +48,7 @@ public class ProjectService {
 
         projectRepository.save(project);
 
-        try{
+        try {
             List<String> memberEmailList = createProjectDto.getMemberList();
             if (memberEmailList != null && !memberEmailList.isEmpty()) {
                 for (String memberEmail : memberEmailList) {
@@ -60,7 +60,7 @@ public class ProjectService {
                 }
             }
             project.getMembers().add(leader);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("failed");
         }
@@ -97,15 +97,15 @@ public class ProjectService {
         return ResponseDto.setSuccess("Success", projectDtoList);
     }
 
-    public ResponseDto<?> getProject(Long id){
+    public ResponseDto<?> getProject(Long id) {
         Project project = null;
 
-        try{
+        try {
             project = projectRepository.findOne(id);
-            if(project==null){
+            if (project == null) {
                 return ResponseDto.setFailed("failed");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -117,22 +117,38 @@ public class ProjectService {
     public ResponseDto<?> checkLeaderId(String loggedInEmail, Long projectId) {
         Project project = null;
         String email;
-        try{
+        try {
             project = projectRepository.findOne(projectId);
-            if (project==null) return ResponseDto.setFailed("failed");
+            if (project == null) return ResponseDto.setFailed("failed");
 
             email = memberRepository.findOne(project.getLeaderId()).getEmail();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
 
-        if(!email.equals(loggedInEmail)){
+        if (!email.equals(loggedInEmail)) {
             return ResponseDto.setFailed("not leader");
         }
 
 
+        return ResponseDto.setSuccessNotIncludeData("Success");
+    }
+
+    public ResponseDto<?> withdrawal(String email, Long projectId) {
+        Member member = memberRepository.findByEmail(email);
+        Project project = projectRepository.findOne(projectId);
+
+        try {
+            if (member == null || project == null) {
+                return ResponseDto.setFailed("member, project get failed");
+            }
+            memberRepository.withdrawFromProject(member,project);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
 
         return ResponseDto.setSuccessNotIncludeData("Success");
     }

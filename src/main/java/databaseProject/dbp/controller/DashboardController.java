@@ -19,6 +19,13 @@ public class DashboardController {
     private final ProjectService projectService;
     private final NoticeService noticeService;
 
+    /**
+     * 게시물 만들기
+     * @param createNoticeDto
+     * @param email
+     * @param projectId
+     * @return
+     */
     @PostMapping("/{projectId}/create")
     public ResponseDto<?> createNotice(@RequestBody CreateNoticeDto createNoticeDto, @AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
         System.out.println(createNoticeDto);
@@ -27,11 +34,23 @@ public class DashboardController {
         ResponseDto<?> result = noticeService.createNotice(createNoticeDto, email, projectId);
         return result;
     }
+
+    /**
+     * 게시물 리스트 가져오기
+     * @param projectId
+     * @return
+     */
     @GetMapping("/{projectId}/notice")
     public ResponseDto<?> getNoticeList(@PathVariable("projectId") Long projectId){
         ResponseDto<List<NoticeDto>> result = noticeService.getNoticeList(projectId);
         return result;
     }
+
+    /**
+     * 대시보드와 타임라인, 관리에 쓸 프로젝트 정보 가져오기
+     * @param projectId
+     * @return
+     */
     @GetMapping("/{projectId}")
     public ResponseDto<?> getProjectDetail(@PathVariable("projectId") Long projectId){
         System.out.println(projectId);
@@ -39,6 +58,11 @@ public class DashboardController {
         return result;
     }
 
+    /**
+     * 게시물 상세 페이지 정보 가져오기
+     * @param noticeId
+     * @return
+     */
     @GetMapping("/notice/{noticeId}")
     public ResponseDto<?> getNoticeDetail(@PathVariable("noticeId")Long noticeId){
         System.out.println(noticeId);

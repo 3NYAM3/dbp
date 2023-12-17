@@ -32,18 +32,25 @@ public class ProjectController {
         return result;
     }
 
-
-
-
+    /**
+     * 관리탭을 위한 리더 아이디 가져오기
+     * @param email
+     * @param projectId
+     * @return
+     */
     @GetMapping("/pm/{projectId}")
     public ResponseDto<?> findLeaderId(@AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
         System.out.println(email);
-        System.out.println("asdfasdfasdfasdfa\nsdfasdfas\nasdfasdfasdfasdfa\nsdfasdfas\nasdfasdfasdfasdfa\nsdfasdfas\nasdfasdfasdfasdfa\nsdfasdfas\n");
         ResponseDto<?> result = projectService.checkLeaderId(email, projectId);
         return result;
     }
 
-
+    /**
+     * 프로젝트 만들기
+     * @param requestBody
+     * @param leaderEmail
+     * @return
+     */
     @PostMapping("/create")
     public ResponseDto<?> createProject(@RequestBody CreateProjectDto requestBody, @AuthenticationPrincipal String leaderEmail){
         System.out.println(requestBody.toString());
@@ -52,6 +59,11 @@ public class ProjectController {
         return result;
     }
 
+    /**
+     * 프로젝트 생성시 추가할 멤버 검색
+     * @param email
+     * @return
+     */
     @GetMapping("/create/{email}")
     public ResponseDto<?> findAddMember(@PathVariable("email") String email){
         System.out.println(email);
@@ -59,9 +71,14 @@ public class ProjectController {
         return result;
     }
 
-    @DeleteMapping("/withdrawal")
-    public ResponseDto<?> projectWithdrawal(@AuthenticationPrincipal String email){
-        ResponseDto<?> result = projectService.withdrawal(email);
+    /**
+     * 프로젝트 탈퇴
+     * @param email
+     * @return
+     */
+    @DeleteMapping("/withdrawal/{projectId}")
+    public ResponseDto<?> projectWithdrawal(@AuthenticationPrincipal String email, @PathVariable Long projectId){
+        ResponseDto<?> result = projectService.withdrawal(email, projectId);
         return result;
     }
 

@@ -31,4 +31,8 @@ public class TaskRepository {
     public void updateTask(Task task){
         em.merge(task);
     }
+
+    public void deleteTask(Task task){
+        em.remove(task);
+    }
 }

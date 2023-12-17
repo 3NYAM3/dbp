@@ -126,4 +126,18 @@ public class TaskService {
 
         return ResponseDto.setSuccess("Success", taskDto);
     }
+
+    public ResponseDto<?> deleteTask(Long taskId) {
+        Task task = taskRepository.findOne(taskId);
+
+        try {
+            if (task==null) return ResponseDto.setFailed("task get failed");
+            taskRepository.deleteTask(task);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+
+        return ResponseDto.setSuccessNotIncludeData("Success");
+    }
 }

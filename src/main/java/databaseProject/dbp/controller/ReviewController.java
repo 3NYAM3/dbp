@@ -18,6 +18,13 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    /**
+     * 댓들 생성
+     * @param email
+     * @param noticeId
+     * @param createReviewDto
+     * @return
+     */
     @PostMapping("/{noticeId}")
     public ResponseDto<?> createReview(@AuthenticationPrincipal String email, @PathVariable("noticeId") Long noticeId, @RequestBody CreateReviewDto createReviewDto){
         System.out.println(email+noticeId);
@@ -25,6 +32,11 @@ public class ReviewController {
         return result;
     }
 
+    /**
+     * 리뷰들 가져오기
+     * @param noticeId
+     * @return
+     */
     @GetMapping("/{noticeId}")
     public ResponseDto<?> getReviews(@PathVariable("noticeId") Long noticeId){
         System.out.println(noticeId);
@@ -32,7 +44,12 @@ public class ReviewController {
         return result;
     }
 
-
+    /**
+     * 리뷰 삭제
+     * @param email
+     * @param reviewId
+     * @return
+     */
     @DeleteMapping("/{reviewId}")
     public ResponseDto<?> deleteReview(@AuthenticationPrincipal String email, @PathVariable("reviewId") Long reviewId){
         System.out.println(email+reviewId);
