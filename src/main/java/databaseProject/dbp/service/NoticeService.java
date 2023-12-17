@@ -79,4 +79,18 @@ public class NoticeService {
 
         return ResponseDto.setSuccess("Success", noticeDtoList);
     }
+
+    public ResponseDto<?> getNotice(Long noticeId) {
+        Notice notice = null;
+
+        try{
+            notice = noticeRepository.findOne(noticeId);
+            if (notice==null) return ResponseDto.setFailed("cannot find notice");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+        return ResponseDto.setSuccess("Success", notice);
+    }
 }

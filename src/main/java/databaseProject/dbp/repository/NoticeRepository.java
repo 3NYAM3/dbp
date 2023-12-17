@@ -1,6 +1,7 @@
 package databaseProject.dbp.repository;
 
 import databaseProject.dbp.domain.Notice;
+import databaseProject.dbp.dto.noticeDto.NoticeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,10 @@ public class NoticeRepository {
 
     public void  save(Notice notice){
         em.persist(notice);
+    }
+
+    public Notice findOne(Long noticeId) {
+        return em.find(Notice.class, noticeId);
     }
 
     public List<Notice> findNoticesByProjectId(Long projectId) {

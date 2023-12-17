@@ -39,8 +39,12 @@ public class DashboardController {
         return result;
     }
 
-//    @GetMapping("/")
-//    public ResponseDto<?> getNoticeDetail(@)
+    @GetMapping("/{noticeId}")
+    public ResponseDto<?> getNoticeDetail(@PathVariable("projectId")Long projectId, @PathVariable("noticeId")Long noticeId){
+        System.out.println(projectId+noticeId);
+        ResponseDto<?> result = noticeService.getNotice(noticeId);
+        return result;
+    }
 
 
 }
