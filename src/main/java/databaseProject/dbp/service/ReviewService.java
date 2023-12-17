@@ -44,7 +44,7 @@ public class ReviewService {
 
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setWriter(email);
-        reviewDto.setMemberId(member.getMemberId());
+        reviewDto.setReviewId(review.getReviewId());
         reviewDto.setWriterName(member.getName());
         reviewDto.setContent(review.getContent());
         reviewDto.setWritingTime(review.getDateTime());
