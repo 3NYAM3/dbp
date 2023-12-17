@@ -8,11 +8,16 @@ import {setProjectNum} from "../store/numSlice";
 
 const List = ({isProject, isDashboard, isTask}) => {
     const navigate = useNavigate();
+
     const [searchText, setSearchText] = useState('');
-    const [oriList, setOriList] = useState([]);
-    const [dataList, setDataList] = useState([]);
+
+    const [oriProList, setOriProList] = useState([]);
+    const [proList, setProList] = useState([]);
 
     const [dashboardList, setDashboardList] = useState([]);
+
+    const [oriTaskList, setOriTaskList] = useState([]);
+    const [taskList, setTaskList] = useState([]);
 
     const dispatch = useDispatch();
     const num = useSelector(state => state.num.projectNum);
@@ -24,11 +29,11 @@ const List = ({isProject, isDashboard, isTask}) => {
         if (isProject) {
             axios.get('/api/project/', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
                 .then((res) => {
-                    setDataList(res.data.data);
-                    setOriList(res.data.data)
+                    setProList(res.data.data);
+                    setOriProList(res.data.data)
                 })
                 .catch(e => {
-                    console.log('유저 정보 가져오지 못함');
+                    console.log('프로젝트 리스트 가져오지 못함');
                 });
         } else if (isDashboard) {
             axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}/`).then((res) => {
@@ -39,14 +44,21 @@ const List = ({isProject, isDashboard, isTask}) => {
             });
             axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}/notice`).then((res) => {
                 setDashboardList(res.data.data);
-            }).catch(e=>{
+            }).catch(e => {
                 console.log('대시보드 리스트 가져오지 못함')
+            })
+        } else if (isTask) {
+            axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/`).then((res) => {
+                setTaskList(res.data.data);
+                setOriTaskList(res.data.data)
+            }).catch(e => {
+                console.log('작업 리스트 가져오지 못함')
             })
         }
     }, []);
 
     const renderProject = () => {
-        return dataList.map((data) => {
+        return proList.map((data) => {
             return (
                 <ListIndex
                     key={data.projectId}
@@ -83,9 +95,29 @@ const List = ({isProject, isDashboard, isTask}) => {
         })
     }
 
+    const renderTask = () => {
+        return taskList.map((data) => {
+            return (
+                <ListIndex
+                    isTask={true}
+                    task={{
+                        title: data,
+                        note: data,
+                        start: data,
+                        end: data
+                    }}
+                    // onClick={() => navigate('/project/dashboard')} // 작업 수정으로ㄱㄱ
+                />
+            )
+        })
+
+    }
+
     const onSearch = () => {
-        if (isProject){
-            setDataList(oriList.filter(item => item.title.includes(searchText)))
+        if (isProject) {
+            setProList(oriProList.filter(item => item.title.includes(searchText)));
+        } else if (isDashboard) {
+            setTaskList(oriTaskList.filter(item => item.title.includes(searchText)));
         }
     }
     return (
@@ -132,7 +164,7 @@ const List = ({isProject, isDashboard, isTask}) => {
                         : isTask ?
                             <>
                                 <div>작업</div>
-                                <div>담당자</div>
+                                <div>메모</div>
                                 <div>시작일</div>
                                 <div>마감일</div>
                             </>
@@ -141,17 +173,7 @@ const List = ({isProject, isDashboard, isTask}) => {
             </div>
             {isProject ? renderProject()
                 : isDashboard ? renderDashboard()
-                    : isTask ?
-                        <ListIndex
-                            isTask={true}
-                            task={{
-                                title: "응애",
-                                name: "정운",
-                                start: "231101",
-                                end: "231231"
-                            }}
-                            // onClick={() => navigate('/project/dashboard')}
-                        />
+                    : isTask ? renderTask()
                         : ""
             }
 
