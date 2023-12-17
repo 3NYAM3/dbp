@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const UserPage = () => {
     const [showChange, setShowChange] = useState(false);
@@ -11,6 +12,8 @@ const UserPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
+    const navigate = useNavigate();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +24,15 @@ const UserPage = () => {
                 {nowPassword: nowPassword, changePassword: newPassword},
                 {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}},
             ).then((res) => {
-                console.log(res);
+                if (res.data.result) { // 비밀번호 변경 성공
+                    //toast 띄워볼까
+                    setShowChange(false);
+                    setNowPassword('');
+                    setNewPassword('');
+                    setNewPasswordCheck('');
+                }else {
+                    // 현재 비밀번호가 일치하지 않습니다.
+                }
             }).catch(e => {
                 console.log('비밀번호 변경 못함');
             })

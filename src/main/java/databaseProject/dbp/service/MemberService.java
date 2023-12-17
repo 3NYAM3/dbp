@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -115,18 +116,18 @@ public class MemberService {
     }
 
     @Transactional
-    public ResponseDto<?> updatePassword(String email, String nowPassword, String changePassword) {
+    public ResponseDto<?> updatePassword(String email, Map<String,String> password) {
         Member member = null;
         try{
             member = memberRepository.findByEmail(email);
             if (member==null) return ResponseDto.setFailed("member null");
-            if (!passwordEncoder.matches(nowPassword, member.getPassword()))
+            if (!passwordEncoder.matches(password.get("nowPassword"), member.getPassword()))
                 return ResponseDto.setFailed("password wrong");
         }catch (Exception e){
             return ResponseDto.setFailed("database error");
         }
 
-        memberRepository.updatePassword(passwordEncoder.encode(changePassword), email);
+        memberRepository.updatePassword(passwordEncoder.encode(password.get("changePassword")), email);
 
         return ResponseDto.setSuccessNotIncludeData("Success");
     }

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/members")
 @RequiredArgsConstructor
@@ -22,31 +24,32 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signUp")
-    public ResponseDto<?> signUp (@RequestBody SignUpDto requestBody){
+    public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody) {
         System.out.println(requestBody.toString());
         ResponseDto<?> result = memberService.join(requestBody);
         return result;
     }
 
     @PostMapping("/login")
-    public ResponseDto<?> login (@RequestBody LoginDto requestBody){
+    public ResponseDto<?> login(@RequestBody LoginDto requestBody) {
         System.out.println(requestBody.toString());
         ResponseDto<LoginResponseDto> result = memberService.login(requestBody);
         return result;
     }
 
     @GetMapping("/info")
-    public ResponseDto<?> info (@AuthenticationPrincipal String email){
+    public ResponseDto<?> info(@AuthenticationPrincipal String email) {
         System.out.println(email);
         ResponseDto<LoggedInMemberDto> result = memberService.getLoginMember(email);
         return result;
     }
 
     @PutMapping("/info")
-    public ResponseDto<?> changePassword(@AuthenticationPrincipal String email, @RequestBody String nowPassword, @RequestBody String changePassword) {
+    public ResponseDto<?> changePassword(@AuthenticationPrincipal String email, @RequestBody Map<String, String>password) {
         System.out.println(email);
-        ResponseDto<?> result = memberService.updatePassword(email, nowPassword, changePassword);
+        ResponseDto<?> result = memberService.updatePassword(email, password);
         return result;
     }
+
 
 }
