@@ -86,9 +86,9 @@ public class ReviewService {
                 .map(review -> {
                     ReviewDto reviewDto = new ReviewDto();
                     if (review.getMember()==null){
-                        reviewDto.setMemberId(null);
+                        reviewDto.setReviewId(null);
                     }else {
-                        reviewDto.setMemberId(review.getMember().getMemberId());
+                        reviewDto.setReviewId(review.getReviewId());
                     }
                     reviewDto.setWriter(review.getMember().getEmail());
                     reviewDto.setWriterName(review.getMember().getName());

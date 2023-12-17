@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class ReviewDto {
     String writerName;//이름
     String writer;//이메일
-    Long memberId;//아이디
+    Long reviewId;
     LocalDateTime writingTime;
     String content;
 }
