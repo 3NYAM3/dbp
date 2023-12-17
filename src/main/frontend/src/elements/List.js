@@ -4,7 +4,7 @@ import ListIndex from "./ListIndex";
 import propTypes from "prop-types";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setProjectNum, setTaskNum} from "../store/numSlice";
+import {setNoticeNum, setProjectNum, setTaskNum} from "../store/numSlice";
 
 const List = ({isProject, isDashboard, isTask}) => {
     const navigate = useNavigate();
@@ -36,7 +36,7 @@ const List = ({isProject, isDashboard, isTask}) => {
                     console.log('프로젝트 리스트 가져오지 못함');
                 });
         } else if (isDashboard) {
-            axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}/`).then((res) => {
+            axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}`).then((res) => {
                 setProjectName(res.data.data.projectName);
                 setProjectDate(res.data.data.startDate + " ~ " + res.data.data.lastDate);
             }).catch(e => {
@@ -88,7 +88,10 @@ const List = ({isProject, isDashboard, isTask}) => {
                         writer: data.writer,
                         date: data.createTime
                     }}
-                    onClick={() => navigate('/project/dashboard/post')}
+                    onClick={() => {
+                        dispatch(setNoticeNum(data.noticeId));
+                        navigate('/project/dashboard/post')
+                    }}
                 />
 
             )

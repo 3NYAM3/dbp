@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import axios from "axios";
 
 const PostPage = () => {
-    const [title, setTitle] = useState('게시물 제목');
-    const [author, setAuthor] = useState('작성자 이름');
-    const [date, setDate] = useState('2022-01-01');
-    const [content, setContent] = useState('게시물 내용');
+    const [title, setTitle] = useState('null');
+    const [writer, setWriter] = useState('null');
+    const [date, setDate] = useState('null');
+    const [content, setContent] = useState('null');
     const [comments, setComments] = useState([
-        { content: '초기 댓글 1', author: '작성자1', date: '2022-12-18 12:00' },
-        { content: '초기 댓글 2', author: '작성자2', date: '2022-12-18 13:00' },
+        // {content: '초기 댓글 1', author: '작성자1', date: '2022-12-18 12:00'},
+        // {content: '초기 댓글 2', author: '작성자2', date: '2022-12-18 13:00'},
     ]);
     const [newComment, setNewComment] = useState('');
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const PostPage = () => {
 
     const addComment = () => {
         if (newComment.trim() !== '') {
-            setComments([...comments, { content: newComment, author: '새 작성자', date: getCurrentDateTime() }]);
+            setComments([...comments, {content: newComment, author: '새 작성자', date: getCurrentDateTime()}]);
             setNewComment('');
             window.scrollTo({
                 top: document.body.scrollHeight,
@@ -29,6 +30,25 @@ const PostPage = () => {
             });
         }
     };
+    useEffect(() => {
+        // 글 제목, 작성자, 작성일, 내용
+        axios.get(`/api/project/dashboard/notice/${localStorage.getItem('noticeNum')}`).then((res) => {
+            setTitle(res.data.data.title);
+            setWriter(res.data.data.writer);
+            setDate(res.data.data.createTime);
+            setContent(res.data.data.content);
+        }).catch(e => {
+            console.log('글 정보 받아오기 실패');
+        })
+
+        //
+        axios.get(`/api/project/dashboard/review/${localStorage.getItem('noticeNum')}`).then((res) => {
+            console.log(res)
+        }).catch(e => {
+            console.log('리뷰 받아오기 실패');
+        })
+    }, []);
+
 
     const styles = {
         container: {
@@ -112,7 +132,7 @@ const PostPage = () => {
             <div style={styles.header}>
                 <h1 style={styles.title}>{title}</h1>
                 <div style={styles.authorDate}>
-                    {author} / {date}
+                    {writer} / {date}
                 </div>
             </div>
             <p style={styles.content}>{content}</p>

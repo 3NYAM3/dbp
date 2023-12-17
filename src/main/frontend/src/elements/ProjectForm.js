@@ -223,7 +223,7 @@ const ProjectForm = ({editing}) => {
         return (
             <div className="container-common">
                 <div>
-                    <h1>정말 탈회하시겠습니까?</h1>
+                    <h1>프로젝트 나가기</h1>
                     <button className="del-common">탈퇴</button>
                 </div>
 

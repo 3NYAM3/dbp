@@ -14,7 +14,7 @@ const TaskForm = ({editing}) => {
     const [projectEnd, setProjectEnd] = useState('');
 
     useEffect(() => {
-        axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}/`).then((res) => {
+        axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}`).then((res) => {
             setProjectStart(res.data.data.startDate);
             setProjectEnd(res.data.data.lastDate);
         }).catch(e => {

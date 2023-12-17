@@ -57,7 +57,7 @@ const ProjectTimelinePage = () => {
     const [taskList, setTaskList] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}/`).then((res) => {
+        axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}`).then((res) => {
             setProjectName(res.data.data.projectName);
             setProjectStart(res.data.data.startDate);
             setProjectEnd(res.data.data.lastDate);
