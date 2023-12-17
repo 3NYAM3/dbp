@@ -16,16 +16,23 @@ const UserPage = () => {
         e.preventDefault();
         if (newPassword !== newPasswordCheck) {
             alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-        } else {
-            //axios 현재 비밀번호 일치 확인
+        } else { // 비밀번호 변경 요청
+            axios.put('/api/members/info',
+                {nowPassword: nowPassword, changePassword: newPassword},
+                {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}},
+            ).then((res) => {
+                console.log(res);
+            }).catch(e => {
+                console.log('비밀번호 변경 못함');
+            })
         }
     }
 
     useEffect(() => {
-        axios.get('/api/members/info', {headers:{'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => { // get으로 가져옴
+        axios.get('/api/members/info', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => { // get으로 가져옴
             setName(res.data.data.name);
             setEmail(res.data.data.email);
-        }).catch(e=>{ // 못가져 왔을 경우 예외처리
+        }).catch(e => { // 못가져 왔을 경우 예외처리
             console.log('유저 정보 가져오지 못함')
         })
     }, []);

@@ -43,9 +43,9 @@ public class MemberController {
     }
 
     @PutMapping("/info")
-    public ResponseDto<?> changePassword(@AuthenticationPrincipal String email, @RequestBody String nowPassword, @RequestBody String changPassword) {
+    public ResponseDto<?> changePassword(@AuthenticationPrincipal String email, @RequestBody String nowPassword, @RequestBody String changePassword) {
         System.out.println(email);
-        ResponseDto<?> result = memberService.updatePassword(email, nowPassword, changPassword);
+        ResponseDto<?> result = memberService.updatePassword(email, nowPassword, changePassword);
         return result;
     }
 
