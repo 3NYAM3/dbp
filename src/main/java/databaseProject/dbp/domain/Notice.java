@@ -25,9 +25,25 @@ public class Notice {
 
     private String content;
 
-    private LocalDateTime dateTime;
+    private String writer;
+
+    private String createTime;
 
     @OneToMany(mappedBy = "notice")
     private Set<Review> reviews = new HashSet<>();
+
+
+
+    //==생성 메서드==//
+    public static Notice createNotice(Project project, String title, String writer, String content, String createTime){
+        Notice notice = new Notice();
+        notice.setProject(project);
+        notice.setTitle(title);
+        notice.setWriter(writer);
+        notice.setContent(content);
+        notice.setCreateTime(createTime);
+
+        return notice;
+    }
 
 }

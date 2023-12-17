@@ -36,8 +36,9 @@ public class ProjectController {
 
 
     @GetMapping("/pm/{projectId}")
-    public ResponseDto findLeaderId(@AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
+    public ResponseDto<?> findLeaderId(@AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
         System.out.println(email);
+        System.out.println("asdfasdfasdfasdfa\nsdfasdfas\nasdfasdfasdfasdfa\nsdfasdfas\nasdfasdfasdfasdfa\nsdfasdfas\nasdfasdfasdfasdfa\nsdfasdfas\n");
         ResponseDto<?> result = projectService.checkLeaderId(email, projectId);
         return result;
     }

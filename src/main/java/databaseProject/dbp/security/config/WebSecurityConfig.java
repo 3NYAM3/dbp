@@ -47,8 +47,8 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .antMatchers("/", "/api/members/**", "/api/project/**").permitAll()
-                                .antMatchers(HttpMethod.GET, "/","/api/project/**", "/api/auth/**","/api/members/**").permitAll()// 특정 경로에 대한 권한 설정
+                                .antMatchers("/", "/api/members/**", "/api/project/**","/api/project/**/**").permitAll()
+                                .antMatchers(HttpMethod.GET, "/","/api/project/**", "/api/project/**/**","/api/members/**").permitAll()// 특정 경로에 대한 권한 설정
                                 .anyRequest().authenticated()
                 );
 

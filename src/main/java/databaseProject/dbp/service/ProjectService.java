@@ -66,7 +66,7 @@ public class ProjectService {
         }
 
 
-        return ResponseDto.setSuccess("Success", null);
+        return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
     public ResponseDto<List<ProjectDto>> getProjectList(String email) {
