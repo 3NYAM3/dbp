@@ -3,10 +3,10 @@ import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 
 const PostPage = () => {
-    const [title, setTitle] = useState('null');
-    const [writer, setWriter] = useState('null');
-    const [date, setDate] = useState('null');
-    const [content, setContent] = useState('null');
+    const [title, setTitle] = useState('');
+    const [writer, setWriter] = useState('');
+    const [date, setDate] = useState('');
+    const [content, setContent] = useState('');
     const [comments, setComments] = useState([
         // {content: '초기 댓글 1', author: '작성자1', date: '2022-12-18 12:00'},
         // {content: '초기 댓글 2', author: '작성자2', date: '2022-12-18 13:00'},
@@ -41,11 +41,11 @@ const PostPage = () => {
             console.log('글 정보 받아오기 실패');
         })
 
-        //
+        // 댓글 받아오기
         axios.get(`/api/project/dashboard/review/${localStorage.getItem('noticeNum')}`).then((res) => {
-            console.log(res)
+            setComments(res.data.data);
         }).catch(e => {
-            console.log('리뷰 받아오기 실패');
+            console.log('댓글 받아오기 실패');
         })
     }, []);
 

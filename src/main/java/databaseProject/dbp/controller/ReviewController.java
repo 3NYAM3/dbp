@@ -25,8 +25,8 @@ public class ReviewController {
         return result;
     }
 
-    @GetMapping("/{noticedId}")
-    public ResponseDto<?> getReviews(@PathVariable("noticedId") Long noticeId){
+    @GetMapping("/{noticeId}")
+    public ResponseDto<?> getReviews(@PathVariable("noticeId") Long noticeId){
         System.out.println(noticeId);
         ResponseDto<List<ReviewDto>> result = reviewService.getReviews(noticeId);
         return result;
