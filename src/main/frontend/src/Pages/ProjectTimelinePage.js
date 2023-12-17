@@ -65,11 +65,9 @@ const ProjectTimelinePage = () => {
             console.log('대시보드 정보 가져오지 못함');
         });
 
-        axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/`).then((res) => {
-            const sortedTaskList = res.data.data.sort((a, b) => {
-                return new Date(a.startDate) - new Date(b.startDate);
-            });
-            setTaskList(sortedTaskList);
+        axios.get(`/api/project/task/list/${localStorage.getItem('projectNum')}`).then((res) => {
+            console.log(res)
+            setTaskList(res.data.data);
         }).catch(e => {
             console.log('작업 리스트 가져오지 못함')
         })

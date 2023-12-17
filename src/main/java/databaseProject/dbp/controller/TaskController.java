@@ -23,7 +23,7 @@ public class TaskController {
         return result;
     }
 
-    @GetMapping("/{projectId}")
+    @GetMapping("/list/{projectId}")
     public ResponseDto<?> getTaskList(@PathVariable("projectId") Long projectId){
         System.out.println("Sdfsdfasdfasdfasdfasdfasdfasdfasdfa@@@@@@");
         ResponseDto<List<TaskDto>> result = taskService.getTaskList(projectId);

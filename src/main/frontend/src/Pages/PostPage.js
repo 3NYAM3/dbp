@@ -1,18 +1,26 @@
-import React, {useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PostPage = () => {
     const [title, setTitle] = useState('게시물 제목');
+    const [author, setAuthor] = useState('작성자 이름'); // 작성자 이름 상태 추가
+    const [date, setDate] = useState('2022-01-01'); // 작성 날짜 상태 추가
     const [content, setContent] = useState('게시물 내용');
     const [comments, setComments] = useState(['초기 댓글 1', '초기 댓글 2']);
     const [newComment, setNewComment] = useState('');
-    const navigate = useNavigate(); // useNavigate 훅을 사용합니다.
+    const navigate = useNavigate();
+
+
 
     const addComment = () => {
-        if (newComment !== '') {
+        if (newComment.trim() !== '') {
             setComments([...comments, newComment]);
             setNewComment('');
-            window.scrollTo(0, document.body.scrollHeight);
+            // 댓글을 추가한 후에 화면을 가장 아래로 스크롤합니다.
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth',
+            });
         }
     };
 
@@ -25,24 +33,33 @@ const PostPage = () => {
             borderRadius: '8px',
             boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
         },
+        header: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px',
+        },
         title: {
             fontSize: '2rem',
             borderBottom: '1px solid #e1e1e1',
             paddingBottom: '10px',
-            marginBottom: '20px'
+        },
+        authorDate: {
+            fontStyle: 'italic',
+            color: '#6c757d',
         },
         content: {
             fontSize: '1rem',
-            marginBottom: '20px'
+            marginBottom: '20px',
         },
         commentSection: {
-            marginTop: '30px'
+            marginTop: '30px',
         },
         comment: {
             backgroundColor: '#fff',
             padding: '10px 15px',
             borderRadius: '4px',
-            margin: '5px 0'
+            margin: '5px 0',
         },
         textarea: {
             boxSizing: 'border-box',
@@ -50,12 +67,12 @@ const PostPage = () => {
             padding: '15px',
             margin: '10px 0',
             borderRadius: '4px',
-            border: '1px solid #ddd'
+            border: '1px solid #ddd',
         },
         buttonContainer: {
             display: 'flex',
-            justifyContent: 'space-between', // 버튼을 양 끝으로 정렬합니다.
-            marginTop: '20px' // 버튼과 텍스트 영역 사이의 간격을 조정합니다.
+            justifyContent: 'space-between',
+            marginTop: '20px',
         },
         button: {
             padding: '10px 20px',
@@ -64,7 +81,7 @@ const PostPage = () => {
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',
-            fontSize: '1rem'
+            fontSize: '1rem',
         },
         backButton: {
             padding: '10px 20px',
@@ -79,7 +96,12 @@ const PostPage = () => {
 
     return (
         <div style={styles.container}>
-            <h1 style={styles.title}>{title}</h1>
+            <div style={styles.header}>
+                <h1 style={styles.title}>{title}</h1>
+                <div style={styles.authorDate}>
+                    {author} / {date}
+                </div>
+            </div>
             <p style={styles.content}>{content}</p>
             <div style={styles.commentSection}>
                 <h3>댓글</h3>
@@ -92,7 +114,6 @@ const PostPage = () => {
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="댓글을 작성하세요."
                 />
-
                 <div style={styles.buttonContainer}>
                     <button style={styles.button} onClick={addComment}>댓글 달기</button>
                     <button style={styles.backButton} onClick={() => navigate(-1)}>목록</button>
