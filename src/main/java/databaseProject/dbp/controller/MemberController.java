@@ -73,6 +73,17 @@ public class MemberController {
         return result;
     }
 
+    /**
+     * 회원 탈퇴
+     * @param email
+     * @return
+     */
+    @DeleteMapping("/withdrawal")
+    public ResponseDto<?> withdrawMember(@AuthenticationPrincipal String email){
+        ResponseDto<?> result = memberService.withdrawMember(email);
+        return result;
+    }
+
 
 
 }

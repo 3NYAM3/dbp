@@ -25,6 +25,7 @@ public class Notice {
 
     private String title;
 
+    @Column(length = 8191)
     private String content;
 
     private String writer;

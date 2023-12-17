@@ -144,5 +144,8 @@ public class MemberService {
     }
 
 
+    public ResponseDto<?> withdrawMember(String email) {
 
+        return null;
+    }
 }

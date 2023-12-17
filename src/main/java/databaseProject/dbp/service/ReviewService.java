@@ -93,7 +93,7 @@ public class ReviewService {
                     reviewDto.setWriter(review.getMember().getEmail());
                     reviewDto.setWriterName(review.getMember().getName());
                     reviewDto.setContent(review.getContent());
-                    reviewDto.setWritingTime(reviewDto.getWritingTime());
+                    reviewDto.setWritingTime(review.getDateTime());
 
                     return reviewDto;
                 }).collect(Collectors.toList());

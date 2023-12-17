@@ -24,6 +24,7 @@ public class Task {
 
     private String content;
 
+    @Column(length = 8191)
     private String memo;
 
     private LocalDate startDate;

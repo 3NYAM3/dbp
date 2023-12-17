@@ -21,6 +21,7 @@ public class Member {
 
     private String name;
 
+    @Column(length = 1023)
     private String password;
 
     @ManyToMany(mappedBy = "members")

@@ -24,6 +24,7 @@ public class Review {
     @JsonManagedReference
     private Notice notice;
 
+    @Column(length = 8191)
     private String Content;
 
     private LocalDateTime dateTime;
