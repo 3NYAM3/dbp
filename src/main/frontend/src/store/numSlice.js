@@ -11,9 +11,21 @@ const tmp = () => {
     }
 }
 
+const tmp1 = () => {
+    try {
+        if (localStorage.getItem('taskNum')) {
+            const a = localStorage.getItem('taskNum');
+            return Number(a)
+        } else return 0
+    } catch {
+        return 0
+    }
+}
+
 
 const initialState = {
-    projectNum: tmp()
+    projectNum: tmp(),
+    taskNum: tmp1()
 }
 
 const numSlice = createSlice({ //createSlice를 통해 state를 정의
@@ -24,9 +36,13 @@ const numSlice = createSlice({ //createSlice를 통해 state를 정의
             state.projectNum = action.payload;
             localStorage.setItem('projectNum', action.payload);
         },
+        setTaskNum: (state, action) => {
+            state.projectNum = action.payload;
+            localStorage.setItem('taskNum', action.payload);
+        },
     }
 })
 
-export const {setProjectNum} = numSlice.actions;
+export const {setProjectNum, setTaskNum} = numSlice.actions;
 
 export default numSlice.reducer;

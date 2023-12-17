@@ -22,14 +22,25 @@ const TaskForm = ({editing}) => {
         });
 
         if (editing) { // todo 수정 페이지일 경우에 값을 가져와서 띄워줌
-
+            axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/${localStorage.getItem('taskNum')}`)
+                .then((res) => {
+                    console.log(res);
+                }).catch(e => {
+                console.log('작업 내용 가져오지 못함')
+            })
         }
     }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (editing) { // 작업 생성
+        if (editing) { // 작업 수정
             // todo 수정 작업 수행
+            // axios.put(`/api/project/task/${localStorage.getItem('projectNum')}/edit/${localStorage.getItem('taskNum')}`, {})
+            //     .then((res) => {
+            //         console.log(res);
+            //     }).catch(e => {
+            //         console.log('작업 내용 수정 실패')
+            // })
         } else { // 작업 등록
             axios.post(`/api/project/task/${localStorage.getItem('projectNum')}/create`, {
                 content: task,

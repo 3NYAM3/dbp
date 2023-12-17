@@ -4,7 +4,7 @@ import ListIndex from "./ListIndex";
 import propTypes from "prop-types";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setProjectNum} from "../store/numSlice";
+import {setProjectNum, setTaskNum} from "../store/numSlice";
 
 const List = ({isProject, isDashboard, isTask}) => {
     const navigate = useNavigate();
@@ -49,7 +49,6 @@ const List = ({isProject, isDashboard, isTask}) => {
             })
         } else if (isTask) {
             axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/`).then((res) => {
-                console.log(res)
                 setTaskList(res.data.data);
                 setOriTaskList(res.data.data);
             }).catch(e => {
@@ -97,10 +96,10 @@ const List = ({isProject, isDashboard, isTask}) => {
     }
 
     const renderTask = () => {
-        return taskList.map((data, index) => {
+        return taskList.map((data) => {
             return (
                 <ListIndex
-                    key={index}
+                    key={data.taskId}
                     isTask={true}
                     task={{
                         title: data.content,
@@ -108,7 +107,10 @@ const List = ({isProject, isDashboard, isTask}) => {
                         start: data.startDate,
                         end: data.lastDate
                     }}
-                    onClick={() => navigate('/project/task/edit')} // 작업 수정으로ㄱㄱ
+                    onClick={() => {
+                        dispatch(setTaskNum(data.taskId));
+                        navigate('/project/task/edit');
+                    }} // 작업 수정으로ㄱㄱ
                 />
             )
         })
