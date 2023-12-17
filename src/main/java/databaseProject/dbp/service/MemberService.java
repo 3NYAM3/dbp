@@ -11,6 +11,7 @@ import databaseProject.dbp.repository.MemberRepository;
 import databaseProject.dbp.security.TokenProvider;
 //import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.userdetails.UserDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,13 +24,14 @@ import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    @Autowired private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Transactional
     public ResponseDto<?> join(SignUpDto dto){
@@ -55,10 +57,7 @@ public class MemberService {
 
     private boolean validateDuplicateMember(Member member) {
         Member findMembers = memberRepository.findByEmail(member.getEmail());
-        if(!(findMembers==null)){
-            return true;
-        }
-        return false;
+        return !(findMembers == null);
     }
 
     @Transactional

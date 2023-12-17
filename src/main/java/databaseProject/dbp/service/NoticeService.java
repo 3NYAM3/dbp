@@ -70,6 +70,7 @@ public class NoticeService {
                     NoticeDto noticeDto = new NoticeDto();
                     noticeDto.setNoticeId(notice.getNoticeId());
                     noticeDto.setWriter(notice.getWriter());
+                    noticeDto.setContent(notice.getContent());
                     noticeDto.setTitle(notice.getTitle());
                     noticeDto.setCreateTime(notice.getCreateTime());
 
@@ -91,6 +92,13 @@ public class NoticeService {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
-        return ResponseDto.setSuccess("Success", notice);
+
+        NoticeDto noticeDto = new NoticeDto();
+        noticeDto.setTitle(notice.getTitle());
+        noticeDto.setNoticeId(noticeId);
+        noticeDto.setWriter(notice.getWriter());
+        noticeDto.setContent(notice.getContent());
+        noticeDto.setCreateTime(notice.getCreateTime());
+        return ResponseDto.setSuccess("Success", noticeDto);
     }
 }

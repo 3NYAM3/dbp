@@ -14,6 +14,7 @@ public class NoticeDto {
     private String title;
     private String writer;
     private String createTime;
+    private String content;
 
 
 }
