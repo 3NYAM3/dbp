@@ -2,6 +2,7 @@ package databaseProject.dbp.domain;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,9 +36,11 @@ public class Project {
     private Set<Member> members = new HashSet<>();
 
     @OneToMany(mappedBy = "project")
+    @JsonBackReference
     private Set<Task> works = new HashSet<>();
 
     @OneToMany(mappedBy = "project")
+    @JsonBackReference
     private Set<Notice> notices = new HashSet<>();
 
     //==생성 메서드==//

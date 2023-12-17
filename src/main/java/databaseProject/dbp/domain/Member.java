@@ -28,6 +28,7 @@ public class Member {
     private Set<Project> projects = new HashSet<>();
 
     @OneToMany(mappedBy = "member")
+    @JsonBackReference
     private Set<Review> reviews = new HashSet<>();
 
 

@@ -2,6 +2,8 @@ package databaseProject.dbp.domain;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +32,7 @@ public class Notice {
     private String createTime;
 
     @OneToMany(mappedBy = "notice")
+    @JsonBackReference
     private Set<Review> reviews = new HashSet<>();
 
 
