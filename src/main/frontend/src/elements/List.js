@@ -49,7 +49,6 @@ const List = ({isProject, isDashboard, isTask}) => {
             })
         } else if (isTask) {
             axios.get(`/api/project/task/list/${localStorage.getItem('projectNum')}`).then((res) => {
-                console.log(res)
                 setTaskList(res.data.data);
                 setOriTaskList(res.data.data);
             }).catch(e => {

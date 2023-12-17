@@ -3,20 +3,26 @@ import { useNavigate } from 'react-router-dom';
 
 const PostPage = () => {
     const [title, setTitle] = useState('게시물 제목');
-    const [author, setAuthor] = useState('작성자 이름'); // 작성자 이름 상태 추가
-    const [date, setDate] = useState('2022-01-01'); // 작성 날짜 상태 추가
+    const [author, setAuthor] = useState('작성자 이름');
+    const [date, setDate] = useState('2022-01-01');
     const [content, setContent] = useState('게시물 내용');
-    const [comments, setComments] = useState(['초기 댓글 1', '초기 댓글 2']);
+    const [comments, setComments] = useState([
+        { content: '초기 댓글 1', author: '작성자1', date: '2022-12-18 12:00' },
+        { content: '초기 댓글 2', author: '작성자2', date: '2022-12-18 13:00' },
+    ]);
     const [newComment, setNewComment] = useState('');
     const navigate = useNavigate();
 
-
+    // 현재 날짜와 시간을 반환하는 함수
+    const getCurrentDateTime = () => {
+        const now = new Date();
+        return now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0];
+    };
 
     const addComment = () => {
         if (newComment.trim() !== '') {
-            setComments([...comments, newComment]);
+            setComments([...comments, { content: newComment, author: '새 작성자', date: getCurrentDateTime() }]);
             setNewComment('');
-            // 댓글을 추가한 후에 화면을 가장 아래로 스크롤합니다.
             window.scrollTo({
                 top: document.body.scrollHeight,
                 behavior: 'smooth',
@@ -61,6 +67,13 @@ const PostPage = () => {
             borderRadius: '4px',
             margin: '5px 0',
         },
+        commentDate: {
+            float: 'right',
+            fontSize: '0.8rem',
+            color: '#6c757d',
+            fontStyle: 'italic',
+        },
+        commentContent: {},
         textarea: {
             boxSizing: 'border-box',
             width: '100%',
@@ -106,7 +119,10 @@ const PostPage = () => {
             <div style={styles.commentSection}>
                 <h3>댓글</h3>
                 {comments.map((comment, index) => (
-                    <div key={index} style={styles.comment}>{comment}</div>
+                    <div key={index} style={styles.comment}>
+                        <strong>{comment.author}</strong>: <span style={styles.commentContent}>{comment.content}</span>
+                        <span style={styles.commentDate}>{comment.date}</span>
+                    </div>
                 ))}
                 <textarea
                     style={styles.textarea}

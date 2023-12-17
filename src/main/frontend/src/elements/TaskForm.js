@@ -24,7 +24,6 @@ const TaskForm = ({editing}) => {
         if (editing) { // 수정 페이지일 경우에 값을 가져와서 띄워줌
             axios.get(`/api/project/task/${localStorage.getItem('taskNum')}`)
                 .then((res) => {
-                    console.log(res);
                     setTask(res.data.data.content);
                     setMemo(res.data.data.memo);
                     setStart(res.data.data.startDate);
@@ -73,9 +72,18 @@ const TaskForm = ({editing}) => {
                     }}/>
                     <br/><br/>
                     <label>메모</label>
-                    <input required type="text" value={memo} onChange={(e) => {
-                        setMemo(e.target.value)
-                    }}/>
+                    <textarea
+                        style={{
+                            borderRadius: "5px",
+                            border: "1px solid black",
+                            height: "100px"
+                        }}
+                        required
+                        value={memo}
+                        onChange={(e) => {
+                            setMemo(e.target.value)
+                        }}
+                    />
                     <br/><br/>
                     <label>시작일</label>
                     <input required type="date" value={start} onChange={(e) => {

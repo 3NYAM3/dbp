@@ -66,7 +66,6 @@ const ProjectTimelinePage = () => {
         });
 
         axios.get(`/api/project/task/list/${localStorage.getItem('projectNum')}`).then((res) => {
-            console.log(res)
             setTaskList(res.data.data);
         }).catch(e => {
             console.log('작업 리스트 가져오지 못함')

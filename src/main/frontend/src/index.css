@@ -25,10 +25,11 @@ code {
 }
 
 .container {
-    /*height: 100vh;*/
-    margin-top: 20px;
-    margin-left: 5%;
-    margin-right: 5%;
+    height: 100vh;
+    /*margin-top: 20px;*/
+    /*margin-left: 5%;*/
+    /*margin-right: 5%;*/
+    margin: 5%;
 }
 
 nav {

@@ -13,14 +13,15 @@ const ProjectForm = ({editing}) => {
     const [memberList, setMemberList] = useState([]);
     const [email, setEmail] = useState('');
     const num = useSelector(state => state.num.projectNum);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (editing) {
             axios.get(`/api/project/pm/${num}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
                 .then((res) => {
-                    if (!res.data.result) {
-                        navigate(-1);
-                    }
+                    setIsAdmin(res.data.result);
+                    setLoading(false);
                 })
                 .catch(e => {
                     console.log('유저 정보 가져오지 못함');
@@ -64,203 +65,171 @@ const ProjectForm = ({editing}) => {
             })
         }
     }
-    // return (
-    //     <div>
-    //         <form onSubmit={handleSubmit}>
-    //             <div className="create-container">
-    //                 <div className="create-container-div">
-    //                     <h1>프로젝트 {editing ? '수정' : '생성'}</h1><br/>
-    //                     <label>프로젝트명</label>
-    //                     <input type="text" placeholder="프로젝트명" value={title} required
-    //                            onChange={(e) => setTitle(e.target.value)}/>
-    //                     <br/><br/><br/>
-    //                     <label>타입</label>
-    //                     <input type="text" placeholder="타입" value={type} required
-    //                            onChange={(e) => setType(e.target.value)}/>
-    //                     <br/><br/><br/>
-    //                     <label>시작일</label>
-    //                     <input type="date" placeholder="시작일" value={start} required
-    //                            onChange={(e) => setStart(e.target.value)}/>
-    //                     <br/><br/><br/>
-    //                     <label>마감일</label>
-    //                     <input type="date" placeholder="마감일" value={end} required
-    //                            onChange={(e) => setEnd(e.target.value)}/>
-    //                     <br/><br/><br/>
-    //
-    //                     <div style={{width:'100%',
-    //                     backgroundColor:"#091E4224",
-    //                     borderRadius:"10px"}}>
-    //                         <h3 style={{textAlign:"center"}}>회원명단</h3>
-    //                         <h4 style={{textAlign:"center"}}>+</h4>
-    //                     </div>
-    //
-    //                     <br/><br/>
-    //                     <button
-    //                         type="submit"
-    //                     >
-    //                         {editing ? '수정' : '생성'}
-    //                     </button>
-    //                     <br/><br/>
-    //                     <input
-    //                         className="btn-cancel"
-    //                         type="button"
-    //                         value="취소"
-    //                         onClick={() => editing ? navigate('/project/dashboard') : navigate('/project')}
-    //                     />
-    //                 </div>
-    //             </div>
-    //         </form>
-    //     </div>
-    // )
+    if (loading){
+        return <></>
+    }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <div className="container-common">
-                <div>
-                    <h1>프로젝트 {editing ? '수정' : '생성'}</h1><br/>
-                    <label>프로젝트명</label>
-                    <input type="text" placeholder="프로젝트명" value={title} required
-                           onChange={(e) => setTitle(e.target.value)}/>
-                    <br/><br/><br/>
-                    <label>타입</label>
-                    <input type="text" placeholder="타입" value={type} required
-                           onChange={(e) => setType(e.target.value)}/>
-                    <br/><br/><br/>
-                    <label>시작일</label>
-                    <input type="date" placeholder="시작일" value={start} required
-                           onChange={(e) => setStart(e.target.value)}/>
-                    <br/><br/><br/>
-                    <label>마감일</label>
-                    <input type="date" placeholder="마감일" value={end} required
-                           onChange={(e) => setEnd(e.target.value)}/>
-                    <br/><br/><br/>
-
-                    <div style={{
-                        width: '100%',
-                        backgroundColor: "#091E4224",
-                        borderRadius: "10px"
-                    }}>
-                        <h3 style={{textAlign: "center"}}>회원명단</h3>
-
-                        {memberList.map((member) => (
-                            <div key={member} style={{ // 수정 페이지 일 때 회원명단 표시
-                                width: '100%',
-                                height: '30px',
-                                display: 'flex',
-                                justifyContent: "space-between"
-                            }}
-                            >
-                                <p style={{
-                                    margin: "0px",
-                                    textAlign: "center",
-                                    width: "100%",
-                                    height: "30px"
-                                }}>{member}</p>
-                                <button
-                                    style={{
-                                        boxSizing: "border-box",
-                                        width: "27px",
-                                        height: "27px",
-                                        margin: "1.5px",
-                                        backgroundColor: "#EF4040CC",
-                                        color: "#FFFFFF",
-                                        border: "none"
-                                    }}
-                                    onClick={() => {
-                                        setMemberList(memberList.filter(memberList => memberList !== member));
-                                    }}
-                                >
-                                    X
-                                </button>
-                            </div>
-                        ))}
+    if (isAdmin) {
+        return (
+            <form onSubmit={handleSubmit}>
+                <div className="container-common">
+                    <div>
+                        <h1>프로젝트 {editing ? '수정' : '생성'}</h1><br/>
+                        <label>프로젝트명</label>
+                        <input type="text" placeholder="프로젝트명" value={title} required
+                               onChange={(e) => setTitle(e.target.value)}/>
+                        <br/><br/><br/>
+                        <label>타입</label>
+                        <input type="text" placeholder="타입" value={type} required
+                               onChange={(e) => setType(e.target.value)}/>
+                        <br/><br/><br/>
+                        <label>시작일</label>
+                        <input type="date" placeholder="시작일" value={start} required
+                               onChange={(e) => setStart(e.target.value)}/>
+                        <br/><br/><br/>
+                        <label>마감일</label>
+                        <input type="date" placeholder="마감일" value={end} required
+                               onChange={(e) => setEnd(e.target.value)}/>
+                        <br/><br/><br/>
 
                         <div style={{
                             width: '100%',
-                            display: 'flex',
-                            justifyContent: "space-between"
+                            backgroundColor: "#091E4224",
+                            borderRadius: "10px"
                         }}>
-                            <input
-                                id='inputEmail'
-                                placeholder="추가할 회원 이메일 입력"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <button
-                                style={{
-                                    width: "50px",
-                                    color: "#FFFFFF",
-                                    backgroundColor: "#7C93C3"
+                            <h3 style={{textAlign: "center"}}>회원명단</h3>
+
+                            {memberList.map((member) => (
+                                <div key={member} style={{ // 수정 페이지 일 때 회원명단 표시
+                                    width: '100%',
+                                    height: '30px',
+                                    display: 'flex',
+                                    justifyContent: "space-between"
                                 }}
-                                type="button"
-                                onClick={() => {
+                                >
+                                    <p style={{
+                                        margin: "0px",
+                                        textAlign: "center",
+                                        width: "100%",
+                                        height: "30px"
+                                    }}>{member}</p>
+                                    <button
+                                        style={{
+                                            boxSizing: "border-box",
+                                            width: "27px",
+                                            height: "27px",
+                                            margin: "1.5px",
+                                            backgroundColor: "#EF4040CC",
+                                            color: "#FFFFFF",
+                                            border: "none"
+                                        }}
+                                        onClick={() => {
+                                            setMemberList(memberList.filter(memberList => memberList !== member));
+                                        }}
+                                    >
+                                        X
+                                    </button>
+                                </div>
+                            ))}
 
-                                    const inputEmail = document.getElementById('inputEmail');
+                            <div style={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: "space-between"
+                            }}>
+                                <input
+                                    id='inputEmail'
+                                    placeholder="추가할 회원 이메일 입력"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <button
+                                    style={{
+                                        width: "50px",
+                                        color: "#FFFFFF",
+                                        backgroundColor: "#7C93C3"
+                                    }}
+                                    type="button"
+                                    onClick={() => {
 
-                                    // 이미 회원명단에 추가된 경우
-                                    if (email !== '') {
-                                        if (memberList.includes(email)) {
-                                            setEmail('');
-                                            inputEmail.style.border = '2px solid green';
-                                            inputEmail.placeholder = '이미 추가된 회원 입니다.';
-                                        } else { // 회원명단에 없는 경우
-                                            // 추가할 회원의 이메일 확인
-                                            axios.get(`/api/project/create/${email}`).then((res) => {
-                                                if (res.data.result) { // db에 이메일이 있을 경우
-                                                    setMemberList([...memberList, email]);
-                                                    setEmail('');
-                                                    inputEmail.style.border = '1px solid black';
-                                                    inputEmail.placeholder = '추가할 회원 이메일 입력';
-                                                } else { // db에 이메일이 없을 경우
-                                                    setEmail('');
-                                                    inputEmail.style.border = '1px solid red';
-                                                    inputEmail.placeholder = '정확한 이메일을 입력해 주세요';
-                                                }
-                                            }).catch(e => { // 못가져 왔을 경우 예외처리
-                                                console.log('유저 정보 요청 실패')
-                                            })
+                                        const inputEmail = document.getElementById('inputEmail');
+
+                                        // 이미 회원명단에 추가된 경우
+                                        if (email !== '') {
+                                            if (memberList.includes(email)) {
+                                                setEmail('');
+                                                inputEmail.style.border = '2px solid green';
+                                                inputEmail.placeholder = '이미 추가된 회원 입니다.';
+                                            } else { // 회원명단에 없는 경우
+                                                // 추가할 회원의 이메일 확인
+                                                axios.get(`/api/project/create/${email}`).then((res) => {
+                                                    if (res.data.result) { // db에 이메일이 있을 경우
+                                                        setMemberList([...memberList, email]);
+                                                        setEmail('');
+                                                        inputEmail.style.border = '1px solid black';
+                                                        inputEmail.placeholder = '추가할 회원 이메일 입력';
+                                                    } else { // db에 이메일이 없을 경우
+                                                        setEmail('');
+                                                        inputEmail.style.border = '1px solid red';
+                                                        inputEmail.placeholder = '정확한 이메일을 입력해 주세요';
+                                                    }
+                                                }).catch(e => { // 못가져 왔을 경우 예외처리
+                                                    console.log('유저 정보 요청 실패')
+                                                })
 
 
+                                            }
+                                        } else {
+                                            inputEmail.style.border = '2px solid blue';
                                         }
-                                    } else {
-                                        inputEmail.style.border = '2px solid blue';
-                                    }
 
 
-                                }}
-                            >추가
-                            </button>
+                                    }}
+                                >추가
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <br/><br/>
-                    <button
-                        type="submit"
-                        className="ok-common"
-                    >
-                        {editing ? '수정' : '생성'}
-                    </button>
-                    <br/><br/>
-                    <input
-                        className="cancel-common"
-                        type="button"
-                        value="취소"
-                        onClick={() => editing ? navigate('/project/dashboard') : navigate('/project')}
-                    />
-                    <br/><br/>
-                    {editing&&<input
-                        className="del-common"
-                        type="button"
-                        value="삭제"
-                        onClick={() => {
-                            // todo 삭제 로직 구현
-                            editing ? navigate('/project/dashboard') : navigate('/project')
-                        }}
-                    />}
+                        <br/><br/>
+                        <button
+                            type="submit"
+                            className="ok-common"
+                        >
+                            {editing ? '수정' : '생성'}
+                        </button>
+                        <br/><br/>
+                        <input
+                            className="cancel-common"
+                            type="button"
+                            value="취소"
+                            onClick={() => editing ? navigate('/project/dashboard') : navigate('/project')}
+                        />
+                        <br/><br/>
+                        {editing && <input
+                            className="del-common"
+                            type="button"
+                            value="삭제"
+                            onClick={() => {
+                                // todo 삭제 로직 구현
+                                editing ? navigate('/project/dashboard') : navigate('/project')
+                            }}
+                        />}
+                    </div>
                 </div>
+            </form>
+        )
+
+    } else {
+        return (
+            <div className="container-common">
+                <div>
+                    <h1>정말 탈회하시겠습니까?</h1>
+                    <button className="del-common">탈퇴</button>
+                </div>
+
             </div>
-        </form>
-    )
+        )
+    }
 
 
 }

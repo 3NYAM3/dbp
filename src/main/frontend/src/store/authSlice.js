@@ -29,6 +29,7 @@ const authSlice = createSlice({ //createSlice를 통해 state를 정의
         logout:(state)=>{
             localStorage.removeItem('isLoggedIn'); // 로컬스토리지 로그인 되었다고 저장된거 삭제
             localStorage.removeItem('projectNum'); // 로컬스토리지 프로젝트 넘버도 삭제
+            localStorage.removeItem('taskNum'); // 로컬스토리지 작업 넘버도 삭제
             state.isLoggedIn = false;
         }
     }
