@@ -29,14 +29,19 @@ const NoticeForm = ({editing}) => {
                 />
                 <br/><br/>
                 <button className="ok-common" onClick={() => {
-                    axios.post(`/api/project/dashboard/${localStorage.getItem('projectNum')}/create`, {
-                        title,
-                        content
-                    }, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
-                        console.log(res);
-                    }).catch(e => {
-                        console.log('글쓰기 post error')
-                    })
+                    if (editing) {
+
+                    } else {
+                        axios.post(`/api/project/dashboard/${localStorage.getItem('projectNum')}/create`, {
+                            title,
+                            content
+                        }, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
+                            navigate(-1);
+                        }).catch(e => {
+                            console.log('글쓰기 post error')
+                        })
+
+                    }
                 }}>{editing ? '수정' : '등록'}</button>
                 <br/><br/>
                 <button className="cancel-common" onClick={() => navigate('/project/dashboard')}>취소</button>

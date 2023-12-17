@@ -11,6 +11,9 @@ const List = ({isProject, isDashboard, isTask}) => {
     const [searchText, setSearchText] = useState('');
     const [oriList, setOriList] = useState([]);
     const [dataList, setDataList] = useState([]);
+
+    const [dashboardList, setDashboardList] = useState([]);
+
     const dispatch = useDispatch();
     const num = useSelector(state => state.num.projectNum);
     const [projectName, setProjectName] = useState('');
@@ -29,10 +32,15 @@ const List = ({isProject, isDashboard, isTask}) => {
         } else if (isDashboard) {
             axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}/`).then((res) => {
                 setProjectName(res.data.data.projectName);
-                setProjectDate(res.data.data.startDate+" ~ "+res.data.data.lastDate);
+                setProjectDate(res.data.data.startDate + " ~ " + res.data.data.lastDate);
             }).catch(e => {
                 console.log('대시보드 정보 가져오지 못함');
             });
+            axios.get(`/api/project/dashboard/${localStorage.getItem('projectNum')}/notice`).then((res) => {
+                setDashboardList(res.data.data);
+            }).catch(e=>{
+                console.log('대시보드 리스트 가져오지 못함')
+            })
         }
     }, []);
 
@@ -53,6 +61,24 @@ const List = ({isProject, isDashboard, isTask}) => {
                         dispatch(setProjectNum(data.projectId)); // 프로젝트 받아온 번호로 지정
                     }}
                 />
+            )
+        })
+    }
+
+    const renderDashboard = () => {
+        return dashboardList.map((data) => {
+            return (
+                <ListIndex
+                    key={data.noticeId}
+                    isDashboard={true}
+                    dashboard={{
+                        title: data.title,
+                        writer: data.writer,
+                        date: data.createTime
+                    }}
+                    // onClick={() => navigate('/project/dashboard')} // 페이지 만들어야 함
+                />
+
             )
         })
     }
@@ -118,17 +144,7 @@ const List = ({isProject, isDashboard, isTask}) => {
                 }
             </div>
             {isProject ? renderProject()
-                : isDashboard ?
-                    <ListIndex
-                        isDashboard={true}
-                        dashboard={{
-                            name: "yp",
-                            content: "내용",
-                            date: "2019"
-                        }}
-                        // onClick={() => navigate('/project/dashboard')}
-                        // onClick={() => navigate(`/blogs/${post.id}`)} routes에 추가
-                    />
+                : isDashboard ? renderDashboard()
                     : isTask ?
                         <ListIndex
                             isTask={true}
