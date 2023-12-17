@@ -60,6 +60,7 @@ public class TaskService {
         List<TaskDto> taskDtoList = tasks.stream()
                 .map(task -> {
                     TaskDto taskDto = new TaskDto();
+                    taskDto.setTaskId(task.getTaskId());
                     taskDto.setContent(task.getContent());
                     taskDto.setMemo(task.getMemo());
                     taskDto.setLastDate(task.getLastDate());

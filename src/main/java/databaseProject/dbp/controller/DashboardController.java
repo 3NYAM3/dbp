@@ -39,5 +39,8 @@ public class DashboardController {
         return result;
     }
 
+//    @GetMapping("/")
+//    public ResponseDto<?> getNoticeDetail(@)
+
 
 }
