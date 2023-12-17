@@ -1,34 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
+import {useSelector} from "react-redux";
 
 const PostPage = () => {
     const [title, setTitle] = useState('');
     const [writer, setWriter] = useState('');
     const [date, setDate] = useState('');
     const [content, setContent] = useState('');
-    const [comments, setComments] = useState([
-        // {content: '초기 댓글 1', author: '작성자1', date: '2022-12-18 12:00'},
-        // {content: '초기 댓글 2', author: '작성자2', date: '2022-12-18 13:00'},
-    ]);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const navigate = useNavigate();
 
-    // 현재 날짜와 시간을 반환하는 함수
-    const getCurrentDateTime = () => {
-        const now = new Date();
-        return now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0];
-    };
-
     const addComment = () => {
-        if (newComment.trim() !== '') {
-            setComments([...comments, {content: newComment, author: '새 작성자', date: getCurrentDateTime()}]);
+        axios.post(`/api/project/dashboard/review/${localStorage.getItem('noticeNum')}`, {content: newComment}, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
+            setComments([...comments, {
+                content: res.data.data.content,
+                writerName: res.data.data.writerName,
+                writingTime: res.data.data.writingTime,
+                reviewId: res.data.data.reviewId,
+                writer: res.data.data.writer,
+            }]);
             setNewComment('');
             window.scrollTo({
                 top: document.body.scrollHeight,
                 behavior: 'smooth',
             });
-        }
+        }).catch(e => {
+            console.log('댓글 작성 실패')
+        })
+
     };
     useEffect(() => {
         // 글 제목, 작성자, 작성일, 내용
@@ -47,8 +48,14 @@ const PostPage = () => {
         }).catch(e => {
             console.log('댓글 받아오기 실패');
         })
-    }, []);
 
+        // 이메일 받아오기
+        axios.get('/api/members/info', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => { // get으로 가져옴
+            setEmail(res.data.data.email);
+        }).catch(e => { // 못가져 왔을 경우 예외처리
+            console.log('이메일 받아오지 못함');
+        })
+    }, []);
 
     const styles = {
         container: {
@@ -77,6 +84,7 @@ const PostPage = () => {
         content: {
             fontSize: '1rem',
             marginBottom: '20px',
+            wordWrap: 'break-word'
         },
         commentSection: {
             marginTop: '30px',
@@ -124,6 +132,13 @@ const PostPage = () => {
             borderRadius: '4px',
             cursor: 'pointer',
             fontSize: '1rem',
+        }, xButton: {
+            float: 'right',
+            color: '#FF8888',
+            backgroundColor: 'transparent',
+            border: 'none',
+            marginRight: '5px',
+            cursor: 'pointer',
         },
     };
 
@@ -138,10 +153,24 @@ const PostPage = () => {
             <p style={styles.content}>{content}</p>
             <div style={styles.commentSection}>
                 <h3>댓글</h3>
-                {comments.map((comment, index) => (
-                    <div key={index} style={styles.comment}>
-                        <strong>{comment.author}</strong>: <span style={styles.commentContent}>{comment.content}</span>
-                        <span style={styles.commentDate}>{comment.date}</span>
+                {comments.map((comment) => (
+                    <div key={comment.reviewId}
+                         style={styles.comment}
+                    >
+                        <strong>{comment.writerName}</strong>: <span
+                        style={styles.commentContent}>{comment.content}</span>
+                        <span style={styles.commentDate}>{comment.writingTime}</span>
+                        {(comment.writer === email) && <button
+                            style={styles.xButton}
+                            onClick={() => {
+                                axios.delete(`/api/project/dashboard/review/${comment.reviewId}`,
+                                    {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
+                                    .then((res) => {
+                                        setComments(comments.filter((c) => c.reviewId !== comment.reviewId));
+                                    }).catch(e => {
+                                    console.log('댓글 삭제 실패')
+                                })
+                            }}>X</button>}
                     </div>
                 ))}
                 <textarea
