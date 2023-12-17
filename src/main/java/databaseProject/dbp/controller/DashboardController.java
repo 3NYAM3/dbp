@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/project/dashboard/{projectId}")
+@RequestMapping("api/project/dashboard")
 @RequiredArgsConstructor
 public class DashboardController {
 
     private final ProjectService projectService;
     private final NoticeService noticeService;
 
-    @PostMapping("/create")
+    @PostMapping("/{projectId}/create")
     public ResponseDto<?> createNotice(@RequestBody CreateNoticeDto createNoticeDto, @AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
         System.out.println(createNoticeDto);
         System.out.println(email);
@@ -27,21 +27,21 @@ public class DashboardController {
         ResponseDto<?> result = noticeService.createNotice(createNoticeDto, email, projectId);
         return result;
     }
-    @GetMapping("/notice")
+    @GetMapping("/{projectId}/notice")
     public ResponseDto<?> getNoticeList(@PathVariable("projectId") Long projectId){
         ResponseDto<List<NoticeDto>> result = noticeService.getNoticeList(projectId);
         return result;
     }
-    @GetMapping("/")
+    @GetMapping("/{projectId}")
     public ResponseDto<?> getProjectDetail(@PathVariable("projectId") Long projectId){
         System.out.println(projectId);
         ResponseDto<?> result = projectService.getProject(projectId);
         return result;
     }
 
-    @GetMapping("/{noticeId}")
-    public ResponseDto<?> getNoticeDetail(@PathVariable("projectId")Long projectId, @PathVariable("noticeId")Long noticeId){
-        System.out.println(projectId+noticeId);
+    @GetMapping("/notice/{noticeId}")
+    public ResponseDto<?> getNoticeDetail(@PathVariable("noticeId")Long noticeId){
+        System.out.println(noticeId);
         ResponseDto<?> result = noticeService.getNotice(noticeId);
         return result;
     }

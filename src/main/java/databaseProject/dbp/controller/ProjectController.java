@@ -59,5 +59,11 @@ public class ProjectController {
         return result;
     }
 
+    @DeleteMapping("/withdrawal")
+    public ResponseDto<?> projectWithdrawal(@AuthenticationPrincipal String email){
+        ResponseDto<?> result = projectService.withdrawal(email);
+        return result;
+    }
+
 
 }
