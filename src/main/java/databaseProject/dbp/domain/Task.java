@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -20,12 +22,25 @@ public class Task {
     @JsonManagedReference
     private Project project;
 
-    private Long resMemberId;
+    private String content;
 
-    private String startDate;
+    private String memo;
 
-    private String lastDate;
+    private LocalDate startDate;
 
-    private TaskStatus noticeStatus; //[PROGRESS, END]
+    private LocalDate lastDate;
+
+
+    //==생성 메서드==//
+    public static Task createTask(Project project, String content, String memo, LocalDate startDate, LocalDate lastDate) {
+        Task task = new Task();
+        task.setProject(project);
+        task.setContent(content);
+        task.setMemo(memo);
+        task.setStartDate(startDate);
+        task.setLastDate(lastDate);
+
+        return task;
+    }
 
 }

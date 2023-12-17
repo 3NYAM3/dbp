@@ -41,9 +41,9 @@ public class NoticeService {
         Notice notice = null;
 
         try {
-            notice = Notice.createNotice(project,noticeTitle, writer, content, createDate);
-            if (notice==null) return ResponseDto.setFailed("create failed");
-        }catch (Exception e){
+            notice = Notice.createNotice(project, noticeTitle, writer, content, createDate);
+            if (notice == null) return ResponseDto.setFailed("create failed");
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -54,13 +54,13 @@ public class NoticeService {
 
     }
 
-    public ResponseDto<List<NoticeDto>> getNoticeList(Long projectId){
+    public ResponseDto<List<NoticeDto>> getNoticeList(Long projectId) {
         List<Notice> notices = null;
 
         try {
             notices = noticeRepository.findNoticesByProjectId(projectId);
-            if(notices == null) return ResponseDto.setFailed("notices get failled");
-        }catch (Exception e){
+            if (notices == null) return ResponseDto.setFailed("notices get failled");
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -72,6 +72,7 @@ public class NoticeService {
                     noticeDto.setWriter(notice.getWriter());
                     noticeDto.setTitle(notice.getTitle());
                     noticeDto.setCreateTime(notice.getCreateTime());
+
                     return noticeDto;
                 })
                 .collect(Collectors.toList());
