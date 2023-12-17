@@ -20,7 +20,7 @@ public class DashboardController {
     private final NoticeService noticeService;
 
     @PostMapping("/create")
-    public ResponseDto createNotice(@RequestBody CreateNoticeDto createNoticeDto, @AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
+    public ResponseDto<?> createNotice(@RequestBody CreateNoticeDto createNoticeDto, @AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
         System.out.println(createNoticeDto);
         System.out.println(email);
         System.out.println(projectId);
@@ -28,7 +28,7 @@ public class DashboardController {
         return result;
     }
     @GetMapping("/notice")
-    public ResponseDto getNoticeList(@PathVariable("projectId") Long projectId){
+    public ResponseDto<?> getNoticeList(@PathVariable("projectId") Long projectId){
         ResponseDto<List<NoticeDto>> result = noticeService.getNoticeList(projectId);
         return result;
     }
