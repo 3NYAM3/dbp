@@ -39,7 +39,7 @@ public class ProjectController {
     @GetMapping("/{projectId}")
     public ResponseDto<?> getProjectDetail(@PathVariable("projectId") Long projectId){
         System.out.println(projectId);
-        ResponseDto<?> result = projectService.getProject(projectId);
+        ResponseDto<ProjectDto> result = projectService.getProject(projectId);
         return result;
     }
 

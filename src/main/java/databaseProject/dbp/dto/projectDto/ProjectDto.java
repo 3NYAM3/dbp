@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ProjectDto {
     private Long projectId;
-    private String title;
+    private String projectName;
     private String type;
     private String leaderEmail;
     private LocalDate startDate;

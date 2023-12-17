@@ -85,7 +85,7 @@ public class ProjectService {
                 .map(project -> {
                     ProjectDto projectDto = new ProjectDto();
                     projectDto.setProjectId(project.getProjectId());
-                    projectDto.setTitle(project.getProjectName());
+                    projectDto.setProjectName(project.getProjectName());
                     projectDto.setType(project.getType());
                     Member member = memberRepository.findOne(project.getLeaderId());
                     projectDto.setLeaderEmail(member.getEmail());
@@ -97,22 +97,22 @@ public class ProjectService {
         return ResponseDto.setSuccess("Success", projectDtoList);
     }
 
-    public ResponseDto<?> getProject(Long id) {
+    public ResponseDto<ProjectDto> getProject(Long projectId) {
         Project project = null;
-        ProjectDto projectDto = null;
+        ProjectDto projectDto = new ProjectDto();
 
         try {
-            project = projectRepository.findOne(id);
+            project = projectRepository.findOne(projectId);
             if (project == null) {
                 return ResponseDto.setFailed("failed");
             }
-            projectDto.setProjectId(project.getProjectId());
+            projectDto.setProjectId(projectId);
             projectDto.setType(project.getType());
             projectDto.setStartDate(project.getStartDate());
             projectDto.setLastDate(project.getLastDate());
             Member member = memberRepository.findOne(project.getLeaderId());
             projectDto.setLeaderEmail(member.getEmail());
-            projectDto.setTitle(project.getProjectName());
+            projectDto.setProjectName(project.getProjectName());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
