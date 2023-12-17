@@ -73,6 +73,8 @@ public class TaskService {
     }
 
 
+
+
     @Transactional
     public ResponseDto<?> editTask(CreateTaskDto updateDto, Long taskId) {
         Task task = null;
@@ -104,5 +106,18 @@ public class TaskService {
         taskRepository.updateTask(task);
 
         return ResponseDto.setSuccessNotIncludeData("Success");
+    }
+
+    public ResponseDto<?> getTask(Long taskId) {
+        Task task = null;
+        try {
+            task = taskRepository.findOne(taskId);
+            if(task==null) return ResponseDto.setFailed("failed");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+
+        return ResponseDto.setSuccess("Success", task);
     }
 }
