@@ -28,7 +28,9 @@ public class Notice {
     @Column(length = 8191)
     private String content;
 
-    private String writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer")
+    private Member member;
 
     private String createTime;
 
@@ -39,11 +41,11 @@ public class Notice {
 
 
     //==생성 메서드==//
-    public static Notice createNotice(Project project, String title, String writer, String content, String createTime){
+    public static Notice createNotice(Project project, String title, Member writer, String content, String createTime){
         Notice notice = new Notice();
         notice.setProject(project);
         notice.setTitle(title);
-        notice.setWriter(writer);
+        notice.setMember(writer);
         notice.setContent(content);
         notice.setCreateTime(createTime);
 

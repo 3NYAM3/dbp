@@ -32,6 +32,10 @@ public class Member {
     @JsonBackReference
     private Set<Review> reviews = new HashSet<>();
 
+    @OneToMany(mappedBy = "member")
+    @JsonBackReference
+    private Set<Notice> notices = new HashSet<>();
+
 
     //==생성 메서드==//
     public static Member createMember(String name, String email, String password){

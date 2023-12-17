@@ -83,7 +83,7 @@ public class ProjectController {
     }
 
     /**
-     * 프로젝트 탈퇴
+     * 프로젝트 회원 탈퇴
      * @param email
      * @return
      */

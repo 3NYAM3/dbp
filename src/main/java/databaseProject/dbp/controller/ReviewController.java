@@ -19,7 +19,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     /**
-     * 댓들 생성
+     * 댓글 생성
      * @param email
      * @param noticeId
      * @param createReviewDto

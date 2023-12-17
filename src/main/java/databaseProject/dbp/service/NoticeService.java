@@ -34,14 +34,13 @@ public class NoticeService {
         Member member = memberRepository.findByEmail(email);
         String noticeTitle = createNoticeDto.getTitle();
         String content = createNoticeDto.getContent();
-        String writer = member.getName();
         String createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Project project = projectRepository.findOne(projectId);
 
         Notice notice = null;
 
         try {
-            notice = Notice.createNotice(project, noticeTitle, writer, content, createDate);
+            notice = Notice.createNotice(project, noticeTitle, member, content, createDate);
             if (notice == null) return ResponseDto.setFailed("create failed");
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +68,7 @@ public class NoticeService {
                 .map(notice -> {
                     NoticeDto noticeDto = new NoticeDto();
                     noticeDto.setNoticeId(notice.getNoticeId());
-                    noticeDto.setWriter(notice.getWriter());
+                    noticeDto.setWriter(notice.getMember());
                     noticeDto.setContent(notice.getContent());
                     noticeDto.setTitle(notice.getTitle());
                     noticeDto.setCreateTime(notice.getCreateTime());
@@ -96,7 +95,7 @@ public class NoticeService {
         NoticeDto noticeDto = new NoticeDto();
         noticeDto.setTitle(notice.getTitle());
         noticeDto.setNoticeId(noticeId);
-        noticeDto.setWriter(notice.getWriter());
+        noticeDto.setWriter(notice.getMember());
         noticeDto.setContent(notice.getContent());
         noticeDto.setCreateTime(notice.getCreateTime());
         return ResponseDto.setSuccess("Success", noticeDto);
