@@ -32,5 +32,17 @@ public class Review {
     @JoinColumn(name = "member_id")
     @JsonManagedReference
     private Member member;
+
+
+    //==생성 메서드==//
+    public static Review createReview(Notice notice, String content, LocalDateTime localDateTime, Member member){
+        Review review = new Review();
+        review.setNotice(notice);
+        review.setContent(content);
+        review.setDateTime(localDateTime);
+        review.setMember(member);
+
+        return review;
+    }
 }
 

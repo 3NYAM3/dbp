@@ -32,4 +32,13 @@ public class Member {
     private Set<Review> reviews = new HashSet<>();
 
 
+    //==생성 메서드==//
+    public static Member createMember(String name, String email, String password){
+        Member member = new Member();
+        member.setName(name);
+        member.setEmail(email);
+        member.setPassword(password);
+        return member;
+    }
+
 }

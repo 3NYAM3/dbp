@@ -36,10 +36,9 @@ public class MemberService {
     @Transactional
     public ResponseDto<?> join(SignUpDto dto){
 
-        Member member = new Member();
-        member.setName(dto.getName());
-        member.setEmail(dto.getEmail());
-        member.setPassword(passwordEncoder.encode(dto.getPassword()));
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+
+        Member member = Member.createMember(dto.getName(), dto.getEmail(), encodedPassword);
 
         try{
            if(validateDuplicateMember(member)){
