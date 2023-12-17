@@ -11,6 +11,7 @@ const PostPage = () => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const navigate = useNavigate();
+    const [email, setEmail] = useState('');
 
     const addComment = () => {
         axios.post(`/api/project/dashboard/review/${localStorage.getItem('noticeNum')}`, {content: newComment}, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
