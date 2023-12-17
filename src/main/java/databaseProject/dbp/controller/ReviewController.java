@@ -50,8 +50,8 @@ public class ReviewController {
      * @param reviewId
      * @return
      */
-    @DeleteMapping("/{reviewId}")
-    public ResponseDto<?> deleteReview(@AuthenticationPrincipal String email, @PathVariable("reviewId") Long reviewId){
+    @DeleteMapping("/{memberId}")
+    public ResponseDto<?> deleteReview(@AuthenticationPrincipal String email, @PathVariable("memberId") Long reviewId){
         System.out.println(email+reviewId);
         ResponseDto<?> result = reviewService.deleteReview(email, reviewId);
         return result;
