@@ -25,7 +25,7 @@ const NavBar = () => {
             .catch(e => {
                 console.log('유저 정보 가져오지 못함');
             });
-    }, [flag]);
+    }, [num]);
 
     return (
         <nav>
@@ -73,7 +73,7 @@ const NavBar = () => {
                                 타임라인
                             </NavLink>
                         </li>
-                        {flag&&<li>
+                        {flag && <li>
                             <NavLink
                                 className={({isActive}) => "link" + (isActive ? " activate" : "")}
                                 aria-current="page"

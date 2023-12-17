@@ -9,6 +9,7 @@ import {setProjectNum} from "../store/numSlice";
 const List = ({isProject, isDashboard, isTask}) => {
     const navigate = useNavigate();
     const [searchText, setSearchText] = useState('');
+    const [oriList, setOriList] = useState([]);
     const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
     const num = useSelector(state => state.num.projectNum);
@@ -36,6 +37,7 @@ const List = ({isProject, isDashboard, isTask}) => {
     }, []);
 
     const renderProject = () => {
+        // setDataList(oriList);
         return dataList.map((data) => {
             return (
                 <ListIndex
@@ -56,7 +58,13 @@ const List = ({isProject, isDashboard, isTask}) => {
     }
 
     const onSearch = () => {
-        // 검색 로직 구현
+        // if (isProject){
+        //     console.log(dataList.filter(item => item.title.includes(searchText)))
+        // }
+        // console.log('test')
+        // return(
+        //     <div>dd</div>
+        // )
     }
     return (
         <div>
