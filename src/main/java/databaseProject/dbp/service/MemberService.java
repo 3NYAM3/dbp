@@ -146,17 +146,17 @@ public class MemberService {
         Set<Notice> notices = member.getNotices();
         List<Review> reviews = reviewRepository.findByMemberId(member.getMemberId());
         try {
-            if (member == null || projects == null || reviews == null) {
+            if (member == null || projects == null || reviews == null || notices == null) {
                 return ResponseDto.setFailed("member, project,reviews not found");
             }
-            Member leader=null;
+            Member leader = null;
             for (Project project : projects) {
                 if (project.getLeaderId().equals(member.getMemberId())) {
-                     leader= assignNewLeader(project);
+                    leader = assignNewLeader(project);
                 }
-                if(leader==null){
+                if (leader == null) {
                     projectRepository.removeProject(project);
-                }else {
+                } else {
                     project.getMembers().remove(member);
                 }
 

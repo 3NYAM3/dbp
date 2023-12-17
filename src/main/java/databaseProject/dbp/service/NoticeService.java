@@ -68,7 +68,7 @@ public class NoticeService {
                 .map(notice -> {
                     NoticeDto noticeDto = new NoticeDto();
                     noticeDto.setNoticeId(notice.getNoticeId());
-                    noticeDto.setWriter(notice.getMember());
+                    noticeDto.setWriter(notice.getMember().getName());
                     noticeDto.setContent(notice.getContent());
                     noticeDto.setTitle(notice.getTitle());
                     noticeDto.setCreateTime(notice.getCreateTime());
@@ -95,7 +95,7 @@ public class NoticeService {
         NoticeDto noticeDto = new NoticeDto();
         noticeDto.setTitle(notice.getTitle());
         noticeDto.setNoticeId(noticeId);
-        noticeDto.setWriter(notice.getMember());
+        noticeDto.setWriter(notice.getMember().getName());
         noticeDto.setContent(notice.getContent());
         noticeDto.setCreateTime(notice.getCreateTime());
         return ResponseDto.setSuccess("Success", noticeDto);
