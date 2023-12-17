@@ -96,9 +96,10 @@ const List = ({isProject, isDashboard, isTask}) => {
     }
 
     const renderTask = () => {
-        return taskList.map((data) => {
+        return taskList.map((data, index) => {
             return (
                 <ListIndex
+                    key={index}
                     isTask={true}
                     task={{
                         title: data,

@@ -1,11 +1,11 @@
-import {memo, useState} from "react";
+import {useState} from "react";
 import propTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 const TaskForm = ({editing}) => {
     const [task, setTask] = useState('');
-    const [manager, setManager] = useState('');
+    const [memo, setMemo] = useState('');
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const navigate = useNavigate();
@@ -23,9 +23,9 @@ const TaskForm = ({editing}) => {
                     setTask(e.target.value)
                 }}/>
                 <br/><br/>
-                <label>담당자</label>
-                <input type="text" value={manager} onChange={(e) => {
-                    setManager(e.target.value)
+                <label>메모</label>
+                <input type="text" value={memo} onChange={(e) => {
+                    setMemo(e.target.value)
                 }}/>
                 <br/><br/>
                 <label>시작일</label>
@@ -49,7 +49,7 @@ const TaskForm = ({editing}) => {
                                     startDate: start,
                                     lastDate: end
                                 }).then((res) => {
-                                    console.log(res);
+                                    navigate(-1);
                                 }).catch(e => {
                                     console.log('작업 등록 오류')
                                 })
