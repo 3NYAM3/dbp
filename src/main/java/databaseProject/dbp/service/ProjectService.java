@@ -99,18 +99,26 @@ public class ProjectService {
 
     public ResponseDto<?> getProject(Long id) {
         Project project = null;
+        ProjectDto projectDto = null;
 
         try {
             project = projectRepository.findOne(id);
             if (project == null) {
                 return ResponseDto.setFailed("failed");
             }
+            projectDto.setProjectId(project.getProjectId());
+            projectDto.setType(project.getType());
+            projectDto.setStartDate(project.getStartDate());
+            projectDto.setLastDate(project.getLastDate());
+            Member member = memberRepository.findOne(project.getLeaderId());
+            projectDto.setLeaderEmail(member.getEmail());
+            projectDto.setTitle(project.getProjectName());
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
 
-        return ResponseDto.setSuccess("Success", project);
+        return ResponseDto.setSuccess("Success", projectDto);
     }
 
 
