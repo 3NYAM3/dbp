@@ -30,7 +30,7 @@ public class TaskController {
         return result;
     }
 
-    @PutMapping("/edit/{noticeId}")
+    @PutMapping("/edit/{taskId}")
     public ResponseDto<?> editTask(@RequestBody CreateTaskDto createTaskDto, @PathVariable("projectId") Long projectId, @PathVariable("taskId") Long taskId){
         System.out.println("editTask"+createTaskDto);
         System.out.println(projectId);
