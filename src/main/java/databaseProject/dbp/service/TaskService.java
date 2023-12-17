@@ -117,7 +117,13 @@ public class TaskService {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
+        TaskDto taskDto= new TaskDto();
+        taskDto.setTaskId(taskId);
+        taskDto.setContent(task.getContent());
+        taskDto.setMemo(task.getMemo());
+        taskDto.setStartDate(task.getStartDate());
+        taskDto.setLastDate(task.getLastDate());
 
-        return ResponseDto.setSuccess("Success", task);
+        return ResponseDto.setSuccess("Success", taskDto);
     }
 }
