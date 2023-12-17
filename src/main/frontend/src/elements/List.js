@@ -89,7 +89,7 @@ const List = ({isProject, isDashboard, isTask}) => {
                         writer: data.writer,
                         date: data.createTime
                     }}
-                    // onClick={() => navigate('/project/dashboard')} // 페이지 만들어야 함
+                    onClick={() => navigate('/project/dashboard/post')}
                 />
 
             )
@@ -108,7 +108,7 @@ const List = ({isProject, isDashboard, isTask}) => {
                         start: data.startDate,
                         end: data.lastDate
                     }}
-                    // onClick={() => navigate('/project/dashboard')} // 작업 수정으로ㄱㄱ
+                    onClick={() => navigate('/project/task/edit')} // 작업 수정으로ㄱㄱ
                 />
             )
         })

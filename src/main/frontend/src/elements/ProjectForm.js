@@ -43,6 +43,7 @@ const ProjectForm = ({editing}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editing) { // 프로젝트 수정 페이지 submit
+            // 수정된 회원 목록 전송해 줘야함
             // axios.patch('', {title, type, start, end}).then(() => {
             //     navigate('/project/dashboard')
             // })
@@ -246,6 +247,16 @@ const ProjectForm = ({editing}) => {
                         value="취소"
                         onClick={() => editing ? navigate('/project/dashboard') : navigate('/project')}
                     />
+                    <br/><br/>
+                    {editing&&<input
+                        className="del-common"
+                        type="button"
+                        value="삭제"
+                        onClick={() => {
+                            // todo 삭제 로직 구현
+                            editing ? navigate('/project/dashboard') : navigate('/project')
+                        }}
+                    />}
                 </div>
             </div>
         </form>

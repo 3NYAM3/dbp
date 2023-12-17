@@ -442,6 +442,7 @@ nav {
     background-color: #0C66E4;
     font-weight: bold;
     color: #FFFFFF;
+    cursor: pointer;
 }
 
 .ok-common:hover {
@@ -451,10 +452,21 @@ nav {
 .cancel-common {
     background-color: #E0E0E0;
     color: #000000;
+    cursor: pointer;
 }
 
 .cancel-common:hover {
     background-color: #C0C0C0;
+}
+
+.del-common {
+    background-color: #FF3333;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.del-common:hover {
+    background-color: #FF0000;
 }
 
 .container-common-input {

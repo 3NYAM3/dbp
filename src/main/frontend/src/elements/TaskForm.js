@@ -20,57 +20,69 @@ const TaskForm = ({editing}) => {
         }).catch(e => {
             console.log('프로젝트 시작일 마감일 가져오지 못함');
         });
+
+        if (editing) { // todo 수정 페이지일 경우에 값을 가져와서 띄워줌
+
+        }
     }, []);
 
-    if (editing) { // 수정 페이지일 경우에 값을 가져와서 띄워줌
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (editing) { // 작업 생성
+            // todo 수정 작업 수행
+        } else { // 작업 등록
+            axios.post(`/api/project/task/${localStorage.getItem('projectNum')}/create`, {
+                content: task,
+                memo: memo,
+                startDate: start,
+                lastDate: end
+            }).then((res) => {
+                navigate('/project/task');
+            }).catch(e => {
+                console.log('작업 등록 오류')
+            })
+        }
     }
 
     return (
         <div className="container-common">
             <div>
-                <h1>작업 {editing ? '수정' : '등록'}</h1>
-                <label>작업명</label>
-                <input type="text" value={task} onChange={(e) => {
-                    setTask(e.target.value)
-                }}/>
-                <br/><br/>
-                <label>메모</label>
-                <input type="text" value={memo} onChange={(e) => {
-                    setMemo(e.target.value)
-                }}/>
-                <br/><br/>
-                <label>시작일</label>
-                <input type="date" value={start} onChange={(e) => {
-                    setStart(e.target.value)
-                }} min={projectStart} max={projectEnd}/>
-                <br/><br/>
-                <label>마감일</label>
-                <input type="date" value={end} onChange={(e) => {
-                    setEnd(e.target.value)
-                }} min={projectStart} max={projectEnd}/>
-                <br/><br/><br/>
-                <button
-                    className="ok-common"
-                    onClick={() => {
-                        if (editing) {
-
-                        } else {
-                            axios.post(`/api/project/task/${localStorage.getItem('projectNum')}/create`, {
-                                content: task,
-                                memo: memo,
-                                startDate: start,
-                                lastDate: end
-                            }).then((res) => {
-                                navigate(-1);
-                            }).catch(e => {
-                                console.log('작업 등록 오류')
-                            })
-                        }
-                    }}
-                >{editing ? '수정' : '등록'}</button>
-                <br/><br/>
-                <button className="cancel-common" onClick={() => navigate('/project/task')}>취소</button>
+                <form onSubmit={handleSubmit}>
+                    <h1>작업 {editing ? '수정' : '등록'}</h1>
+                    <label>작업명</label>
+                    <input required type="text" value={task} onChange={(e) => {
+                        setTask(e.target.value)
+                    }}/>
+                    <br/><br/>
+                    <label>메모</label>
+                    <input required type="text" value={memo} onChange={(e) => {
+                        setMemo(e.target.value)
+                    }}/>
+                    <br/><br/>
+                    <label>시작일</label>
+                    <input required type="date" value={start} onChange={(e) => {
+                        setStart(e.target.value)
+                    }} min={projectStart} max={projectEnd}/>
+                    <br/><br/>
+                    <label>마감일</label>
+                    <input required type="date" value={end} onChange={(e) => {
+                        setEnd(e.target.value)
+                    }} min={projectStart} max={projectEnd}/>
+                    <br/><br/><br/>
+                    <button
+                        className="ok-common"
+                        type="submit"
+                    >{editing ? '수정' : '등록'}</button>
+                    <br/><br/>
+                    <button type="button" className="cancel-common" onClick={() => navigate('/project/task')}>취소
+                    </button>
+                    <br/><br/>
+                    {editing && <button type="button" className="del-common" onClick={() => {
+                        // 삭제 작업 수행
+                        navigate('/project/task')
+                    }}>삭제
+                    </button>}
+                </form>
             </div>
         </div>
     )

@@ -10,6 +10,8 @@ import CreateTaskPage from "./Pages/CreateTaskPage";
 import ErrorPage from "./Pages/ErrorPage";
 import ProtectedRoute from "./ProtectedRoute";
 import UserPage from "./Pages/UserPage";
+import EditTaskPage from "./Pages/EditTaskPage";
+import PostPage from "./Pages/PostPage";
 
 const routes = [
     {
@@ -53,8 +55,18 @@ const routes = [
     },
     {
         auth: true,
+        path: '/project/dashboard/post',
+        element: <PostPage/>
+    },
+    {
+        auth: true,
         path: '/project/task',
         element: <ProjectTaskPage/>
+    },
+    {
+        auth: true,
+        path: '/project/task/edit',
+        element: <EditTaskPage/>
     },
     {
         auth: true,

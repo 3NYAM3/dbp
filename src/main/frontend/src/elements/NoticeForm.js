@@ -8,43 +8,50 @@ const NoticeForm = ({editing}) => {
     const navigate = useNavigate();
     const [title, setTitle] = useState('')
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (editing) {
+
+        } else {
+            axios.post(`/api/project/dashboard/${localStorage.getItem('projectNum')}/create`, {
+                title,
+                content
+            }, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
+                navigate('/project/dashboard');
+            }).catch(e => {
+                console.log('글쓰기 post error')
+            })
+
+        }
+    }
+
     return (
         <div className="container-common">
             <div>
-                <h1>글 {editing ? '수정' : '쓰기'}</h1>
-                <input
-                    placeholder="제목"
-                    value={title}
-                    onChange={(e) => {
-                        setTitle(e.target.value)
-                    }}
-                /><br/><br/>
-                <textarea
-                    placeholder="내용"
-                    value={content}
-                    onChange={(e) => {
-                        setContent(e.target.value);
-                    }}
-                    rows="20"
-                />
-                <br/><br/>
-                <button className="ok-common" onClick={() => {
-                    if (editing) {
-
-                    } else {
-                        axios.post(`/api/project/dashboard/${localStorage.getItem('projectNum')}/create`, {
-                            title,
-                            content
-                        }, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
-                            navigate(-1);
-                        }).catch(e => {
-                            console.log('글쓰기 post error')
-                        })
-
-                    }
-                }}>{editing ? '수정' : '등록'}</button>
-                <br/><br/>
-                <button className="cancel-common" onClick={() => navigate('/project/dashboard')}>취소</button>
+                <form onSubmit={handleSubmit}>
+                    <h1>글 {editing ? '수정' : '쓰기'}</h1>
+                    <input
+                        required
+                        placeholder="제목"
+                        value={title}
+                        onChange={(e) => {
+                            setTitle(e.target.value)
+                        }}
+                    /><br/><br/>
+                    <textarea
+                        required
+                        placeholder="내용"
+                        value={content}
+                        onChange={(e) => {
+                            setContent(e.target.value);
+                        }}
+                        rows="20"
+                    />
+                    <br/><br/>
+                    <button type="submit" className="ok-common">{editing ? '수정' : '등록'}</button>
+                    <br/><br/>
+                    <button type="button" className="cancel-common" onClick={() => navigate('/project/dashboard')}>취소</button>
+                </form>
             </div>
         </div>
     )

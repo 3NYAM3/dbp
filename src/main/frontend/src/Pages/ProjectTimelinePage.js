@@ -66,8 +66,10 @@ const ProjectTimelinePage = () => {
         });
 
         axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/`).then((res) => {
-            console.log(res)
-            setTaskList(res.data.data);
+            const sortedTaskList = res.data.data.sort((a, b) => {
+                return new Date(a.startDate) - new Date(b.startDate);
+            });
+            setTaskList(sortedTaskList);
         }).catch(e => {
             console.log('작업 리스트 가져오지 못함')
         })
