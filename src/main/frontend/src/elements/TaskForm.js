@@ -22,7 +22,7 @@ const TaskForm = ({editing}) => {
         });
 
         if (editing) { // 수정 페이지일 경우에 값을 가져와서 띄워줌
-            axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/${localStorage.getItem('taskNum')}`)
+            axios.get(`/api/project/task/${localStorage.getItem('taskNum')}`)
                 .then((res) => {
                     console.log(res);
                     setTask(res.data.data.content);
@@ -38,7 +38,7 @@ const TaskForm = ({editing}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editing) { // 작업 수정
-            axios.put(`/api/project/task/${localStorage.getItem('projectNum')}/edit/${localStorage.getItem('taskNum')}`, {
+            axios.put(`/api/project/task/edit/${localStorage.getItem('taskNum')}`, {
                 content: task,
                 memo: memo,
                 startDate: start,

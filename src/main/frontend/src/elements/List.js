@@ -48,7 +48,8 @@ const List = ({isProject, isDashboard, isTask}) => {
                 console.log('대시보드 리스트 가져오지 못함')
             })
         } else if (isTask) {
-            axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/`).then((res) => {
+            axios.get(`/api/project/task/list/${localStorage.getItem('projectNum')}`).then((res) => {
+                console.log(res)
                 setTaskList(res.data.data);
                 setOriTaskList(res.data.data);
             }).catch(e => {
