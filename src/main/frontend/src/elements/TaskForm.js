@@ -21,10 +21,14 @@ const TaskForm = ({editing}) => {
             console.log('프로젝트 시작일 마감일 가져오지 못함');
         });
 
-        if (editing) { // todo 수정 페이지일 경우에 값을 가져와서 띄워줌
+        if (editing) { // 수정 페이지일 경우에 값을 가져와서 띄워줌
             axios.get(`/api/project/task/${localStorage.getItem('projectNum')}/${localStorage.getItem('taskNum')}`)
                 .then((res) => {
                     console.log(res);
+                    setTask(res.data.data.content);
+                    setMemo(res.data.data.memo);
+                    setStart(res.data.data.startDate);
+                    setEnd(res.data.data.lastDate);
                 }).catch(e => {
                 console.log('작업 내용 가져오지 못함')
             })
@@ -34,13 +38,16 @@ const TaskForm = ({editing}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editing) { // 작업 수정
-            // todo 수정 작업 수행
-            // axios.put(`/api/project/task/${localStorage.getItem('projectNum')}/edit/${localStorage.getItem('taskNum')}`, {})
-            //     .then((res) => {
-            //         console.log(res);
-            //     }).catch(e => {
-            //         console.log('작업 내용 수정 실패')
-            // })
+            axios.put(`/api/project/task/${localStorage.getItem('projectNum')}/edit/${localStorage.getItem('taskNum')}`, {
+                content: task,
+                memo: memo,
+                startDate: start,
+                lastDate: end
+            }).then((res) => {
+                navigate('/project/task');
+            }).catch(e => {
+                console.log('작업 내용 수정 실패')
+            })
         } else { // 작업 등록
             axios.post(`/api/project/task/${localStorage.getItem('projectNum')}/create`, {
                 content: task,
@@ -89,7 +96,7 @@ const TaskForm = ({editing}) => {
                     </button>
                     <br/><br/>
                     {editing && <button type="button" className="del-common" onClick={() => {
-                        // 삭제 작업 수행
+                        // todo 삭제 작업 수행
                         navigate('/project/task')
                     }}>삭제
                     </button>}
