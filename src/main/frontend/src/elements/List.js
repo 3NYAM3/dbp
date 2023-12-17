@@ -25,6 +25,7 @@ const List = ({isProject, isDashboard, isTask}) => {
             axios.get('/api/project/', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
                 .then((res) => {
                     setDataList(res.data.data);
+                    setOriList(res.data.data)
                 })
                 .catch(e => {
                     console.log('유저 정보 가져오지 못함');
@@ -45,7 +46,6 @@ const List = ({isProject, isDashboard, isTask}) => {
     }, []);
 
     const renderProject = () => {
-        // setDataList(oriList);
         return dataList.map((data) => {
             return (
                 <ListIndex
@@ -84,13 +84,9 @@ const List = ({isProject, isDashboard, isTask}) => {
     }
 
     const onSearch = () => {
-        // if (isProject){
-        //     console.log(dataList.filter(item => item.title.includes(searchText)))
-        // }
-        // console.log('test')
-        // return(
-        //     <div>dd</div>
-        // )
+        if (isProject){
+            setDataList(oriList.filter(item => item.title.includes(searchText)))
+        }
     }
     return (
         <div>
