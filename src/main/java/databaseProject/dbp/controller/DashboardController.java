@@ -73,8 +73,12 @@ public class DashboardController {
         return result;
     }
 
-//    @PutMapping("/{projectId}")
-//    public ResponseDto<?> updateNotice(@AuthenticationPrincipal String);
+    @PutMapping("/{noticeId}")
+    public ResponseDto<?> updateNotice(@AuthenticationPrincipal String email, @PathVariable("noticeId") Long noticeId){
+        System.out.println(noticeId+email+noticeId+email+noticeId+email+noticeId+email);
+        ResponseDto<?> result = noticeService.updateNotice(email, noticeId);
+        return result;
+    }
 
 
 

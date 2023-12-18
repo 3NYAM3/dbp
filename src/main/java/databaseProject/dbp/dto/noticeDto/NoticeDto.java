@@ -13,6 +13,7 @@ public class NoticeDto {
     private Long noticeId;
     private String title;
     private String writer;
+    private String email;
     private String createTime;
     private String content;
 

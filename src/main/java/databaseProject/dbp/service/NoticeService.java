@@ -101,6 +101,7 @@ public class NoticeService {
         noticeDto.setNoticeId(noticeId);
         noticeDto.setWriter(notice.getMember().getName());
         noticeDto.setContent(notice.getContent());
+        noticeDto.setEmail(notice.getMember().getEmail());
         noticeDto.setCreateTime(notice.getCreateTime());
         return ResponseDto.setSuccess("Success", noticeDto);
     }
@@ -127,5 +128,9 @@ public class NoticeService {
         }
 
         return ResponseDto.setSuccessNotIncludeData("Success");
+    }
+
+    public ResponseDto<?> updateNotice(String email, Long noticeId) {
+        return null;
     }
 }
