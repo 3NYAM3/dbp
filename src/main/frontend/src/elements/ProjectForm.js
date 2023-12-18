@@ -114,10 +114,6 @@ const ProjectForm = ({editing}) => {
                             <h3 style={{textAlign: "center"}}>팀원 명단</h3>
 
                             {memberList.map((member) => {
-                                if (member === leaderEmail) {
-                                    // member 값이 '1@n'일 때 건너뛰기
-                                    return null;
-                                }
                                 return (
                                     <div key={member}
                                          style={{
@@ -133,45 +129,65 @@ const ProjectForm = ({editing}) => {
                                             width: "100%",
                                             height: "30px"
                                         }}>{member}</p>
-                                        <button
-                                            style={{
-                                                boxSizing: "border-box",
-                                                width: "100px",
-                                                height: "27px",
-                                                margin: "1.5px",
-                                                backgroundColor: "#4040EFBB",
-                                                color: "#FFFFFF",
-                                                border: "none"
-                                            }}
-                                            type="button"
-                                            onClick={() => {
-                                                // todo 리더 변경 axios
-                                                axios.put(`/api/project/leader/${localStorage.getItem('projeCtNum')}`).then((res) => {
-                                                    console.log(res)
-                                                    navigate('/project/dashboard');
-                                                }).catch(e => {
-                                                    console.log('리더 변경 실패');
-                                                })
-                                            }}
-                                        >
-                                            리더 위임
-                                        </button>
-                                        <button
-                                            style={{
-                                                boxSizing: "border-box",
-                                                width: "27px",
-                                                height: "27px",
-                                                margin: "1.5px",
-                                                backgroundColor: "#EF4040CC",
-                                                color: "#FFFFFF",
-                                                border: "none"
-                                            }}
-                                            onClick={() => {
-                                                setMemberList(memberList.filter(memberList => memberList !== member));
-                                            }}
-                                        >
-                                            X
-                                        </button>
+
+                                        {member === leaderEmail ? <>
+                                            <button
+                                                style={{
+                                                    boxSizing: "border-box",
+                                                    width: "133px",
+                                                    height: "27px",
+                                                    margin: "1.5px",
+                                                    backgroundColor: "#607274",
+                                                    color: "#FFFFFF",
+                                                    border: "none",
+                                                    cursor:"default"
+                                                }}
+                                                type="button"
+                                            >
+                                                리더
+                                            </button>
+                                        </> : <>
+                                            <button
+                                                style={{
+                                                    boxSizing: "border-box",
+                                                    width: "100px",
+                                                    height: "27px",
+                                                    margin: "1.5px",
+                                                    backgroundColor: "#4040EFBB",
+                                                    color: "#FFFFFF",
+                                                    border: "none"
+                                                }}
+                                                type="button"
+                                                onClick={() => {
+                                                    // todo 리더 변경 axios
+                                                    console.log(member);
+                                                    axios.put(`/api/project/leader/${localStorage.getItem('projeCtNum')}`).then((res) => {
+                                                        console.log(res)
+                                                        navigate('/project/dashboard');
+                                                    }).catch(e => {
+                                                        console.log('리더 변경 실패');
+                                                    })
+                                                }}
+                                            >
+                                                리더 위임
+                                            </button>
+                                            <button
+                                                style={{
+                                                    boxSizing: "border-box",
+                                                    width: "27px",
+                                                    height: "27px",
+                                                    margin: "1.5px",
+                                                    backgroundColor: "#EF4040CC",
+                                                    color: "#FFFFFF",
+                                                    border: "none"
+                                                }}
+                                                onClick={() => {
+                                                    setMemberList(memberList.filter(memberList => memberList !== member));
+                                                }}
+                                            >
+                                                X
+                                            </button>
+                                        </>}
                                     </div>
                                 );
                             })}
