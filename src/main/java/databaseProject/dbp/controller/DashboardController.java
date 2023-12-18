@@ -73,6 +73,13 @@ public class DashboardController {
         return result;
     }
 
+    /**
+     * 게시물 수정
+     * @param email
+     * @param noticeId
+     * @param updateNoticeDto
+     * @return
+     */
     @PutMapping("/{noticeId}")
     public ResponseDto<?> updateNotice(@AuthenticationPrincipal String email, @PathVariable("noticeId") Long noticeId, @RequestBody CreateNoticeDto updateNoticeDto){
         System.out.println(noticeId+email+noticeId+email+noticeId+email+noticeId+email+ updateNoticeDto);
