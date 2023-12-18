@@ -68,9 +68,14 @@ public class DashboardController {
      */
     @DeleteMapping("/{noticeId}")
     public ResponseDto<?> deleteNotice(@AuthenticationPrincipal String email, @PathVariable("noticeId")Long noticeId){
+        System.out.println("deleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\ndeleteNotice\n");
         ResponseDto<?> result = noticeService.deleteNotice(email, noticeId);
         return result;
     }
+
+//    @PutMapping("/{projectId}")
+//    public ResponseDto<?> updateNotice(@AuthenticationPrincipal String);
+
 
 
 }

@@ -15,6 +15,6 @@ public class ReviewDto {
     String writerName;//이름
     String writer;//이메일
     Long reviewId;
-    LocalDateTime writingTime;
+    String writingTime;
     String content;
 }

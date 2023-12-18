@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class ReviewService {
     @Transactional
     public ResponseDto<?> createReview(String email, Long noticeId, CreateReviewDto createReviewDto) {
         Notice notice = noticeRepository.findOne(noticeId);
-        LocalDateTime localDateTime = LocalDateTime.now();
+        String localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Member member = memberRepository.findByEmail(email);
         Review review = null;
 

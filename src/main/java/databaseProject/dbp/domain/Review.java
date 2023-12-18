@@ -27,7 +27,7 @@ public class Review {
     @Column(length = 8191)
     private String Content;
 
-    private LocalDateTime dateTime;
+    private String dateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -36,7 +36,7 @@ public class Review {
 
 
     //==생성 메서드==//
-    public static Review createReview(Notice notice, String content, LocalDateTime localDateTime, Member member){
+    public static Review createReview(Notice notice, String content, String localDateTime, Member member){
         Review review = new Review();
         review.setNotice(notice);
         review.setContent(content);
