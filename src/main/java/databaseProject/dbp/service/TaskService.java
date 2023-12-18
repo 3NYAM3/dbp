@@ -127,6 +127,7 @@ public class TaskService {
         return ResponseDto.setSuccess("Success", taskDto);
     }
 
+    @Transactional
     public ResponseDto<?> deleteTask(Long taskId) {
         Task task = taskRepository.findOne(taskId);
 
