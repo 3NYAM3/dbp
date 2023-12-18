@@ -122,7 +122,7 @@ const List = ({isProject, isDashboard, isTask}) => {
 
     const onSearch = () => {
         if (isProject) {
-            setProList(oriProList.filter(item => item.title.includes(searchText)));
+            setProList(oriProList.filter(item => item.projectName.includes(searchText)));
         } else if (isTask) {
             setTaskList(oriTaskList.filter(item => item.content.includes(searchText)));
         }
