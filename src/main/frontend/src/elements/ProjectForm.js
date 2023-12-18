@@ -134,14 +134,14 @@ const ProjectForm = ({editing}) => {
                                             <button
                                                 style={{
                                                     boxSizing: "border-box",
-                                                    width: "133px",
+                                                    width: "100px",
                                                     height: "27px",
                                                     margin: "1.5px",
                                                     backgroundColor: "#607274",
                                                     color: "#FFFFFF",
                                                     border: "none",
                                                     cursor:"default",
-                                                    fontSize: "15px"
+                                                    fontSize: "12px"
                                                 }}
                                                 type="button"
                                             >
@@ -157,7 +157,7 @@ const ProjectForm = ({editing}) => {
                                                     backgroundColor: "#4040EFBB",
                                                     color: "#FFFFFF",
                                                     border: "none",
-                                                    fontSize: "15px"
+                                                    fontSize: "12px"
                                                 }}
                                                 type="button"
                                                 onClick={() => {
@@ -267,7 +267,7 @@ const ProjectForm = ({editing}) => {
                             value="삭제"
                             onClick={() => {
                                 // todo 프로젝트 삭제 axios 백엔드 구현 안된듯?
-                                axios.delete(`api/project/${localStorage.getItem('projectNum')}`).then((res) => {
+                                axios.delete(`/api/project/${localStorage.getItem('projectNum')}`).then((res) => {
                                     console.log(res)
                                     navigate('/project');
                                 }).catch(e => {
