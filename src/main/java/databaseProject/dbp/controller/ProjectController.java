@@ -113,7 +113,8 @@ public class ProjectController {
      * @return
      */
     @PutMapping("/leader/{projectId}")
-    public ResponseDto changeLeader(@PathVariable("projectId")Long projectId, @RequestBody ChangeLeaderDto changeLeaderDto){
+    public ResponseDto<?> changeLeader(@PathVariable("projectId")Long projectId, @RequestBody ChangeLeaderDto changeLeaderDto){
+        System.out.println("changeLeader"+changeLeaderDto.getChangeLeaderEmail()+"\nchangeLeader"+changeLeaderDto.getChangeLeaderEmail()+"\nchangeLeader\nchangeLeader\nchangeLeader\nchangeLeader\nchangeLeader\nchangeLeader\nchangeLeader\n");
         ResponseDto<?> result = projectService.changeLeader(projectId, changeLeaderDto);
         return result;
     }

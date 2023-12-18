@@ -280,6 +280,7 @@ public class ProjectService {
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
+    @Transactional
     public ResponseDto<?> changeLeader(Long projectId, ChangeLeaderDto changeLeaderDto) {
         Project project = null;
 
