@@ -88,12 +88,12 @@ const TaskForm = ({editing}) => {
                     <label>시작일</label>
                     <input required type="date" value={start} onChange={(e) => {
                         setStart(e.target.value)
-                    }} min={projectStart} max={projectEnd}/>
+                    }} min={projectStart} max={projectEnd<end?projectEnd:end}/>
                     <br/><br/>
                     <label>마감일</label>
                     <input required type="date" value={end} onChange={(e) => {
                         setEnd(e.target.value)
-                    }} min={projectStart} max={projectEnd}/>
+                    }} min={projectStart>start?projectStart:start} max={projectEnd}/>
                     <br/><br/><br/>
                     <button
                         className="ok-common"
@@ -104,8 +104,13 @@ const TaskForm = ({editing}) => {
                     </button>
                     <br/><br/>
                     {editing && <button type="button" className="del-common" onClick={() => {
-                        // todo 삭제 작업 수행
-                        navigate('/project/task')
+                        // 작업 삭제
+                        axios.delete(`/api/project/task/delete/${localStorage.getItem('taskNum')}`).then((res) => {
+                            console.log(res);
+                            navigate('/project/task');
+                        }).catch(e => {
+                            console.log('작업 삭제 실패')
+                        })
                     }}>삭제
                     </button>}
                 </form>
