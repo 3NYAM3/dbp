@@ -125,6 +125,7 @@ public class ProjectController {
      */
     @DeleteMapping("/{projectId}")
     public ResponseDto<?> deleteProject(@PathVariable("projectId")Long projectId){
+        System.out.println("DeleteProject\nDeleteProject\nDeleteProject\nDeleteProject\nDeleteProject\nDeleteProject\nDeleteProject\nDeleteProject");
         ResponseDto<?> result = projectService.deleteProject(projectId);
         return result;
     }

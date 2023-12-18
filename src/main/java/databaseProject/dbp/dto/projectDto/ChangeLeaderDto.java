@@ -10,5 +10,5 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChangeLeaderDto {
-    private Long readerId;
+    private String changeLeaderEmail;
 }

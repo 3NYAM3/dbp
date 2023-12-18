@@ -285,11 +285,12 @@ public class ProjectService {
 
         try {
             project = projectRepository.findOne(projectId);
+            Long changeLeaderId = memberRepository.findByEmail(changeLeaderDto.getChangeLeaderEmail()).getMemberId();
 
-            if (Objects.equals(project.getLeaderId(), changeLeaderDto.getReaderId())) {
+            if (Objects.equals(project.getLeaderId(), changeLeaderId)){
                 return ResponseDto.setFailed("failed");
             }
-            project.setLeaderId(changeLeaderDto.getReaderId());
+            project.setLeaderId(changeLeaderId);
 
             projectRepository.update(project);
         } catch (Exception e) {
