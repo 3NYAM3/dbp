@@ -1,6 +1,6 @@
 import NoticeForm from "../elements/NoticeForm";
 
-const CreateNoticePage = () => {
+const CreateNoticePage = ({}) => {
     return (
         <NoticeForm/>
     )

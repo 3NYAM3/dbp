@@ -30,7 +30,7 @@ const UserPage = () => {
                     setNowPassword('');
                     setNewPassword('');
                     setNewPasswordCheck('');
-                }else {
+                } else {
                     // 현재 비밀번호가 일치하지 않습니다.
                 }
             }).catch(e => {
@@ -103,6 +103,17 @@ const UserPage = () => {
                 <h1>{name}</h1>
                 <h3>{email}</h3>
                 {show()}
+                <br/><br/>
+                <button className="del-common"
+                        onClick={() => { // 회원 탈퇴 todo
+                            axios.delete('/api/members/withdrawal', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
+                                console.log(res);
+                            }).catch(e => {
+                                console.log('회원 탈퇴 못함');
+                            })
+                        }}
+                >회원 탈퇴
+                </button>
             </div>
         </div>
     )

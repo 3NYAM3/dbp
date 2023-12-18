@@ -12,6 +12,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import UserPage from "./Pages/UserPage";
 import EditTaskPage from "./Pages/EditTaskPage";
 import PostPage from "./Pages/PostPage";
+import EditNoticePage from "./Pages/EditNoticePage";
 
 const routes = [
     {
@@ -42,6 +43,11 @@ const routes = [
         auth: true,
         path: '/project/dashboard/create',
         element: <CreateNoticePage/>
+    },
+    {
+        auth: true,
+        path: '/project/dashboard/edit',
+        element: <EditNoticePage/>
     },
     {
         auth: true,

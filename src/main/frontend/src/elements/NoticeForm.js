@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import propTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -8,10 +8,24 @@ const NoticeForm = ({editing}) => {
     const navigate = useNavigate();
     const [title, setTitle] = useState('')
 
+    useEffect(() => {
+        if (editing) {
+            axios.get(`/api/project/dashboard/notice/${localStorage.getItem('noticeNum')}`).then((res) => {
+                console.log(res);
+                setTitle(res.data.data.title);
+                setContent(res.data.data.content);
+            }).catch(e => {
+                console.log('글 정보 가져오지 못함')
+            })
+        }
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (editing) {
-
+        if (editing) { //
+            // axios.put(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`,
+            //     {},
+            //     {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
         } else {
             axios.post(`/api/project/dashboard/${localStorage.getItem('projectNum')}/create`, {
                 title,
@@ -50,7 +64,12 @@ const NoticeForm = ({editing}) => {
                     <br/><br/>
                     <button type="submit" className="ok-common">{editing ? '수정' : '등록'}</button>
                     <br/><br/>
-                    <button type="button" className="cancel-common" onClick={() => navigate('/project/dashboard')}>취소</button>
+                    <button type="button" className="cancel-common"
+                            onClick={() => {
+                                editing ? navigate('/project/dashboard/post') :
+                                    navigate('/project/dashboard')
+                            }}>취소
+                    </button>
                 </form>
             </div>
         </div>

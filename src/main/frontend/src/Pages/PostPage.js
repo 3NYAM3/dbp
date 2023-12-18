@@ -36,7 +36,6 @@ const PostPage = () => {
     useEffect(() => {
         // 글 제목, 작성자, 작성일, 내용
         axios.get(`/api/project/dashboard/notice/${localStorage.getItem('noticeNum')}`).then((res) => {
-            console.log(res);
             setTitle(res.data.data.title);
             setWriter(res.data.data.writer);
             setDate(res.data.data.createTime);
@@ -143,6 +142,13 @@ const PostPage = () => {
             border: 'none',
             marginRight: '5px',
             cursor: 'pointer',
+        }, oButton: {
+            float: 'right',
+            color: '#8888FF',
+            backgroundColor: 'transparent',
+            border: 'none',
+            marginRight: '5px',
+            cursor: 'pointer',
         },
     };
 
@@ -151,6 +157,7 @@ const PostPage = () => {
             <div style={styles.header}>
                 <h1 style={styles.title}>{title}</h1>
                 <div style={styles.authorDate}>
+                    <span style={styles.commentDate}>{writer} / {date}</span>
                     {writerEmail === email && <button style={styles.xButton} onClick={() => {
                         // 게시글 삭제
                         axios.delete(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
@@ -159,9 +166,13 @@ const PostPage = () => {
                             }).catch(e => {
                             console.log('게시물 삭제 못함')
                         })
-                    }}>게시글 지우기
+                    }}>지우기
                     </button>}
-                    <span style={styles.commentDate}>{writer} / {date}</span>
+                    {writerEmail === email && <button style={styles.oButton} onClick={() => {
+                        // todo 게시글 수정
+                        navigate('/project/dashboard/edit')
+                    }}>수정
+                    </button>}
                 </div>
             </div>
             <p style={styles.content}>{content}</p>
@@ -195,7 +206,7 @@ const PostPage = () => {
                 />
                 <div style={styles.buttonContainer}>
                     <button style={styles.button} onClick={addComment}>댓글 달기</button>
-                    <button style={styles.backButton} onClick={() => navigate(-1)}>목록</button>
+                    <button style={styles.backButton} onClick={() => navigate('/project/dashboard')}>목록</button>
                 </div>
             </div>
         </div>

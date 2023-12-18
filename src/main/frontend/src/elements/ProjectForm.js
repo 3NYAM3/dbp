@@ -42,7 +42,7 @@ const ProjectForm = ({editing}) => {
     }, []);
 
 
-    const test = ()=>{
+    const update = ({flag, member}) => { // flag가 true이면 프로젝트 수정 후 리더 변경, false 이면 프로젝트 수정
         if (editing) { // 프로젝트 수정 페이지 submit
             // 프로젝트 수정
             axios.put(`/api/project/${localStorage.getItem('projectNum')}`,
@@ -54,10 +54,17 @@ const ProjectForm = ({editing}) => {
                     memberList: memberList,
                 }).then((res) => {
                 navigate('/project/dashboard')
+                if (flag) {
+                    // 리더 변경
+                    axios.put(`/api/project/leader/${localStorage.getItem('projectNum')}`, {changeLeaderEmail: member}).then((res) => {
+                        navigate('/project/dashboard');
+                    }).catch(e => {
+                        console.log('리더 변경 실패');
+                    })
+                }
             }).catch(e => {
                 console.log('프로젝트 수정 실패');
             })
-            navigate('project/dashboard');
         } else { // 프로젝트 생성 페이지 submit
             axios.post('/api/project/create',
                 {
@@ -77,7 +84,7 @@ const ProjectForm = ({editing}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        test();
+        update({flag: false});
     }
 
 
@@ -129,7 +136,7 @@ const ProjectForm = ({editing}) => {
                                     >
                                         <p style={{
                                             margin: "0px",
-                                            textAlign: "center",
+                                            marginLeft: "5%",
                                             width: "100%",
                                             height: "30px"
                                         }}>{member}</p>
@@ -144,7 +151,7 @@ const ProjectForm = ({editing}) => {
                                                     backgroundColor: "#607274",
                                                     color: "#FFFFFF",
                                                     border: "none",
-                                                    cursor:"default",
+                                                    cursor: "default",
                                                     fontSize: "12px"
                                                 }}
                                                 type="button"
@@ -152,10 +159,10 @@ const ProjectForm = ({editing}) => {
                                                 리더
                                             </button>
                                         </> : <>
-                                            <button
+                                            {editing && <button
                                                 style={{
                                                     boxSizing: "border-box",
-                                                    width: "100px",
+                                                    width: "150px",
                                                     height: "27px",
                                                     margin: "1.5px",
                                                     backgroundColor: "#4040EFBB",
@@ -165,19 +172,12 @@ const ProjectForm = ({editing}) => {
                                                 }}
                                                 type="button"
                                                 onClick={() => {
-                                                    test();
-                                                    // todo 리더 변경 axios
-                                                    console.log(member);
-                                                    axios.put(`/api/project/leader/${localStorage.getItem('projectNum')}`, {changeLeaderEmail: member}).then((res) => {
-                                                        console.log(res)
-                                                        navigate('/project/dashboard');
-                                                    }).catch(e => {
-                                                        console.log('리더 변경 실패');
-                                                    })
+                                                    // 업데이트 후 리더 변경
+                                                    update({flag: true, member});
                                                 }}
                                             >
-                                                리더 위임
-                                            </button>
+                                                저장 및 리더 위임
+                                            </button>}
                                             <button
                                                 style={{
                                                     boxSizing: "border-box",
@@ -271,9 +271,8 @@ const ProjectForm = ({editing}) => {
                             type="button"
                             value="삭제"
                             onClick={() => {
-                                // todo 프로젝트 삭제 axios 백엔드 구현 안된듯?
+                                // 프로젝트 삭제
                                 axios.delete(`/api/project/${localStorage.getItem('projectNum')}`).then((res) => {
-                                    console.log(res)
                                     navigate('/project');
                                 }).catch(e => {
                                     console.log('프로젝트 삭제 실패')

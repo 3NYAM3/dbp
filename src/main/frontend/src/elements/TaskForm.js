@@ -106,7 +106,6 @@ const TaskForm = ({editing}) => {
                     {editing && <button type="button" className="del-common" onClick={() => {
                         // 작업 삭제
                         axios.delete(`/api/project/task/delete/${localStorage.getItem('taskNum')}`).then((res) => {
-                            console.log(res);
                             navigate('/project/task');
                         }).catch(e => {
                             console.log('작업 삭제 실패')
