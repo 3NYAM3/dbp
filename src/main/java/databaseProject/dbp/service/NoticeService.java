@@ -4,11 +4,13 @@ import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.Member;
 import databaseProject.dbp.domain.Notice;
 import databaseProject.dbp.domain.Project;
+import databaseProject.dbp.domain.Review;
 import databaseProject.dbp.dto.noticeDto.CreateNoticeDto;
 import databaseProject.dbp.dto.noticeDto.NoticeDto;
 import databaseProject.dbp.repository.MemberRepository;
 import databaseProject.dbp.repository.NoticeRepository;
 import databaseProject.dbp.repository.ProjectRepository;
+import databaseProject.dbp.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +30,7 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
+    private final ReviewRepository reviewRepository;
 
 
     @Transactional
@@ -99,5 +103,29 @@ public class NoticeService {
         noticeDto.setContent(notice.getContent());
         noticeDto.setCreateTime(notice.getCreateTime());
         return ResponseDto.setSuccess("Success", noticeDto);
+    }
+
+    @Transactional
+    public ResponseDto<?> deleteNotice(String email, Long noticeId) {
+        Member member = memberRepository.findByEmail(email);
+        Notice notice = noticeRepository.findOne(noticeId);
+        List<Review> reviews = reviewRepository.findByNoticeId(noticeId);
+
+        try {
+            if (!Objects.equals(member.getMemberId(), notice.getMember().getMemberId())){
+                return ResponseDto.setFailed("not your notice");
+            }
+
+            for (Review review: reviews){
+                reviewRepository.deleteReview(review);
+            }
+
+            noticeRepository.removeNotice(notice);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+
+        return ResponseDto.setSuccessNotIncludeData("Success");
     }
 }

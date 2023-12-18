@@ -28,4 +28,8 @@ public class NoticeRepository {
                 .setParameter("projectId", projectId)
                 .getResultList();
     }
+
+    public void removeNotice(Notice notice){
+        em.remove(notice);
+    }
 }

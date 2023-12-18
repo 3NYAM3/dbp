@@ -32,6 +32,12 @@ public class MemberRepository {
                 .getResultList();
     }
 
+    public List<Member> findByProjectId(Long projectId){
+        return em.createQuery("select m from Project p join p.members m where p.projectId=:projectId", Member.class)
+                .setParameter("projectId", projectId)
+                .getResultList();
+    }
+
     public Member findByEmail(String email){
          List<Member> result =  em.createQuery("select m from Member m where m.email= :email", Member.class)
                                 .setParameter("email", email)

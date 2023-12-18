@@ -144,7 +144,7 @@ public class MemberService {
         Member member = memberRepository.findByEmail(email);
         Set<Project> projects = member.getProjects();
         Set<Notice> notices = member.getNotices();
-        List<Review> reviews = reviewRepository.findByMemberId(member.getMemberId());
+        Set<Review> reviews = member.getReviews();
         try {
             if (member == null || projects == null || reviews == null || notices == null) {
                 return ResponseDto.setFailed("member, project,reviews not found");
@@ -159,11 +159,14 @@ public class MemberService {
                 } else {
                     project.getMembers().remove(member);
                 }
-
             }
 
             for (Review review : reviews) {
                 review.setMember(null);
+            }
+
+            for(Notice notice:notices){
+                notice.setMember(null);
             }
 
             memberRepository.delete(member);

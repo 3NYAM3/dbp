@@ -60,5 +60,17 @@ public class DashboardController {
         return result;
     }
 
+    /**
+     * 게시물 삭제
+     * @param email
+     * @param noticeId
+     * @return
+     */
+    @DeleteMapping("/{noticeId}")
+    public ResponseDto<?> deleteNotice(@AuthenticationPrincipal String email, @PathVariable("noticeId")Long noticeId){
+        ResponseDto<?> result = noticeService.deleteNotice(email, noticeId);
+        return result;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package databaseProject.dbp.controller;
 
 import databaseProject.dbp.controller.dto.ResponseDto;
+import databaseProject.dbp.dto.projectDto.ChangeLeaderDto;
 import databaseProject.dbp.dto.projectDto.CreateProjectDto;
 import databaseProject.dbp.dto.projectDto.ProjectDto;
 import databaseProject.dbp.service.MemberService;
@@ -88,8 +89,39 @@ public class ProjectController {
      * @return
      */
     @DeleteMapping("/withdrawal/{projectId}")
-    public ResponseDto<?> projectWithdrawal(@AuthenticationPrincipal String email, @PathVariable Long projectId){
+    public ResponseDto<?> projectWithdrawal(@AuthenticationPrincipal String email, @PathVariable("projectId") Long projectId){
         ResponseDto<?> result = projectService.withdrawProject(email, projectId);
+        return result;
+    }
+
+    /**
+     * 프로젝트 수정
+     * @param projectId
+     * @param updatedProject
+     * @return
+     */
+    @PutMapping("/{projectId}")
+    public ResponseDto<?> updateProject(@PathVariable("projectId") Long projectId, @RequestBody CreateProjectDto updatedProject){
+        ResponseDto<?> result = projectService.updateProject(projectId, updatedProject);
+        return result;
+    }
+
+    @PutMapping("/leader/{projectId}")
+    public ResponseDto changeLeader(@PathVariable("projectId")Long projectId, @RequestBody ChangeLeaderDto changeLeaderDto){
+        ResponseDto<?> result = projectService.changeLeader(projectId, changeLeaderDto);
+        return result;
+    }
+
+
+
+    /**
+     * 프로젝트 삭제
+     * @param projectId
+     * @return
+     */
+    @DeleteMapping("/{projectId}")
+    public ResponseDto<?> deleteProject(@PathVariable("projectId")Long projectId){
+        ResponseDto<?> result = projectService.deleteProject(projectId);
         return result;
     }
 

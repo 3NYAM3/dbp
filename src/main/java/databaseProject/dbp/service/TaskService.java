@@ -82,28 +82,28 @@ public class TaskService {
         try{
             task = taskRepository.findOne(taskId);
             if (task==null) return ResponseDto.setFailed("cannnot find task");
+
+            if(updateDto.getContent() != null){
+                task.setContent(updateDto.getContent());
+            }
+
+            if (updateDto.getMemo() != null){
+                task.setMemo(updateDto.getMemo());
+            }
+
+            if(updateDto.getStartDate() != null){
+                task.setStartDate(updateDto.getStartDate());
+            }
+
+            if(updateDto.getLastDate()!=null){
+                task.setLastDate(updateDto.getLastDate());
+            }
+
+            taskRepository.updateTask(task);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
-
-        if(updateDto.getContent() != null){
-            task.setContent(updateDto.getContent());
-        }
-
-        if (updateDto.getMemo() != null){
-            task.setMemo(updateDto.getMemo());
-        }
-
-        if(updateDto.getStartDate() != null){
-            task.setStartDate(updateDto.getStartDate());
-        }
-
-        if(updateDto.getLastDate()!=null){
-            task.setLastDate(updateDto.getLastDate());
-        }
-
-        taskRepository.updateTask(task);
 
         return ResponseDto.setSuccessNotIncludeData("Success");
     }

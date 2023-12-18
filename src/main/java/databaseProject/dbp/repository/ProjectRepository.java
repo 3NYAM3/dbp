@@ -19,6 +19,10 @@ public class ProjectRepository {
         em.persist(project);
     }
 
+    public void update(Project project){
+        em.merge(project);
+    }
+
     public Project findOne(Long projectId){
         return em.find(Project.class, projectId);
     }
