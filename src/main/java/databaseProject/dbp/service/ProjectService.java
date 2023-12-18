@@ -2,6 +2,7 @@ package databaseProject.dbp.service;
 
 import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.*;
+import databaseProject.dbp.dto.memberDto.MemberDto;
 import databaseProject.dbp.dto.projectDto.ChangeLeaderDto;
 import databaseProject.dbp.dto.projectDto.CreateProjectDto;
 import databaseProject.dbp.dto.projectDto.ProjectDto;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -93,7 +95,14 @@ public class ProjectService {
                     projectDto.setType(project.getType());
                     Member member = memberRepository.findOne(project.getLeaderId());
                     projectDto.setLeaderEmail(member.getEmail());
-                    projectDto.setMembers(memberRepository.findByProjectId(project.getProjectId()));
+
+                    List<Member> members = memberRepository.findByProjectId(project.getProjectId());
+                    List<String> memberEmailList = new ArrayList<>();
+                    for(Member member1: members){
+                        memberEmailList.add(member1.getEmail());
+                    }
+                    projectDto.setMemberEmail(memberEmailList);
+
                     return projectDto;
                 })
                 .collect(Collectors.toList());
@@ -118,7 +127,14 @@ public class ProjectService {
             Member member = memberRepository.findOne(project.getLeaderId());
             projectDto.setLeaderEmail(member.getEmail());
             projectDto.setProjectName(project.getProjectName());
-            projectDto.setMembers(memberRepository.findByProjectId(project.getProjectId()));
+
+            List<Member> members = memberRepository.findByProjectId(project.getProjectId());
+            List<String> memberEmailList = new ArrayList<>();
+            for(Member member1: members){
+                memberEmailList.add(member1.getEmail());
+            }
+            projectDto.setMemberEmail(memberEmailList);
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
@@ -239,6 +255,7 @@ public class ProjectService {
             project = projectRepository.findOne(projectId);
             notices = noticeRepository.findNoticesByProjectId(projectId);
             members = memberRepository.findByProjectId(projectId);
+
 
 
         } catch (Exception e) {

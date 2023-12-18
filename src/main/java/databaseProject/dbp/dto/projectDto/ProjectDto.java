@@ -21,6 +21,6 @@ public class ProjectDto {
     private String leaderEmail;
     private LocalDate startDate;
     private LocalDate lastDate;
-    private List<Member> members;
+    private List<String> memberEmail;
 
 }
