@@ -2,11 +2,13 @@ import {useEffect, useState} from "react";
 import propTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import useToast from "../hooks/toast";
 
 const NoticeForm = ({editing}) => {
     const [content, setContent] = useState('');
     const navigate = useNavigate();
     const [title, setTitle] = useState('')
+    const {addToast} = useToast();
 
     useEffect(() => {
         if (editing) {
@@ -25,8 +27,11 @@ const NoticeForm = ({editing}) => {
             axios.put(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`,
                 {title: title, content: content},
                 {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
-                console.log(res);
-                // navigate('/project/dashboard/post');
+                navigate('/project/dashboard/post');
+                addToast({
+                    text: title + ' 수정됨'
+                })
+
             }).catch(e => {
                 console.log('게시글 업데이트 실패')
             })
@@ -36,6 +41,10 @@ const NoticeForm = ({editing}) => {
                 content
             }, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
                 navigate('/project/dashboard');
+                addToast({
+                    text: title + ' 등록됨'
+                })
+
             }).catch(e => {
                 console.log('글쓰기 post error')
             })

@@ -54,11 +54,18 @@ const ProjectForm = ({editing}) => {
                     lastDate: end,
                     memberList: memberList,
                 }).then((res) => {
-                navigate('/project/dashboard')
+                navigate('/project/dashboard');
+                addToast({
+                    text: title + ' 프로젝트 수정됨'
+                });
+
                 if (flag) {
                     // 리더 변경
                     axios.put(`/api/project/leader/${localStorage.getItem('projectNum')}`, {changeLeaderEmail: member}).then((res) => {
                         navigate('/project/dashboard');
+                        addToast({
+                            text: title + ' 프로젝트 리더 변경됨'
+                        });
                     }).catch(e => {
                         console.log('리더 변경 실패');
                     })
@@ -78,7 +85,7 @@ const ProjectForm = ({editing}) => {
                 {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
                 navigate('/project')
                 addToast({
-                    text: title+' 프로젝트 생성됨'
+                    text: title + ' 프로젝트 생성됨'
                 })
             }).catch(e => {
                 console.log('프로젝트 생성 실패')
@@ -278,6 +285,9 @@ const ProjectForm = ({editing}) => {
                                 // 프로젝트 삭제
                                 axios.delete(`/api/project/${localStorage.getItem('projectNum')}`).then((res) => {
                                     navigate('/project');
+                                    addToast({
+                                        text: title + ' 프로젝트 삭제됨'
+                                    });
                                 }).catch(e => {
                                     console.log('프로젝트 삭제 실패')
                                 })
@@ -297,10 +307,13 @@ const ProjectForm = ({editing}) => {
                         // 프로젝트 나가기
                         axios.delete(`/api/project/withdrawal/${localStorage.getItem('projectNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
                             navigate('/project');
+                            addToast({
+                                text: title + ' 프로젝트에서 나감'
+                            });
                         }).catch(e => {
                             console.log('프로젝트 나가기 실패');
                         })
-                    }}>탈퇴
+                    }}>나가기
                     </button>
                 </div>
             </div>

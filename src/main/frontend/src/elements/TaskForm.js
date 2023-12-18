@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import propTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import useToast from "../hooks/toast";
 
 const TaskForm = ({editing}) => {
     const [task, setTask] = useState('');
@@ -12,6 +13,7 @@ const TaskForm = ({editing}) => {
 
     const [projectStart, setProjectStart] = useState('');
     const [projectEnd, setProjectEnd] = useState('');
+    const {addToast} = useToast();
 
     useEffect(() => {
         axios.get(`/api/project/${localStorage.getItem('projectNum')}`).then((res) => {
@@ -44,6 +46,9 @@ const TaskForm = ({editing}) => {
                 lastDate: end
             }).then((res) => {
                 navigate('/project/task');
+                addToast({
+                    text: task + ' 작업 수정됨'
+                })
             }).catch(e => {
                 console.log('작업 내용 수정 실패')
             })
@@ -55,6 +60,10 @@ const TaskForm = ({editing}) => {
                 lastDate: end
             }).then((res) => {
                 navigate('/project/task');
+                addToast({
+                    text: task + ' 작업 추가됨'
+                })
+
             }).catch(e => {
                 console.log('작업 등록 오류')
             })
@@ -88,12 +97,12 @@ const TaskForm = ({editing}) => {
                     <label>시작일</label>
                     <input required type="date" value={start} onChange={(e) => {
                         setStart(e.target.value)
-                    }} min={projectStart} max={projectEnd<end?projectEnd:end}/>
+                    }} min={projectStart} max={projectEnd < end ? projectEnd : end}/>
                     <br/><br/>
                     <label>마감일</label>
                     <input required type="date" value={end} onChange={(e) => {
                         setEnd(e.target.value)
-                    }} min={projectStart>start?projectStart:start} max={projectEnd}/>
+                    }} min={projectStart > start ? projectStart : start} max={projectEnd}/>
                     <br/><br/><br/>
                     <button
                         className="ok-common"
@@ -107,6 +116,9 @@ const TaskForm = ({editing}) => {
                         // 작업 삭제
                         axios.delete(`/api/project/task/delete/${localStorage.getItem('taskNum')}`).then((res) => {
                             navigate('/project/task');
+                            addToast({
+                                text: task + ' 작업 삭제됨'
+                            })
                         }).catch(e => {
                             console.log('작업 삭제 실패')
                         })

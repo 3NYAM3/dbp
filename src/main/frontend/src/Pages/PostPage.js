@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import {useSelector} from "react-redux";
+import useToast from "../hooks/toast";
 
 const PostPage = () => {
     const [title, setTitle] = useState('');
@@ -13,6 +14,7 @@ const PostPage = () => {
     const navigate = useNavigate();
     const [writerEmail, setWriterEmail] = useState('');
     const [email, setEmail] = useState('');
+    const {addToast} = useToast();
 
     const addComment = () => {
         axios.post(`/api/project/dashboard/review/${localStorage.getItem('noticeNum')}`, {content: newComment}, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
@@ -163,6 +165,10 @@ const PostPage = () => {
                         axios.delete(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
                             .then((res) => {
                                 navigate('/project/dashboard');
+                                addToast({
+                                    text: title + ' 삭제됨'
+                                })
+
                             }).catch(e => {
                             console.log('게시물 삭제 못함')
                         })
