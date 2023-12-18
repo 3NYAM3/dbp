@@ -149,8 +149,13 @@ const PostPage = () => {
                 <h1 style={styles.title}>{title}</h1>
                 <div style={styles.authorDate}>
                     {writer === email && <button style={styles.xButton} onClick={() => {
-                        // todo 게시글 삭제
-                        // navigate('/project/dashboard');
+                        // 게시글 삭제
+                        axios.delete(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
+                            .then((res) => {
+                                navigate('/project/dashboard');
+                            }).catch(e => {
+                            console.log('게시물 삭제 못함')
+                        })
                     }}>게시글 지우기
                     </button>}
                     <span style={styles.commentDate}>{writer} / {date}</span>

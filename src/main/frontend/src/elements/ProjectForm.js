@@ -12,13 +12,12 @@ const ProjectForm = ({editing}) => {
     const [end, setEnd] = useState('');
     const [memberList, setMemberList] = useState([]);
     const [email, setEmail] = useState('');
-    const num = useSelector(state => state.num.projectNum);
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (editing) {
-            axios.get(`/api/project/pm/${num}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
+            axios.get(`/api/project/pm/${localStorage.getItem('projectNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
                 .then((res) => {
                     setIsAdmin(res.data.result);
                     setLoading(false);
@@ -26,28 +25,38 @@ const ProjectForm = ({editing}) => {
                 .catch(e => {
                     console.log('유저 정보 가져오지 못함');
                 });
+
+            // 프로젝트 수정 : 데이터 가져오기
+            axios.get(`/api/project/${localStorage.getItem('projectNum')}`).then((res) => {
+                setTitle(res.data.data.projectName);
+                setType(res.data.data.type);
+                setStart(res.data.data.startDate);
+                setEnd(res.data.data.lastDate);
+                setMemberList(res.data.data.memberEmail);
+            }).catch(e => {
+                console.log('프로젝트 수정페이지 받아오지 못함');
+            })
         }
-        // 수정 페이지 일 때 받아와야함
-        // console.log(num);
-        // axios.get().then((res) => {
-        //     setTitle(res.title);
-        //     setType(res.type);
-        //     setStart(res.start);
-        //     setEnd(res.end);
-        //     setMemberList(res.data);
-        // }).catch(e => {
-        //     console.log('수정페이지 받아오지 못함');
-        // })
     }, []);
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editing) { // 프로젝트 수정 페이지 submit
-            // 수정된 회원 목록 전송해 줘야함
-            // axios.patch('', {title, type, start, end}).then(() => {
-            //     navigate('/project/dashboard')
-            // })
+            // 프로젝트 수정
+            axios.put(`/api/project/${localStorage.getItem('projectNum')}`,
+                {
+                    projectName: title,
+                    type: type,
+                    startDate: start,
+                    lastDate: end,
+                    memberList: memberList,
+                }).then((res) => {
+                console.log(res)
+                navigate('/project/dashboard')
+            }).catch(e => {
+                console.log('프로젝트 수정 실패');
+            })
             navigate('project/dashboard');
         } else { // 프로젝트 생성 페이지 submit
             axios.post('/api/project/create',
@@ -67,13 +76,11 @@ const ProjectForm = ({editing}) => {
     }
 
 
-
-
-    if (editing && loading){
+    if (editing && loading) {
         return <></>
     }
 
-    if (isAdmin||!editing) {
+    if (isAdmin || !editing) {
         return (
             <form onSubmit={handleSubmit}>
                 <div className="container-common">
@@ -89,11 +96,13 @@ const ProjectForm = ({editing}) => {
                         <br/><br/><br/>
                         <label>시작일</label>
                         <input type="date" placeholder="시작일" value={start} required
-                               onChange={(e) => setStart(e.target.value)}/>
+                               onChange={(e) => setStart(e.target.value)}
+                               max={end}/>
                         <br/><br/><br/>
                         <label>마감일</label>
                         <input type="date" placeholder="마감일" value={end} required
-                               onChange={(e) => setEnd(e.target.value)}/>
+                               onChange={(e) => setEnd(e.target.value)}
+                               min={start}/>
                         <br/><br/><br/>
 
                         <div style={{
@@ -104,12 +113,13 @@ const ProjectForm = ({editing}) => {
                             <h3 style={{textAlign: "center"}}>회원명단</h3>
 
                             {memberList.map((member) => (
-                                <div key={member} style={{ // 수정 페이지 일 때 회원명단 표시
-                                    width: '100%',
-                                    height: '30px',
-                                    display: 'flex',
-                                    justifyContent: "space-between"
-                                }}
+                                <div key={member}
+                                     style={{ // 수정 페이지 일 때 회원명단 표시
+                                         width: '100%',
+                                         height: '30px',
+                                         display: 'flex',
+                                         justifyContent: "space-between"
+                                     }}
                                 >
                                     <p style={{
                                         margin: "0px",
@@ -214,8 +224,13 @@ const ProjectForm = ({editing}) => {
                             type="button"
                             value="삭제"
                             onClick={() => {
-                                // todo 삭제 로직 구현
-                                editing ? navigate('/project/dashboard') : navigate('/project')
+                                // todo 프로젝트 삭제 axios 백엔드 구현 안된듯?
+                                axios.delete(`api/project/${localStorage.getItem('projectNum')}`).then((res) => {
+                                    console.log(res)
+                                    navigate('/project');
+                                }).catch(e => {
+                                    console.log('프로젝트 삭제 실패')
+                                })
                             }}
                         />}
                     </div>
@@ -228,7 +243,15 @@ const ProjectForm = ({editing}) => {
             <div className="container-common">
                 <div>
                     <h1>프로젝트 나가기</h1>
-                    <button className="del-common">탈퇴</button>
+                    <button className="del-common" onClick={() => {
+                        // 프로젝트 나가기
+                        axios.delete(`/api/project/withdrawal/${localStorage.getItem('projectNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
+                            navigate('/project');
+                        }).catch(e => {
+                            console.log('프로젝트 나가기 실패');
+                        })
+                    }}>탈퇴
+                    </button>
                 </div>
             </div>
         )
