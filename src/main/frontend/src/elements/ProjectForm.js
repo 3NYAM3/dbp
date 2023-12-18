@@ -140,7 +140,8 @@ const ProjectForm = ({editing}) => {
                                                     backgroundColor: "#607274",
                                                     color: "#FFFFFF",
                                                     border: "none",
-                                                    cursor:"default"
+                                                    cursor:"default",
+                                                    fontSize: "15px"
                                                 }}
                                                 type="button"
                                             >
@@ -155,13 +156,14 @@ const ProjectForm = ({editing}) => {
                                                     margin: "1.5px",
                                                     backgroundColor: "#4040EFBB",
                                                     color: "#FFFFFF",
-                                                    border: "none"
+                                                    border: "none",
+                                                    fontSize: "15px"
                                                 }}
                                                 type="button"
                                                 onClick={() => {
                                                     // todo 리더 변경 axios
                                                     console.log(member);
-                                                    axios.put(`/api/project/leader/${localStorage.getItem('projeCtNum')}`).then((res) => {
+                                                    axios.put(`/api/project/leader/${localStorage.getItem('projectNum')}`, {changeLeaderEmail: member}).then((res) => {
                                                         console.log(res)
                                                         navigate('/project/dashboard');
                                                     }).catch(e => {
