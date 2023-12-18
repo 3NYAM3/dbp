@@ -1,60 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-
-// // test dataSet
-// const taskData = [
-//     {content: '작업 1', start: '2023-01-01', end: '2023-01-01'},
-//     {content: '작업 2', start: '2023-01-02', end: '2023-01-03'},
-//     {content: '작업 3', start: '2023-01-03', end: '2023-01-04'},
-//     {content: '작업 4', start: '2023-01-05', end: '2023-01-06'},
-//     {content: '작업 5', start: '2023-01-01', end: '2023-01-31'},
-//     {content: '작업 6', start: '2023-02-01', end: '2023-03-31'},
-//     {content: '작업 7', start: '2023-02-01', end: '2023-04-30'},
-//     {content: '작업 8', start: '2023-05-01', end: '2023-12-31'},
-//     {content: '작업 9', start: '2023-12-01', end: '2023-12-31'},
-// ];
-// const projectData = {
-//     start: '2023-01-01',
-//     end: '2023-12-31'
-// }
-
-
-// let line = [];
-// for (let i = new Date(projectData.start); i <= new Date(projectData.end); i.setMonth(i.getMonth() + 1)) {
-//     line.push(new Date(i));
-// }
-
-// const createline = () => {
-//     // 프로젝트 시작일부터 종료일 까지 1달 간격 선
-//     for (let i = new Date(projectData.start); i <= new Date(projectData.end); i.setMonth(i.getMonth() + 1)) {
-//         line.push(new Date(i));
-//     }
-//     for (let i = 0; i < line.length; i++) { // test code
-//         console.log(new Date(line[i]));
-//     }
-//     return (
-//         line.map((line, index) => {
-//             return (
-//                 <div
-//                     key={index}
-//                     style={{
-//                         left: oneDayTo10px(line) - ps
-//                     }}
-//                     className="test"
-//                 >
-//
-//                 </div>
-//             )
-//         })
-//     )
-// }
-
+import {setTaskNum} from "../store/numSlice";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const ProjectTimelinePage = () => {
     const [projectName, setProjectName] = useState('');
     const [projectStart, setProjectStart] = useState('');
     const [projectEnd, setProjectEnd] = useState('');
     const [taskList, setTaskList] = useState([]);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`/api/project/${localStorage.getItem('projectNum')}`).then((res) => {
@@ -103,25 +59,15 @@ const ProjectTimelinePage = () => {
                                 width: `${pl}px`,
                             }}
                         >
-                            {/*{line.map((line, index) => {*/}
-                            {/*    return (*/}
-                            {/*        <div*/}
-                            {/*            key={index}*/}
-                            {/*            style={{*/}
-                            {/*                left: oneDayTo10px(line) - ps*/}
-                            {/*            }}*/}
-                            {/*            className="test"*/}
-                            {/*        >*/}
-
-                            {/*        </div>*/}
-                            {/*    )*/}
-                            {/*})}*/}
-
                             <div
                                 className="container-timeline-div-div"
                                 style={{
                                     width: `${tl}px`,
                                     left: `${ts}px`,
+                                }}
+                                onClick={() => {
+                                    dispatch(setTaskNum(task.taskId));
+                                    navigate('/project/task/edit');
                                 }}
                             >
                                 {task.content}

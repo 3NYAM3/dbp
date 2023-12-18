@@ -14,6 +14,7 @@ const ProjectForm = ({editing}) => {
     const [email, setEmail] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [leaderEmail, setLeaderEmail] = useState('');
 
     useEffect(() => {
         if (editing) {
@@ -33,6 +34,7 @@ const ProjectForm = ({editing}) => {
                 setStart(res.data.data.startDate);
                 setEnd(res.data.data.lastDate);
                 setMemberList(res.data.data.memberEmail);
+                setLeaderEmail(res.data.data.leaderEmail);
             }).catch(e => {
                 console.log('프로젝트 수정페이지 받아오지 못함');
             })
@@ -52,7 +54,6 @@ const ProjectForm = ({editing}) => {
                     lastDate: end,
                     memberList: memberList,
                 }).then((res) => {
-                console.log(res)
                 navigate('/project/dashboard')
             }).catch(e => {
                 console.log('프로젝트 수정 실패');
@@ -110,41 +111,71 @@ const ProjectForm = ({editing}) => {
                             backgroundColor: "#091E4224",
                             borderRadius: "10px"
                         }}>
-                            <h3 style={{textAlign: "center"}}>회원명단</h3>
+                            <h3 style={{textAlign: "center"}}>팀원 명단</h3>
 
-                            {memberList.map((member) => (
-                                <div key={member}
-                                     style={{ // 수정 페이지 일 때 회원명단 표시
-                                         width: '100%',
-                                         height: '30px',
-                                         display: 'flex',
-                                         justifyContent: "space-between"
-                                     }}
-                                >
-                                    <p style={{
-                                        margin: "0px",
-                                        textAlign: "center",
-                                        width: "100%",
-                                        height: "30px"
-                                    }}>{member}</p>
-                                    <button
-                                        style={{
-                                            boxSizing: "border-box",
-                                            width: "27px",
-                                            height: "27px",
-                                            margin: "1.5px",
-                                            backgroundColor: "#EF4040CC",
-                                            color: "#FFFFFF",
-                                            border: "none"
-                                        }}
-                                        onClick={() => {
-                                            setMemberList(memberList.filter(memberList => memberList !== member));
-                                        }}
+                            {memberList.map((member) => {
+                                if (member === leaderEmail) {
+                                    // member 값이 '1@n'일 때 건너뛰기
+                                    return null;
+                                }
+                                return (
+                                    <div key={member}
+                                         style={{
+                                             width: '100%',
+                                             height: '30px',
+                                             display: 'flex',
+                                             justifyContent: "space-between"
+                                         }}
                                     >
-                                        X
-                                    </button>
-                                </div>
-                            ))}
+                                        <p style={{
+                                            margin: "0px",
+                                            textAlign: "center",
+                                            width: "100%",
+                                            height: "30px"
+                                        }}>{member}</p>
+                                        <button
+                                            style={{
+                                                boxSizing: "border-box",
+                                                width: "100px",
+                                                height: "27px",
+                                                margin: "1.5px",
+                                                backgroundColor: "#4040EFBB",
+                                                color: "#FFFFFF",
+                                                border: "none"
+                                            }}
+                                            type="button"
+                                            onClick={() => {
+                                                // todo 리더 변경 axios
+                                                axios.put(`/api/project/leader/${localStorage.getItem('projeCtNum')}`).then((res) => {
+                                                    console.log(res)
+                                                    navigate('/project/dashboard');
+                                                }).catch(e => {
+                                                    console.log('리더 변경 실패');
+                                                })
+                                            }}
+                                        >
+                                            리더 위임
+                                        </button>
+                                        <button
+                                            style={{
+                                                boxSizing: "border-box",
+                                                width: "27px",
+                                                height: "27px",
+                                                margin: "1.5px",
+                                                backgroundColor: "#EF4040CC",
+                                                color: "#FFFFFF",
+                                                border: "none"
+                                            }}
+                                            onClick={() => {
+                                                setMemberList(memberList.filter(memberList => memberList !== member));
+                                            }}
+                                        >
+                                            X
+                                        </button>
+                                    </div>
+                                );
+                            })}
+
 
                             <div style={{
                                 width: '100%',
@@ -165,11 +196,8 @@ const ProjectForm = ({editing}) => {
                                     }}
                                     type="button"
                                     onClick={() => {
-
                                         const inputEmail = document.getElementById('inputEmail');
-
-                                        // 이미 회원명단에 추가된 경우
-                                        if (email !== '') {
+                                        if (email !== '') {// 이미 회원명단에 추가된 경우
                                             if (memberList.includes(email)) {
                                                 setEmail('');
                                                 inputEmail.style.border = '2px solid green';
@@ -190,14 +218,10 @@ const ProjectForm = ({editing}) => {
                                                 }).catch(e => { // 못가져 왔을 경우 예외처리
                                                     console.log('유저 정보 요청 실패')
                                                 })
-
-
                                             }
                                         } else {
                                             inputEmail.style.border = '2px solid blue';
                                         }
-
-
                                     }}
                                 >추가
                                 </button>
