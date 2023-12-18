@@ -486,6 +486,7 @@ nav {
 /*프로젝트, 공지사항, 작업 등 공통]*/
 
 .container-timeline {
+    position: relative;
     justify-content: center;
     width: 100%;
     border-left: solid 2px var(--NavBarGray);
@@ -516,9 +517,16 @@ nav {
     cursor: pointer;
 }
 
-/*.test {*/
-/*    box-sizing: border-box;*/
-/*    display: flex;*/
-/*    border: 1px solid black;*/
-/*    position: relative;*/
-/*}*/
+.timeline-month-marker {
+    position: absolute;
+    height: 100%;
+    border-left: 1px solid #ccc; /* 세로 줄 스타일 */
+}
+
+.timeline-date-label {
+    z-index: 10; /* z-index를 적당한 값으로 설정 */
+    position: absolute;
+    bottom: 0;
+    font-size: 10px;
+    /* 추가적인 스타일링 */
+}
