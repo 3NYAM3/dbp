@@ -106,6 +106,12 @@ public class ProjectController {
         return result;
     }
 
+    /**
+     * 팀장 변경
+     * @param projectId
+     * @param changeLeaderDto
+     * @return
+     */
     @PutMapping("/leader/{projectId}")
     public ResponseDto changeLeader(@PathVariable("projectId")Long projectId, @RequestBody ChangeLeaderDto changeLeaderDto){
         ResponseDto<?> result = projectService.changeLeader(projectId, changeLeaderDto);

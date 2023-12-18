@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @ToString
@@ -20,5 +21,6 @@ public class ProjectDto {
     private String leaderEmail;
     private LocalDate startDate;
     private LocalDate lastDate;
+    private List<Member> members;
 
 }

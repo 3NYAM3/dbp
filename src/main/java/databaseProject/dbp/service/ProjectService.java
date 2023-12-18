@@ -1,14 +1,11 @@
 package databaseProject.dbp.service;
 
 import databaseProject.dbp.controller.dto.ResponseDto;
-import databaseProject.dbp.domain.Member;
-import databaseProject.dbp.domain.Notice;
-import databaseProject.dbp.domain.Project;
+import databaseProject.dbp.domain.*;
 import databaseProject.dbp.dto.projectDto.ChangeLeaderDto;
 import databaseProject.dbp.dto.projectDto.CreateProjectDto;
 import databaseProject.dbp.dto.projectDto.ProjectDto;
-import databaseProject.dbp.repository.MemberRepository;
-import databaseProject.dbp.repository.ProjectRepository;
+import databaseProject.dbp.repository.*;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,9 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
+    private final NoticeRepository noticeRepository;
+    private final ReviewRepository reviewRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public ResponseDto<?> createProject(CreateProjectDto createProjectDto, String leaderEmail) {
@@ -93,6 +93,7 @@ public class ProjectService {
                     projectDto.setType(project.getType());
                     Member member = memberRepository.findOne(project.getLeaderId());
                     projectDto.setLeaderEmail(member.getEmail());
+                    projectDto.setMembers(memberRepository.findByProjectId(project.getProjectId()));
                     return projectDto;
                 })
                 .collect(Collectors.toList());
@@ -117,6 +118,7 @@ public class ProjectService {
             Member member = memberRepository.findOne(project.getLeaderId());
             projectDto.setLeaderEmail(member.getEmail());
             projectDto.setProjectName(project.getProjectName());
+            projectDto.setMembers(memberRepository.findByProjectId(project.getProjectId()));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
@@ -157,14 +159,14 @@ public class ProjectService {
             if (member == null || project == null) {
                 return ResponseDto.setFailed("member, project get failed");
             }
-            if (Objects.equals(member.getMemberId(), project.getLeaderId())){
-                Member newLeader=assignNewLeader(project);
-                if (newLeader==null){
-                    memberRepository.withdrawFromProject(member,project);
+            if (Objects.equals(member.getMemberId(), project.getLeaderId())) {
+                Member newLeader = assignNewLeader(project);
+                if (newLeader == null) {
+                    memberRepository.withdrawFromProject(member, project);
                     deleteProject(projectId);
                 }
             }
-            memberRepository.withdrawFromProject(member,project);
+            memberRepository.withdrawFromProject(member, project);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
@@ -176,49 +178,49 @@ public class ProjectService {
     @Transactional
     public ResponseDto<?> updateProject(Long projectId, CreateProjectDto updatedProjectDto) {
         Project project = null;
-        List<Member> currentMembers=null;
+        List<Member> currentMembers = null;
 
         try {
             project = projectRepository.findOne(projectId);
-            if(project==null) return ResponseDto.setFailed("cannot find project");
+            if (project == null) return ResponseDto.setFailed("cannot find project");
 
             currentMembers = memberRepository.findByProjectId(projectId);
 
-            if(updatedProjectDto.getProjectName()!=null){
+            if (updatedProjectDto.getProjectName() != null) {
                 project.setProjectName(updatedProjectDto.getProjectName());
             }
-            if(updatedProjectDto.getType()!=null){
+            if (updatedProjectDto.getType() != null) {
                 project.setType(updatedProjectDto.getType());
             }
 
-            if(updatedProjectDto.getStartDate()!=null){
+            if (updatedProjectDto.getStartDate() != null) {
                 project.setStartDate(updatedProjectDto.getStartDate());
             }
 
-            if(updatedProjectDto.getLastDate()!=null){
+            if (updatedProjectDto.getLastDate() != null) {
                 project.setLastDate(updatedProjectDto.getLastDate());
             }
-            if(updatedProjectDto.getMemberList()!=null){
+            if (updatedProjectDto.getMemberList() != null) {
                 List<String> updatedMemberList = updatedProjectDto.getMemberList();
 
-                for(String updatedMemberEmail : updatedMemberList){
-                    if(!currentMembers.stream().anyMatch(member -> member.getEmail().equals(updatedMemberEmail))){
+                for (String updatedMemberEmail : updatedMemberList) {
+                    if (!currentMembers.stream().anyMatch(member -> member.getEmail().equals(updatedMemberEmail))) {
                         Member newMember = memberRepository.findByEmail(updatedMemberEmail);
-                        if(newMember!=null){
+                        if (newMember != null) {
                             project.getMembers().add(newMember);
                         }
                     }
                 }
 
-                for (Member currentMember : currentMembers){
-                    if(!updatedMemberList.contains(currentMember.getEmail())){
+                for (Member currentMember : currentMembers) {
+                    if (!updatedMemberList.contains(currentMember.getEmail())) {
                         project.getMembers().remove(currentMember);
                     }
                 }
             }
 
             projectRepository.update(project);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -227,7 +229,23 @@ public class ProjectService {
 
     @Transactional
     public ResponseDto<?> deleteProject(Long projectId) {
-        return null;
+        Project project = null;
+        List<Notice> notices = null;
+        List<Review> reviews = null;
+        List<Task> tasks = null;
+        List<Member> members = null;
+
+        try {
+            project = projectRepository.findOne(projectId);
+            notices = noticeRepository.findNoticesByProjectId(projectId);
+            members = memberRepository.findByProjectId(projectId);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed("database program");
+        }
+        return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
     public ResponseDto<?> changeLeader(Long projectId, ChangeLeaderDto changeLeaderDto) {
@@ -236,13 +254,13 @@ public class ProjectService {
         try {
             project = projectRepository.findOne(projectId);
 
-            if(Objects.equals(project.getLeaderId(), changeLeaderDto.getReaderId())){
+            if (Objects.equals(project.getLeaderId(), changeLeaderDto.getReaderId())) {
                 return ResponseDto.setFailed("failed");
             }
             project.setLeaderId(changeLeaderDto.getReaderId());
 
             projectRepository.update(project);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -260,7 +278,6 @@ public class ProjectService {
         }
         return members.stream().skip(1).findFirst().orElse(null);
     }
-
 
 
 }
