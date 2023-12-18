@@ -41,7 +41,7 @@ const PostPage = () => {
             setWriter(res.data.data.writer);
             setDate(res.data.data.createTime);
             setContent(res.data.data.content);
-            setWriterEmail(res.data.data.email); // todo 보내달라고 말해야함
+            setWriterEmail(res.data.data.email);
         }).catch(e => {
             console.log('글 정보 받아오기 실패');
         })
