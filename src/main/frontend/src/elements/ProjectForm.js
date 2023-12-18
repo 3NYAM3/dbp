@@ -42,8 +42,7 @@ const ProjectForm = ({editing}) => {
     }, []);
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const test = ()=>{
         if (editing) { // 프로젝트 수정 페이지 submit
             // 프로젝트 수정
             axios.put(`/api/project/${localStorage.getItem('projectNum')}`,
@@ -74,6 +73,11 @@ const ProjectForm = ({editing}) => {
                 console.log('프로젝트 생성 실패')
             })
         }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        test();
     }
 
 
@@ -161,6 +165,7 @@ const ProjectForm = ({editing}) => {
                                                 }}
                                                 type="button"
                                                 onClick={() => {
+                                                    test();
                                                     // todo 리더 변경 axios
                                                     console.log(member);
                                                     axios.put(`/api/project/leader/${localStorage.getItem('projectNum')}`, {changeLeaderEmail: member}).then((res) => {
