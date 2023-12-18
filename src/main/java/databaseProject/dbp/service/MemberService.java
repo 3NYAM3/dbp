@@ -24,10 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -151,12 +148,13 @@ public class MemberService {
             }
             Member leader = null;
             for (Project project : projects) {
-                if (project.getLeaderId().equals(member.getMemberId())) {
+                if (Objects.equals(project.getLeaderId(), member.getMemberId())) {
                     leader = assignNewLeader(project);
                 }
                 if (leader == null) {
                     projectRepository.removeProject(project);
                 } else {
+                    project.setLeaderId(leader.getMemberId());
                     project.getMembers().remove(member);
                 }
             }
@@ -188,6 +186,6 @@ public class MemberService {
         if (members.isEmpty()) {
             return null;
         }
-        return members.stream().skip(1).findFirst().orElse(null);
+        return members.stream().skip(0).findFirst().orElse(null);
     }
 }
