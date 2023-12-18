@@ -230,7 +230,6 @@ const ProjectForm = ({editing}) => {
                     <h1>프로젝트 나가기</h1>
                     <button className="del-common">탈퇴</button>
                 </div>
-
             </div>
         )
     }

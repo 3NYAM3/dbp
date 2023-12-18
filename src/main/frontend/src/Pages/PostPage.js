@@ -148,7 +148,12 @@ const PostPage = () => {
             <div style={styles.header}>
                 <h1 style={styles.title}>{title}</h1>
                 <div style={styles.authorDate}>
-                    {writer} / {date}
+                    {writer === email && <button style={styles.xButton} onClick={() => {
+                        // todo 게시글 삭제
+                        // navigate('/project/dashboard');
+                    }}>게시글 지우기
+                    </button>}
+                    <span style={styles.commentDate}>{writer} / {date}</span>
                 </div>
             </div>
             <p style={styles.content}>{content}</p>
