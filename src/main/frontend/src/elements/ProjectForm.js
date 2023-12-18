@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import propTypes from "prop-types";
 import axios from "axios";
-import {useSelector} from "react-redux";
+import useToast from "../hooks/toast";
 
 const ProjectForm = ({editing}) => {
     const navigate = useNavigate();
@@ -15,6 +15,7 @@ const ProjectForm = ({editing}) => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
     const [leaderEmail, setLeaderEmail] = useState('');
+    const {addToast} = useToast();
 
     useEffect(() => {
         if (editing) {
@@ -76,6 +77,9 @@ const ProjectForm = ({editing}) => {
                 },
                 {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
                 navigate('/project')
+                addToast({
+                    text: title+' 프로젝트 생성됨'
+                })
             }).catch(e => {
                 console.log('프로젝트 생성 실패')
             })

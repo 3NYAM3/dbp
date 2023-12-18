@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {logout} from "../store/authSlice";
+import useToast from "../hooks/toast";
 
 const UserPage = () => {
     const [showChange, setShowChange] = useState(false);
@@ -16,6 +17,8 @@ const UserPage = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {addToast} = useToast();
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,13 +30,15 @@ const UserPage = () => {
                 {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}},
             ).then((res) => {
                 if (res.data.result) { // 비밀번호 변경 성공
-                    //toast 띄워볼까
+                    addToast({
+                        text: '비밀번호 변경 성공'
+                    })
                     setShowChange(false);
                     setNowPassword('');
                     setNewPassword('');
                     setNewPasswordCheck('');
                 } else {
-                    // 현재 비밀번호가 일치하지 않습니다.
+                    alert('비밀번호를 정확하게 입력해 주세요.');
                 }
             }).catch(e => {
                 console.log('비밀번호 변경 못함');
