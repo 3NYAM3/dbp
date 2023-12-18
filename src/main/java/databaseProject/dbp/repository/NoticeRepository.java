@@ -22,6 +22,10 @@ public class NoticeRepository {
         return em.find(Notice.class, noticeId);
     }
 
+    public void update(Notice notice){
+        em.merge(notice);
+    }
+
     public List<Notice> findNoticesByProjectId(Long projectId) {
         String jpql = "SELECT n FROM Notice n WHERE n.project.projectId = :projectId";
         return em.createQuery(jpql, Notice.class)

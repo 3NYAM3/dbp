@@ -74,9 +74,9 @@ public class DashboardController {
     }
 
     @PutMapping("/{noticeId}")
-    public ResponseDto<?> updateNotice(@AuthenticationPrincipal String email, @PathVariable("noticeId") Long noticeId){
-        System.out.println(noticeId+email+noticeId+email+noticeId+email+noticeId+email);
-        ResponseDto<?> result = noticeService.updateNotice(email, noticeId);
+    public ResponseDto<?> updateNotice(@AuthenticationPrincipal String email, @PathVariable("noticeId") Long noticeId, @RequestBody CreateNoticeDto updateNoticeDto){
+        System.out.println(noticeId+email+noticeId+email+noticeId+email+noticeId+email+ updateNoticeDto);
+        ResponseDto<?> result = noticeService.updateNotice(email, noticeId, updateNoticeDto);
         return result;
     }
 

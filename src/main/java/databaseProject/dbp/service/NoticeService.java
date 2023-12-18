@@ -130,7 +130,31 @@ public class NoticeService {
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
-    public ResponseDto<?> updateNotice(String email, Long noticeId) {
-        return null;
+    @Transactional
+    public ResponseDto<?> updateNotice(String email, Long noticeId, CreateNoticeDto updateNoticeDto) {
+        Member member = null;
+        Notice notice = null;
+        try{
+            member = memberRepository.findByEmail(email);
+            notice = noticeRepository.findOne(noticeId);
+            if(!Objects.equals(member.getMemberId(), notice.getMember().getMemberId())){
+                return ResponseDto.setFailed("not your notice");
+            }
+
+            if (updateNoticeDto.getTitle()!=null){
+                notice.setTitle(updateNoticeDto.getTitle());
+            }
+
+            if (updateNoticeDto.getContent()!=null){
+                notice.setContent(updateNoticeDto.getContent());
+            }
+
+            noticeRepository.update(notice);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.setFailed("database error");
+        }
+        return ResponseDto.setSuccessNotIncludeData("Success");
     }
 }
