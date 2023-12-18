@@ -11,6 +11,7 @@ const PostPage = () => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const navigate = useNavigate();
+    const [writerEmail, setWriterEmail] = useState('');
     const [email, setEmail] = useState('');
 
     const addComment = () => {
@@ -35,10 +36,12 @@ const PostPage = () => {
     useEffect(() => {
         // 글 제목, 작성자, 작성일, 내용
         axios.get(`/api/project/dashboard/notice/${localStorage.getItem('noticeNum')}`).then((res) => {
+            console.log(res);
             setTitle(res.data.data.title);
             setWriter(res.data.data.writer);
             setDate(res.data.data.createTime);
             setContent(res.data.data.content);
+            setWriterEmail(res.data.data.email); // todo 보내달라고 말해야함
         }).catch(e => {
             console.log('글 정보 받아오기 실패');
         })
@@ -148,7 +151,7 @@ const PostPage = () => {
             <div style={styles.header}>
                 <h1 style={styles.title}>{title}</h1>
                 <div style={styles.authorDate}>
-                    {writer === email && <button style={styles.xButton} onClick={() => {
+                    {writerEmail === email && <button style={styles.xButton} onClick={() => {
                         // 게시글 삭제
                         axios.delete(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
                             .then((res) => {
