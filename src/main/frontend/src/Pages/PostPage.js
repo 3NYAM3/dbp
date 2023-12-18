@@ -169,7 +169,6 @@ const PostPage = () => {
                     }}>지우기
                     </button>}
                     {writerEmail === email && <button style={styles.oButton} onClick={() => {
-                        // todo 게시글 수정
                         navigate('/project/dashboard/edit')
                     }}>수정
                     </button>}

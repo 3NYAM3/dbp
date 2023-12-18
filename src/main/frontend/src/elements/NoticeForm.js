@@ -11,7 +11,6 @@ const NoticeForm = ({editing}) => {
     useEffect(() => {
         if (editing) {
             axios.get(`/api/project/dashboard/notice/${localStorage.getItem('noticeNum')}`).then((res) => {
-                console.log(res);
                 setTitle(res.data.data.title);
                 setContent(res.data.data.content);
             }).catch(e => {
@@ -22,10 +21,15 @@ const NoticeForm = ({editing}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (editing) { //
-            // axios.put(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`,
-            //     {},
-            //     {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
+        if (editing) { // 수정된 게시글 업데이트 todo
+            axios.put(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`,
+                {title: title, content: content},
+                {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
+                console.log(res);
+                // navigate('/project/dashboard/post');
+            }).catch(e => {
+                console.log('게시글 업데이트 실패')
+            })
         } else {
             axios.post(`/api/project/dashboard/${localStorage.getItem('projectNum')}/create`, {
                 title,

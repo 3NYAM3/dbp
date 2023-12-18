@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {logout} from "../store/authSlice";
 
 const UserPage = () => {
     const [showChange, setShowChange] = useState(false);
@@ -13,7 +15,7 @@ const UserPage = () => {
     const [email, setEmail] = useState('');
 
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -104,15 +106,37 @@ const UserPage = () => {
                 <h3>{email}</h3>
                 {show()}
                 <br/><br/>
-                <button className="del-common"
-                        onClick={() => { // 회원 탈퇴 todo
-                            axios.delete('/api/members/withdrawal', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
-                                console.log(res);
-                            }).catch(e => {
-                                console.log('회원 탈퇴 못함');
-                            })
-                        }}
-                >회원 탈퇴
+                <button
+                    className="cancel-common"
+                    onClick={() => {
+                        dispatch(logout());
+                    }}
+                >
+                    로그아웃
+                </button>
+                <br/><br/>
+                <button
+                    className="cancel-common"
+                    onClick={() => {
+                        navigate(-1);
+                    }}
+                >
+                    돌아가기
+                </button>
+                <br/><br/>
+                <button
+                    className="del-common"
+                    onClick={() => { // 회원 탈퇴 todo
+                        axios.delete('/api/members/withdrawal', {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}}).then((res) => {
+                            console.log(res);
+                            dispatch(logout());
+                            navigate('/login');
+                        }).catch(e => {
+                            console.log('회원 탈퇴 못함');
+                        })
+                    }}
+                >
+                    회원 탈퇴
                 </button>
             </div>
         </div>
