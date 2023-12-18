@@ -244,7 +244,7 @@ public class ProjectService {
     public ResponseDto<?> deleteProject(Long projectId) {
         Project project = null;
         List<Notice> notices = null;
-        List<Review> reviews = null;
+        List<Review> reviews = new ArrayList<>();
         List<Task> tasks = null;
         List<Member> members = null;
 
@@ -252,6 +252,7 @@ public class ProjectService {
             project = projectRepository.findOne(projectId);
             notices = noticeRepository.findNoticesByProjectId(projectId);
             members = memberRepository.findByProjectId(projectId);
+            tasks = taskRepository.findTaskByProjectId(projectId);
             for(Notice notice: notices){
                 reviews.addAll(notice.getReviews());
             }
@@ -275,7 +276,7 @@ public class ProjectService {
             projectRepository.removeProject(project);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseDto.setFailed("database program");
+            return ResponseDto.setFailed("database error");
         }
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
