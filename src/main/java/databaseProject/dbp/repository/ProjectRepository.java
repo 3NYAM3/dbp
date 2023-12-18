@@ -1,6 +1,7 @@
 package databaseProject.dbp.repository;
 
 import databaseProject.dbp.domain.Member;
+import databaseProject.dbp.domain.Notice;
 import databaseProject.dbp.domain.Project;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class ProjectRepository {
         return em.createQuery("select p from Project p", Project.class)
                 .getResultList();
     }
+
 
     public List<Project> findByMemberEmail(String email){
         return em.createQuery(

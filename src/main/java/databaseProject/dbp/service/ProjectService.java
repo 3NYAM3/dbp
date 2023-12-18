@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -255,9 +252,27 @@ public class ProjectService {
             project = projectRepository.findOne(projectId);
             notices = noticeRepository.findNoticesByProjectId(projectId);
             members = memberRepository.findByProjectId(projectId);
+            for(Notice notice: notices){
+                reviews.addAll(notice.getReviews());
+            }
 
+            for(Review review: reviews){
+                reviewRepository.deleteReview(review);
+            }
 
+            for(Notice notice: notices){
+                noticeRepository.removeNotice(notice);
+            }
 
+            for (Task task: tasks){
+                taskRepository.deleteTask(task);
+            }
+
+            for (Member member:members){
+                member.getProjects().remove(project);
+            }
+
+            projectRepository.removeProject(project);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database program");
