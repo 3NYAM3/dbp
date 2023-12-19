@@ -180,12 +180,16 @@ public class MemberService {
 
     private Member assignNewLeader(Project project) {
         Set<Member> members = project.getMembers();
-        if (members.size() == 1) {
+        if (members == null || members.size() == 1 || members.isEmpty()) {
             return null;
         }
-        if (members.isEmpty()) {
-            return null;
-        }
-        return members.stream().skip(0).findFirst().orElse(null);
+        List<Member> memberList;
+        do {
+            memberList = new ArrayList<>(members);
+            Collections.shuffle(memberList);
+
+        }while (Objects.equals(memberList.get(0).getMemberId(), project.getLeaderId()));
+
+        return memberList.get(0);
     }
 }

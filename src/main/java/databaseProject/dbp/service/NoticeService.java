@@ -68,11 +68,23 @@ public class NoticeService {
             return ResponseDto.setFailed("database error");
         }
 
+
         List<NoticeDto> noticeDtoList = notices.stream()
                 .map(notice -> {
                     NoticeDto noticeDto = new NoticeDto();
                     noticeDto.setNoticeId(notice.getNoticeId());
-                    noticeDto.setWriter(notice.getMember().getName());
+                    try {
+                        Member member = notice.getMember();
+                        if (member != null){
+                            noticeDto.setWriter(member.getName());
+                        }else {
+                            noticeDto.setWriter(null);
+                        }
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                        noticeDto.setWriter(null);
+                    }
+
                     noticeDto.setContent(notice.getContent());
                     noticeDto.setTitle(notice.getTitle());
                     noticeDto.setCreateTime(notice.getCreateTime());

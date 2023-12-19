@@ -95,7 +95,7 @@ public class ProjectService {
 
                     List<Member> members = memberRepository.findByProjectId(project.getProjectId());
                     List<String> memberEmailList = new ArrayList<>();
-                    for(Member member1: members){
+                    for (Member member1 : members) {
                         memberEmailList.add(member1.getEmail());
                     }
                     projectDto.setMemberEmail(memberEmailList);
@@ -127,7 +127,7 @@ public class ProjectService {
 
             List<Member> members = memberRepository.findByProjectId(project.getProjectId());
             List<String> memberEmailList = new ArrayList<>();
-            for(Member member1: members){
+            for (Member member1 : members) {
                 memberEmailList.add(member1.getEmail());
             }
             projectDto.setMemberEmail(memberEmailList);
@@ -253,23 +253,23 @@ public class ProjectService {
             notices = noticeRepository.findNoticesByProjectId(projectId);
             members = memberRepository.findByProjectId(projectId);
             tasks = taskRepository.findTaskByProjectId(projectId);
-            for(Notice notice: notices){
+            for (Notice notice : notices) {
                 reviews.addAll(notice.getReviews());
             }
 
-            for(Review review: reviews){
+            for (Review review : reviews) {
                 reviewRepository.deleteReview(review);
             }
 
-            for(Notice notice: notices){
+            for (Notice notice : notices) {
                 noticeRepository.removeNotice(notice);
             }
 
-            for (Task task: tasks){
+            for (Task task : tasks) {
                 taskRepository.deleteTask(task);
             }
 
-            for (Member member:members){
+            for (Member member : members) {
                 member.getProjects().remove(project);
             }
 
@@ -289,7 +289,7 @@ public class ProjectService {
             project = projectRepository.findOne(projectId);
             Long changeLeaderId = memberRepository.findByEmail(changeLeaderDto.getChangeLeaderEmail()).getMemberId();
 
-            if (Objects.equals(project.getLeaderId(), changeLeaderId)){
+            if (Objects.equals(project.getLeaderId(), changeLeaderId)) {
                 return ResponseDto.setFailed("failed");
             }
             project.setLeaderId(changeLeaderId);
@@ -305,13 +305,17 @@ public class ProjectService {
 
     private Member assignNewLeader(Project project) {
         Set<Member> members = project.getMembers();
-        if (members.size() == 1) {
+        if (members == null || members.size() == 1 || members.isEmpty()) {
             return null;
         }
-        if (members.isEmpty()) {
-            return null;
-        }
-        return members.stream().skip(1).findFirst().orElse(null);
+        List<Member> memberList;
+        do {
+             memberList = new ArrayList<>(members);
+            Collections.shuffle(memberList);
+
+        }while (Objects.equals(memberList.get(0).getMemberId(), project.getLeaderId()));
+
+        return memberList.get(0);
     }
 
 

@@ -46,7 +46,17 @@ public class ReviewService {
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setWriter(email);
         reviewDto.setReviewId(review.getReviewId());
-        reviewDto.setWriterName(member.getName());
+        try{
+            Member member1 = review.getMember();
+            if(member1 !=null){
+                reviewDto.setWriterName(member.getName());
+            }else {
+                reviewDto.setWriter(null);
+            }
+
+        }catch (NullPointerException e){
+            reviewDto.setWriter(null);
+        }
         reviewDto.setContent(review.getContent());
         reviewDto.setWritingTime(review.getDateTime());
 
@@ -87,13 +97,24 @@ public class ReviewService {
         List<ReviewDto> reviewDtoList = reviews.stream()
                 .map(review -> {
                     ReviewDto reviewDto = new ReviewDto();
-                    if (review.getMember()==null){
-                        reviewDto.setReviewId(null);
-                    }else {
+                    try {
+                        if (review.getMember()==null){
+                            reviewDto.setReviewId(null);
+                            reviewDto.setWriter(null);
+                            reviewDto.setWriterName(null);
+                        }else {
+                            reviewDto.setReviewId(review.getReviewId());
+                            reviewDto.setWriter(review.getMember().getEmail());
+                            reviewDto.setWriterName(review.getMember().getName());
+                        }
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
                         reviewDto.setReviewId(review.getReviewId());
+                        reviewDto.setWriter(review.getMember().getEmail());
+                        reviewDto.setWriterName(review.getMember().getName());
                     }
-                    reviewDto.setWriter(review.getMember().getEmail());
-                    reviewDto.setWriterName(review.getMember().getName());
+
+
                     reviewDto.setContent(review.getContent());
                     reviewDto.setWritingTime(review.getDateTime());
 
