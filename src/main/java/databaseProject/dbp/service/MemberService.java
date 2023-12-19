@@ -2,20 +2,12 @@ package databaseProject.dbp.service;
 
 import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.Member;
-import databaseProject.dbp.domain.Notice;
 import databaseProject.dbp.domain.Project;
-import databaseProject.dbp.domain.Review;
 import databaseProject.dbp.dto.memberDto.*;
 import databaseProject.dbp.repository.MemberRepository;
-import databaseProject.dbp.repository.NoticeRepository;
 import databaseProject.dbp.repository.ProjectRepository;
-import databaseProject.dbp.repository.ReviewRepository;
 import databaseProject.dbp.security.TokenProvider;
-//import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.security.core.userdetails.UserDetails;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,18 +22,13 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
-    private final ReviewRepository reviewRepository;
-    private final NoticeRepository noticeRepository;
 
     private final TokenProvider tokenProvider;
-
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Transactional
     public ResponseDto<?> join(SignUpDto dto) {
-
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
-
         Member member = Member.createMember(dto.getName(), dto.getEmail(), encodedPassword);
 
         try {
@@ -53,7 +40,7 @@ public class MemberService {
         }
 
         memberRepository.save(member);
-        return ResponseDto.setSuccess("Sign Up Success", null);
+        return ResponseDto.setSuccessNotIncludeData("Sign Up Success");
     }
 
 
@@ -76,14 +63,12 @@ public class MemberService {
         } catch (Exception e) {
             return ResponseDto.setFailed("Database error");
         }
-        //member.setPassword("");
 
         String token = tokenProvider.create(dtoEmail);
         int exprTime = 3600000;
 
         LoginResponseDto loginResponseDto = new LoginResponseDto(token, exprTime, member);
         return ResponseDto.setSuccess("Success", loginResponseDto);
-
     }
 
     public ResponseDto<LoggedInMemberDto> getLoginMember(String email) {
@@ -141,15 +126,16 @@ public class MemberService {
         try {
             Member leader = null;
             for (Project project : projects) {
-                if (Objects.equals(project.getLeaderId(), member.getMemberId())) {
+                if (Objects.equals(project.getLeaderId(), member.getMemberId())) {//팀장ㅍ일때
                     leader = assignNewLeader(project);
-                }
-
-                if (leader == null) {
-                    projectRepository.removeProject(project);
-                } else {
-                    project.setLeaderId(leader.getMemberId());
-                    project.getMembers().remove(member);
+                    if (leader == null) {
+                        projectRepository.removeProject(project);
+                    } else {
+                        project.setLeaderId(leader.getMemberId());
+                        project.getMembers().remove(member);
+                    }
+                }else {//팀장이 아닐떄
+                    memberRepository.withdrawFromProject(member, project);
                 }
             }
 
@@ -174,7 +160,7 @@ public class MemberService {
             memberList = new ArrayList<>(members);
             Collections.shuffle(memberList);
 
-        }while (Objects.equals(memberList.get(0).getMemberId(), project.getLeaderId()));
+        } while (Objects.equals(memberList.get(0).getMemberId(), project.getLeaderId()));
 
         return memberList.get(0);
     }

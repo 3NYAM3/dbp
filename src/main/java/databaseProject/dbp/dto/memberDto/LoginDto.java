@@ -1,7 +1,7 @@
 package databaseProject.dbp.dto.memberDto;
 
-import databaseProject.dbp.domain.Member;
 import javax.validation.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

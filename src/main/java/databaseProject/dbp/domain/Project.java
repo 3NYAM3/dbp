@@ -12,9 +12,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 public class Project {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Long projectId;
 
@@ -44,7 +46,7 @@ public class Project {
     private Set<Notice> notices = new HashSet<>();
 
     //==생성 메서드==//
-    public static Project createProject(String projectName, String type, LocalDate startDate, LocalDate lastDate, Long memberId){
+    public static Project createProject(String projectName, String type, LocalDate startDate, LocalDate lastDate, Long memberId) {
         Project project = new Project();
         project.setProjectName(projectName);
         project.setType(type);

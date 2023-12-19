@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +15,8 @@ import java.util.Set;
 @Getter
 @Setter
 public class Notice {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notice_id")
     private Long noticeId;
 
@@ -42,9 +42,8 @@ public class Notice {
     private Set<Review> reviews = new HashSet<>();
 
 
-
     //==생성 메서드==//
-    public static Notice createNotice(Project project, String title, Member writer, String content, String createTime){
+    public static Notice createNotice(Project project, String title, Member writer, String content, String createTime) {
         Notice notice = new Notice();
         notice.setProject(project);
         notice.setTitle(title);

@@ -9,10 +9,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long memberId;
 
@@ -38,7 +40,7 @@ public class Member {
 
 
     //==생성 메서드==//
-    public static Member createMember(String name, String email, String password){
+    public static Member createMember(String name, String email, String password) {
         Member member = new Member();
         member.setName(name);
         member.setEmail(email);
