@@ -2,10 +2,7 @@ package databaseProject.dbp.controller;
 
 
 import databaseProject.dbp.controller.dto.ResponseDto;
-import databaseProject.dbp.dto.memberDto.LoggedInMemberDto;
-import databaseProject.dbp.dto.memberDto.LoginDto;
-import databaseProject.dbp.dto.memberDto.LoginResponseDto;
-import databaseProject.dbp.dto.memberDto.SignUpDto;
+import databaseProject.dbp.dto.memberDto.*;
 import databaseProject.dbp.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -64,13 +61,12 @@ public class MemberController {
     /**
      * 비밀번호 변경
      * @param email
-     * @param password
      * @return
      */
     @PutMapping("/info")
-    public ResponseDto<?> changePassword(@AuthenticationPrincipal String email, @RequestBody Map<String, String>password) {
+    public ResponseDto<?> changePassword(@AuthenticationPrincipal String email, @RequestBody PasswordDto passwordDto) {
         System.out.println(email);
-        ResponseDto<?> result = memberService.updatePassword(email, password);
+        ResponseDto<?> result = memberService.updatePassword(email, passwordDto);
         return result;
     }
 

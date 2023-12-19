@@ -5,10 +5,7 @@ import databaseProject.dbp.domain.Member;
 import databaseProject.dbp.domain.Notice;
 import databaseProject.dbp.domain.Project;
 import databaseProject.dbp.domain.Review;
-import databaseProject.dbp.dto.memberDto.LoggedInMemberDto;
-import databaseProject.dbp.dto.memberDto.LoginDto;
-import databaseProject.dbp.dto.memberDto.LoginResponseDto;
-import databaseProject.dbp.dto.memberDto.SignUpDto;
+import databaseProject.dbp.dto.memberDto.*;
 import databaseProject.dbp.repository.MemberRepository;
 import databaseProject.dbp.repository.NoticeRepository;
 import databaseProject.dbp.repository.ProjectRepository;
@@ -49,10 +46,10 @@ public class MemberService {
 
         try {
             if (validateDuplicateMember(member)) {
-                return ResponseDto.setFailed("Existed Email");
+                return ResponseDto.setFailed("이메일 중복");
             }
         } catch (Exception e) {
-            return ResponseDto.setFailed("database Error");
+            return ResponseDto.setFailed("데이터 베이스 오류");
         }
 
         memberRepository.save(member);
@@ -120,18 +117,18 @@ public class MemberService {
     }
 
     @Transactional
-    public ResponseDto<?> updatePassword(String email, Map<String, String> password) {
+    public ResponseDto<?> updatePassword(String email, PasswordDto passwordDto) {
         Member member = null;
         try {
             member = memberRepository.findByEmail(email);
             if (member == null) return ResponseDto.setFailed("member null");
-            if (!passwordEncoder.matches(password.get("nowPassword"), member.getPassword()))
+            if (!passwordEncoder.matches(passwordDto.getCurrentPassword(), member.getPassword()))
                 return ResponseDto.setFailed("password wrong");
         } catch (Exception e) {
             return ResponseDto.setFailed("database error");
         }
 
-        memberRepository.updatePassword(passwordEncoder.encode(password.get("changePassword")), email);
+        memberRepository.updatePassword(passwordEncoder.encode(passwordDto.getChangePassword()), email);
 
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
