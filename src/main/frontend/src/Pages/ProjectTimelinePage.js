@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import {setTaskNum} from "../store/numSlice";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { setTaskNum } from "../store/numSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ProjectTimelinePage = () => {
     const [projectName, setProjectName] = useState('');
@@ -22,7 +22,10 @@ const ProjectTimelinePage = () => {
         });
 
         axios.get(`/api/project/task/list/${localStorage.getItem('projectNum')}`).then((res) => {
-            setTaskList(res.data.data);
+            const sortedTasks = res.data.data.sort((a, b) =>
+                new Date(a.startDate) - new Date(b.startDate)
+            );
+            setTaskList(sortedTasks);
         }).catch(e => {
             console.log('작업 리스트 가져오지 못함')
         })
@@ -31,20 +34,18 @@ const ProjectTimelinePage = () => {
 
     const oneDayTo10px = (input, scaleFactor = 1) => {
         const dif = new Date(projectEnd) / (1000 * 60 * 60 * 24) - new Date(projectStart) / (1000 * 60 * 60 * 24);
-        // console.log(dif)
-        // scaleFactor = 150 / dif
         return ((new Date(input) - new Date(projectStart)) / (1000 * 60 * 60 * 24)) * 10 * scaleFactor;
     }
 
 
-    const ps = oneDayTo10px(projectStart); // 프로젝트 시작
-    const pe = oneDayTo10px(projectEnd); // 프로젝트 끝
-    const pl = pe - ps; // 프로젝트 길이
+    const ps = oneDayTo10px(projectStart);
+    const pe = oneDayTo10px(projectEnd);
+    const pl = pe - ps;
 
     const calculateMonthlyMarkers = (startDate, endDate) => {
         let markers = [];
         let currentDate = new Date(startDate);
-        currentDate.setDate(1); // 매달 첫째 날로 설정
+        currentDate.setDate(1);
 
         while (currentDate <= new Date(endDate)) {
             markers.push(new Date(currentDate));
@@ -62,23 +63,22 @@ const ProjectTimelinePage = () => {
                 <p>{projectStart} ~ {projectEnd}</p>
             </div>
             <div className="container-timeline">
-                {calculateMonthlyMarkers(projectStart, projectEnd).map((date, index) => (
+                {monthlyMarkers.map((date, index) => (
                     <div
                         className="timeline-month-marker"
                         key={index}
                         style={{
                             left: `${oneDayTo10px(date) - ps}px`,
-                            top: 0, // 선이 상단에 고정되도록 설정
-                            height: '100%' // 선이 컨테이너 높이를 전부 차지하도록 설정
+                            top: 0,
+                            height: '100%'
                         }}
                     >
                         <span className="timeline-date-label">{date.toLocaleDateString()}</span>
                     </div>
                 ))}
                 {taskList.map((task, index) => {
-
-                    const ts = oneDayTo10px(task.startDate) - ps; // 작업 시작
-                    const tl = oneDayTo10px(task.lastDate) - oneDayTo10px(task.startDate); // 작업 길이
+                    const ts = oneDayTo10px(task.startDate) - ps;
+                    const tl = oneDayTo10px(task.lastDate) - oneDayTo10px(task.startDate);
 
                     return (
                         <div
