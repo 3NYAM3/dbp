@@ -28,7 +28,7 @@ public class MemberController {
      * @return
      */
     @PostMapping("/signUp")
-    public ResponseDto<?> signUp(@Valid @RequestBody SignUpDto requestBody) {
+    public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody) {
         System.out.println(requestBody.toString());
         ResponseDto<?> result = memberService.join(requestBody);
         return result;
@@ -64,7 +64,7 @@ public class MemberController {
      * @return
      */
     @PutMapping("/info")
-    public ResponseDto<?> changePassword(@AuthenticationPrincipal String email, @Valid @RequestBody PasswordDto passwordDto) {
+    public ResponseDto<?> changePassword(@AuthenticationPrincipal String email, @RequestBody PasswordDto passwordDto) {
         System.out.println(email);
         ResponseDto<?> result = memberService.updatePassword(email, passwordDto);
         return result;
