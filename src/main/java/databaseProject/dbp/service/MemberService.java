@@ -140,31 +140,20 @@ public class MemberService {
     public ResponseDto<?> withdrawMember(String email) {
         Member member = memberRepository.findByEmail(email);
         Set<Project> projects = member.getProjects();
-        Set<Notice> notices = member.getNotices();
-        Set<Review> reviews = member.getReviews();
+
         try {
-            if (member == null || projects == null || reviews == null || notices == null) {
-                return ResponseDto.setFailed("member, project,reviews not found");
-            }
             Member leader = null;
             for (Project project : projects) {
                 if (Objects.equals(project.getLeaderId(), member.getMemberId())) {
                     leader = assignNewLeader(project);
                 }
+
                 if (leader == null) {
                     projectRepository.removeProject(project);
                 } else {
                     project.setLeaderId(leader.getMemberId());
                     project.getMembers().remove(member);
                 }
-            }
-
-            for (Review review : reviews) {
-                review.setMember(null);
-            }
-
-            for(Notice notice:notices){
-                notice.setMember(null);
             }
 
             memberRepository.delete(member);

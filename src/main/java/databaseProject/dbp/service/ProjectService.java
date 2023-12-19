@@ -242,32 +242,9 @@ public class ProjectService {
 
     @Transactional
     public ResponseDto<?> deleteProject(Long projectId) {
-        Project project = null;
-        List<Notice> notices = null;
-        List<Review> reviews = new ArrayList<>();
-        List<Task> tasks = null;
-        List<Member> members = null;
-
         try {
-            project = projectRepository.findOne(projectId);
-            notices = noticeRepository.findNoticesByProjectId(projectId);
-            members = memberRepository.findByProjectId(projectId);
-            tasks = taskRepository.findTaskByProjectId(projectId);
-            for (Notice notice : notices) {
-                reviews.addAll(notice.getReviews());
-            }
-
-            for (Review review : reviews) {
-                reviewRepository.deleteReview(review);
-            }
-
-            for (Notice notice : notices) {
-                noticeRepository.removeNotice(notice);
-            }
-
-            for (Task task : tasks) {
-                taskRepository.deleteTask(task);
-            }
+            Project project = projectRepository.findOne(projectId);
+            List<Member> members = memberRepository.findByProjectId(projectId);
 
             for (Member member : members) {
                 member.getProjects().remove(project);

@@ -37,7 +37,7 @@ public class Notice {
 
     private String createTime;
 
-    @OneToMany(mappedBy = "notice")
+    @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Review> reviews = new HashSet<>();
 

@@ -132,15 +132,10 @@ public class NoticeService {
     public ResponseDto<?> deleteNotice(String email, Long noticeId) {
         Member member = memberRepository.findByEmail(email);
         Notice notice = noticeRepository.findOne(noticeId);
-        List<Review> reviews = reviewRepository.findByNoticeId(noticeId);
 
         try {
             if (!Objects.equals(member.getMemberId(), notice.getMember().getMemberId())){
                 return ResponseDto.setFailed("not your notice");
-            }
-
-            for (Review review: reviews){
-                reviewRepository.deleteReview(review);
             }
 
             noticeRepository.removeNotice(notice);

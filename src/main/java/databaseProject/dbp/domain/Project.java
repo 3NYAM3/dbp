@@ -35,11 +35,11 @@ public class Project {
     @JsonManagedReference
     private Set<Member> members = new HashSet<>();
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Task> works = new HashSet<>();
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Notice> notices = new HashSet<>();
 

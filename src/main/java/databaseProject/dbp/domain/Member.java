@@ -28,11 +28,11 @@ public class Member {
     @JsonBackReference
     private Set<Project> projects = new HashSet<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Review> reviews = new HashSet<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Notice> notices = new HashSet<>();
 
