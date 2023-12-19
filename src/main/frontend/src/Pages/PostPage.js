@@ -159,7 +159,7 @@ const PostPage = () => {
             <div style={styles.header}>
                 <h1 style={styles.title}>{title}</h1>
                 <div style={styles.authorDate}>
-                    <span style={styles.commentDate}>{writer} / {date}</span>
+                    <span style={styles.commentDate}>{writer === null ? '알수없음' : writer} / {date}</span>
                     {writerEmail === email && <button style={styles.xButton} onClick={() => {
                         // 게시글 삭제
                         axios.delete(`/api/project/dashboard/${localStorage.getItem('noticeNum')}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}})
@@ -187,7 +187,7 @@ const PostPage = () => {
                     <div key={comment.reviewId}
                          style={styles.comment}
                     >
-                        <strong>{comment.writerName}</strong>: <span
+                        <strong>{comment.writerName === null ? '알수없음' : comment.writerName}</strong>: <span
                         style={styles.commentContent}>{comment.content}</span>
                         <span style={styles.commentDate}>{comment.writingTime}</span>
                         {(comment.writer === email) && <button

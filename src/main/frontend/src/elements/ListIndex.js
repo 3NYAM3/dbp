@@ -17,7 +17,7 @@ const ListIndex = ({isProject, isDashboard, isTask, project, dashboard, task, on
             {isDashboard &&
                 <>
                     <div>{dashboard.title}</div>
-                    <div>{dashboard.writer}</div>
+                    <div>{dashboard.writer===null?'알수없음':dashboard.writer}</div>
                     <div>{dashboard.date}</div>
                 </>
             }
