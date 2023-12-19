@@ -19,30 +19,46 @@ const UserPage = () => {
     const dispatch = useDispatch();
     const {addToast} = useToast();
 
+    // 정규 표현식 패턴
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,20}$/;
+
+    // 비밀번호 검증 함수
+    function isPasswordValid(password) {
+        return passwordPattern.test(password);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (newPassword !== newPasswordCheck) {
-            alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-        } else { // 비밀번호 변경 요청
-            axios.put('/api/members/info',
-                {nowPassword: nowPassword, changePassword: newPassword},
-                {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}},
-            ).then((res) => {
-                if (res.data.result) { // 비밀번호 변경 성공
-                    addToast({
-                        text: '비밀번호 변경 성공'
-                    })
-                    setShowChange(false);
-                    setNowPassword('');
-                    setNewPassword('');
-                    setNewPasswordCheck('');
-                } else {
-                    alert('비밀번호를 정확하게 입력해 주세요.');
-                }
-            }).catch(e => {
-                console.log('비밀번호 변경 못함');
+            addToast({
+                text: '새 비밀번호와 비밀번호 확인이 일치하지 않습니다.'
             })
+
+        } else { // 비밀번호 변경 요청
+            if (isPasswordValid(newPassword)) {
+                axios.put('/api/members/info',
+                    {currentPassword: nowPassword, changePassword: newPassword},
+                    {headers: {'Authorization': `Bearer ${localStorage.getItem('isLoggedIn')}`}},
+                ).then((res) => {
+                    if (res.data.result) { // 비밀번호 변경 성공
+                        addToast({
+                            text: '비밀번호 변경 성공'
+                        })
+                        setShowChange(false);
+                        setNowPassword('');
+                        setNewPassword('');
+                        setNewPasswordCheck('');
+                    } else {
+                        alert('비밀번호를 정확하게 입력해 주세요.');
+                    }
+                }).catch(e => {
+                    console.log('비밀번호 변경 못함');
+                })
+            } else {
+                addToast({
+                    text: '비밀번호는 영어 대소문자, 숫자, 특수기호를 포함하여 8~20자 이어야 합니다.'
+                })
+            }
         }
     }
 

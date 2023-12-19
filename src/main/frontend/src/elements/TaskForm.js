@@ -87,7 +87,6 @@ const TaskForm = ({editing}) => {
                             border: "1px solid black",
                             height: "100px"
                         }}
-                        required
                         value={memo}
                         onChange={(e) => {
                             setMemo(e.target.value)
