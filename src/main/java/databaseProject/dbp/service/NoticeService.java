@@ -4,7 +4,6 @@ import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.Member;
 import databaseProject.dbp.domain.Notice;
 import databaseProject.dbp.domain.Project;
-import databaseProject.dbp.domain.Review;
 import databaseProject.dbp.dto.noticeDto.CreateNoticeDto;
 import databaseProject.dbp.dto.noticeDto.NoticeDto;
 import databaseProject.dbp.repository.MemberRepository;
@@ -12,11 +11,9 @@ import databaseProject.dbp.repository.NoticeRepository;
 import databaseProject.dbp.repository.ProjectRepository;
 import databaseProject.dbp.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -30,7 +27,6 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
-    private final ReviewRepository reviewRepository;
 
 
     @Transactional
@@ -75,12 +71,12 @@ public class NoticeService {
                     noticeDto.setNoticeId(notice.getNoticeId());
                     try {
                         Member member = notice.getMember();
-                        if (member != null){
+                        if (member != null) {
                             noticeDto.setWriter(member.getName());
-                        }else {
+                        } else {
                             noticeDto.setWriter(null);
                         }
-                    }catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         e.printStackTrace();
                         noticeDto.setWriter(null);
                     }
@@ -99,11 +95,11 @@ public class NoticeService {
     public ResponseDto<?> getNotice(Long noticeId) {
         Notice notice = null;
 
-        try{
+        try {
             notice = noticeRepository.findOne(noticeId);
-            if (notice==null) return ResponseDto.setFailed("cannot find notice");
+            if (notice == null) return ResponseDto.setFailed("cannot find notice");
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -111,16 +107,16 @@ public class NoticeService {
         NoticeDto noticeDto = new NoticeDto();
         noticeDto.setTitle(notice.getTitle());
         noticeDto.setNoticeId(noticeId);
-        try{
+        try {
             Member member = notice.getMember();
-            if(member!=null){
+            if (member != null) {
                 noticeDto.setWriter(notice.getMember().getName());
                 noticeDto.setEmail(notice.getMember().getEmail());
-            }else {
+            } else {
                 noticeDto.setWriter(null);
                 noticeDto.setEmail(null);
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         noticeDto.setContent(notice.getContent());
@@ -134,12 +130,12 @@ public class NoticeService {
         Notice notice = noticeRepository.findOne(noticeId);
 
         try {
-            if (!Objects.equals(member.getMemberId(), notice.getMember().getMemberId())){
+            if (!Objects.equals(member.getMemberId(), notice.getMember().getMemberId())) {
                 return ResponseDto.setFailed("not your notice");
             }
 
             noticeRepository.removeNotice(notice);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -151,24 +147,24 @@ public class NoticeService {
     public ResponseDto<?> updateNotice(String email, Long noticeId, CreateNoticeDto updateNoticeDto) {
         Member member = null;
         Notice notice = null;
-        try{
+        try {
             member = memberRepository.findByEmail(email);
             notice = noticeRepository.findOne(noticeId);
-            if(!Objects.equals(member.getMemberId(), notice.getMember().getMemberId())){
+            if (!Objects.equals(member.getMemberId(), notice.getMember().getMemberId())) {
                 return ResponseDto.setFailed("not your notice");
             }
 
-            if (updateNoticeDto.getTitle()!=null){
+            if (updateNoticeDto.getTitle() != null) {
                 notice.setTitle(updateNoticeDto.getTitle());
             }
 
-            if (updateNoticeDto.getContent()!=null){
+            if (updateNoticeDto.getContent() != null) {
                 notice.setContent(updateNoticeDto.getContent());
             }
 
             noticeRepository.update(notice);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }

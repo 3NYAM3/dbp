@@ -1,7 +1,6 @@
 package databaseProject.dbp.repository;
 
 import databaseProject.dbp.domain.Notice;
-import databaseProject.dbp.dto.noticeDto.NoticeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +13,7 @@ public class NoticeRepository {
 
     private final EntityManager em;
 
-    public void  save(Notice notice){
+    public void save(Notice notice) {
         em.persist(notice);
     }
 
@@ -22,7 +21,7 @@ public class NoticeRepository {
         return em.find(Notice.class, noticeId);
     }
 
-    public void update(Notice notice){
+    public void update(Notice notice) {
         em.merge(notice);
     }
 
@@ -33,7 +32,7 @@ public class NoticeRepository {
                 .getResultList();
     }
 
-    public void removeNotice(Notice notice){
+    public void removeNotice(Notice notice) {
         em.remove(notice);
     }
 }

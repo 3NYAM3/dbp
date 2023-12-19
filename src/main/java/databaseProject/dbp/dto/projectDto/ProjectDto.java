@@ -1,7 +1,5 @@
 package databaseProject.dbp.dto.projectDto;
 
-import databaseProject.dbp.domain.Member;
-import databaseProject.dbp.domain.Project;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

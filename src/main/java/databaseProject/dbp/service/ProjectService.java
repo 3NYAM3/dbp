@@ -2,13 +2,11 @@ package databaseProject.dbp.service;
 
 import databaseProject.dbp.controller.dto.ResponseDto;
 import databaseProject.dbp.domain.*;
-import databaseProject.dbp.dto.memberDto.MemberDto;
 import databaseProject.dbp.dto.projectDto.ChangeLeaderDto;
 import databaseProject.dbp.dto.projectDto.CreateProjectDto;
 import databaseProject.dbp.dto.projectDto.ProjectDto;
 import databaseProject.dbp.repository.*;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +21,6 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
-    private final NoticeRepository noticeRepository;
-    private final ReviewRepository reviewRepository;
-    private final TaskRepository taskRepository;
 
     @Transactional
     public ResponseDto<?> createProject(CreateProjectDto createProjectDto, String leaderEmail) {
@@ -287,10 +282,10 @@ public class ProjectService {
         }
         List<Member> memberList;
         do {
-             memberList = new ArrayList<>(members);
+            memberList = new ArrayList<>(members);
             Collections.shuffle(memberList);
 
-        }while (Objects.equals(memberList.get(0).getMemberId(), project.getLeaderId()));
+        } while (Objects.equals(memberList.get(0).getMemberId(), project.getLeaderId()));
 
         return memberList.get(0);
     }

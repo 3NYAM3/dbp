@@ -1,6 +1,5 @@
 package databaseProject.dbp.repository;
 
-import databaseProject.dbp.domain.Notice;
 import databaseProject.dbp.domain.Task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,11 +13,11 @@ public class TaskRepository {
 
     private final EntityManager em;
 
-    public void save(Task task){
+    public void save(Task task) {
         em.persist(task);
     }
 
-    public Task findOne(Long taskId){
+    public Task findOne(Long taskId) {
         return em.find(Task.class, taskId);
     }
 
@@ -28,11 +27,11 @@ public class TaskRepository {
                 .getResultList();
     }
 
-    public void updateTask(Task task){
+    public void updateTask(Task task) {
         em.merge(task);
     }
 
-    public void deleteTask(Task task){
+    public void deleteTask(Task task) {
         em.remove(task);
     }
 }

@@ -43,7 +43,6 @@ public class MemberService {
         return ResponseDto.setSuccessNotIncludeData("Sign Up Success");
     }
 
-
     private boolean validateDuplicateMember(Member member) {
         Member findMembers = memberRepository.findByEmail(member.getEmail());
         return !(findMembers == null);
@@ -98,6 +97,7 @@ public class MemberService {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
+
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
@@ -134,7 +134,7 @@ public class MemberService {
                         project.setLeaderId(leader.getMemberId());
                         project.getMembers().remove(member);
                     }
-                }else {//팀장이 아닐떄
+                } else {//팀장이 아닐떄
                     memberRepository.withdrawFromProject(member, project);
                 }
             }
@@ -147,7 +147,6 @@ public class MemberService {
         }
 
         return ResponseDto.setSuccessNotIncludeData("withdrawal successful");
-
     }
 
     private Member assignNewLeader(Project project) {
