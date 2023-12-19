@@ -111,9 +111,19 @@ public class NoticeService {
         NoticeDto noticeDto = new NoticeDto();
         noticeDto.setTitle(notice.getTitle());
         noticeDto.setNoticeId(noticeId);
-        noticeDto.setWriter(notice.getMember().getName());
+        try{
+            Member member = notice.getMember();
+            if(member!=null){
+                noticeDto.setWriter(notice.getMember().getName());
+                noticeDto.setEmail(notice.getMember().getEmail());
+            }else {
+                noticeDto.setWriter(null);
+                noticeDto.setEmail(null);
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
         noticeDto.setContent(notice.getContent());
-        noticeDto.setEmail(notice.getMember().getEmail());
         noticeDto.setCreateTime(notice.getCreateTime());
         return ResponseDto.setSuccess("Success", noticeDto);
     }
