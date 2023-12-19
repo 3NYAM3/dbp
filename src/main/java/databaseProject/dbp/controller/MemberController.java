@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
@@ -30,7 +31,7 @@ public class MemberController {
      * @return
      */
     @PostMapping("/signUp")
-    public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody) {
+    public ResponseDto<?> signUp(@Valid @RequestBody SignUpDto requestBody) {
         System.out.println(requestBody.toString());
         ResponseDto<?> result = memberService.join(requestBody);
         return result;
