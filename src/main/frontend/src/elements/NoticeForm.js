@@ -56,7 +56,7 @@ const NoticeForm = ({editing}) => {
         <div className="container-common">
             <div>
                 <form onSubmit={handleSubmit}>
-                    <h1>글 {editing ? '수정' : '쓰기'}</h1>
+                    <h1>게시물 {editing ? '수정' : '등록'}</h1>
                     <input
                         required
                         placeholder="제목"
