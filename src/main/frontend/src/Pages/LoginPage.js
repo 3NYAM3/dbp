@@ -32,6 +32,8 @@ const LoginPage = () => {
         return passwordPattern.test(password);
     }
 
+
+
     // 로그인 submit
     const handleLoginSubmit = async (e) => {
         e.preventDefault(); // onSubmit 기본동작(새로고침 등) 방지
@@ -84,7 +86,7 @@ const LoginPage = () => {
                             textTransform: 'lowercase'
                         }}
                                type="email" placeholder="이메일" required={true}
-                               value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)}/>
+                               value={loginEmail} onChange={(e) => setLoginEmail(e.target.value.toLowerCase())}/>
                         <input type="password" placeholder="비밀번호" required={true}
                                value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)}/>
                         {loginCheck && <p style={{color: "red"}}
@@ -99,10 +101,9 @@ const LoginPage = () => {
                                value={name} onChange={(e) => setName(e.target.value)}/>
                         <input type="email" placeholder="이메일" required={true}
                                style={{
-                                   border: signupEmailCheck && "1px solid red",
-                                   textTransform: 'lowercase'
+                                   border: signupEmailCheck && "1px solid red"
                                }}
-                               value={email} onChange={(e) => setEmail(e.target.value)}/>
+                               value={email} onChange={(e) => setEmail(e.target.value.toLowerCase())}/>
                         {signupEmailCheck && <p style={{color: "red"}}>이메일 중복</p>}
                         <input type="password" placeholder="비밀번호" required={true}
                                style={{border: signupPasswordCheck && "1px solid red"}}
