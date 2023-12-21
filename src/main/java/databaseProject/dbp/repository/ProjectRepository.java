@@ -1,11 +1,8 @@
 package databaseProject.dbp.repository;
 
-import databaseProject.dbp.domain.Member;
-import databaseProject.dbp.domain.Notice;
 import databaseProject.dbp.domain.Project;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

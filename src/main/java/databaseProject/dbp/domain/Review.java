@@ -3,7 +3,6 @@ package databaseProject.dbp.domain;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,8 @@ import java.time.LocalDateTime;
 
 public class Review {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long reviewId;
 
@@ -36,7 +36,7 @@ public class Review {
 
 
     //==생성 메서드==//
-    public static Review createReview(Notice notice, String content, String localDateTime, Member member){
+    public static Review createReview(Notice notice, String content, String localDateTime, Member member) {
         Review review = new Review();
         review.setNotice(notice);
         review.setContent(content);

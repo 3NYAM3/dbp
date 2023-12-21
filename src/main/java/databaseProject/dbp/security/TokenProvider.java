@@ -10,7 +10,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-
 @Component
 public class TokenProvider {
     @Value("${SECURITY_KEY}")

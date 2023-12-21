@@ -34,7 +34,7 @@ public class TaskService {
         Task task = null;
 
         try {
-            task = Task.createTask(project,taskContent, memo, startDate, lastDate);
+            task = Task.createTask(project, taskContent, memo, startDate, lastDate);
             if (task == null) return ResponseDto.setFailed("create Failed");
         } catch (Exception e) {
             return ResponseDto.setFailed("database error");
@@ -45,14 +45,13 @@ public class TaskService {
         return ResponseDto.setSuccessNotIncludeData("Success");
     }
 
-
     public ResponseDto<List<TaskDto>> getTaskList(Long projectId) {
         List<Task> tasks = null;
 
         try {
             tasks = taskRepository.findTaskByProjectId(projectId);
             if (tasks == null) return ResponseDto.setFailed("task get failed");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -72,35 +71,32 @@ public class TaskService {
         return ResponseDto.setSuccess("Success", taskDtoList);
     }
 
-
-
-
     @Transactional
     public ResponseDto<?> editTask(CreateTaskDto updateDto, Long taskId) {
         Task task = null;
 
-        try{
+        try {
             task = taskRepository.findOne(taskId);
-            if (task==null) return ResponseDto.setFailed("cannnot find task");
+            if (task == null) return ResponseDto.setFailed("cannnot find task");
 
-            if(updateDto.getContent() != null){
+            if (updateDto.getContent() != null) {
                 task.setContent(updateDto.getContent());
             }
 
-            if (updateDto.getMemo() != null){
+            if (updateDto.getMemo() != null) {
                 task.setMemo(updateDto.getMemo());
             }
 
-            if(updateDto.getStartDate() != null){
+            if (updateDto.getStartDate() != null) {
                 task.setStartDate(updateDto.getStartDate());
             }
 
-            if(updateDto.getLastDate()!=null){
+            if (updateDto.getLastDate() != null) {
                 task.setLastDate(updateDto.getLastDate());
             }
 
             taskRepository.updateTask(task);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
@@ -112,12 +108,12 @@ public class TaskService {
         Task task = null;
         try {
             task = taskRepository.findOne(taskId);
-            if(task==null) return ResponseDto.setFailed("failed");
-        }catch (Exception e){
+            if (task == null) return ResponseDto.setFailed("failed");
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }
-        TaskDto taskDto= new TaskDto();
+        TaskDto taskDto = new TaskDto();
         taskDto.setTaskId(taskId);
         taskDto.setContent(task.getContent());
         taskDto.setMemo(task.getMemo());
@@ -132,9 +128,9 @@ public class TaskService {
         Task task = taskRepository.findOne(taskId);
 
         try {
-            if (task==null) return ResponseDto.setFailed("task get failed");
+            if (task == null) return ResponseDto.setFailed("task get failed");
             taskRepository.deleteTask(task);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.setFailed("database error");
         }

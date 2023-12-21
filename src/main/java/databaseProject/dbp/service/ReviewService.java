@@ -46,15 +46,15 @@ public class ReviewService {
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setWriter(email);
         reviewDto.setReviewId(review.getReviewId());
-        try{
+        try {
             Member member1 = review.getMember();
-            if(member1 !=null){
+            if (member1 != null) {
                 reviewDto.setWriterName(member.getName());
-            }else {
+            } else {
                 reviewDto.setWriter(null);
             }
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             reviewDto.setWriter(null);
         }
         reviewDto.setContent(review.getContent());
@@ -98,16 +98,16 @@ public class ReviewService {
                 .map(review -> {
                     ReviewDto reviewDto = new ReviewDto();
                     try {
-                        if (review.getMember()==null){
+                        if (review.getMember() == null) {
                             reviewDto.setReviewId(null);
                             reviewDto.setWriter(null);
                             reviewDto.setWriterName(null);
-                        }else {
+                        } else {
                             reviewDto.setReviewId(review.getReviewId());
                             reviewDto.setWriter(review.getMember().getEmail());
                             reviewDto.setWriterName(review.getMember().getName());
                         }
-                    }catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         e.printStackTrace();
                         reviewDto.setReviewId(review.getReviewId());
                         reviewDto.setWriter(review.getMember().getEmail());
